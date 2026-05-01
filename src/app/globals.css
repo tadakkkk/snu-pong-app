@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Surface */
+  --color-surface: #FFFFFF;
+  --color-surface-sub: #F9FAFB;
+  --color-surface-muted: #F2F4F6;
+
+  /* Text */
+  --color-ink: #191F28;
+  --color-ink-2: #4E5968;
+  --color-ink-3: #8B95A1;
+  --color-ink-4: #C8CDD3;
+
+  /* Border */
+  --color-hairline: #E5E8EB;
+
+  /* Accent */
+  --color-blue: #3182F6;
+  --color-red: #E14C4C;
+  --color-red-light: #FEF1F1;
+
+  /* Magpie palette */
+  --color-mpie-blue: #5B8FE8;
+  --color-mpie-blue-light: #7BA8EC;
+  --color-mpie-beige: #E8DFCB;
+  --color-mpie-yellow: #F5C247;
+  --color-mpie-gold: #D4A030;
+  --color-mpie-black: #191F28;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #F2F4F6;
+  color: #191F28;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard Variable",
+    "Pretendard", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
