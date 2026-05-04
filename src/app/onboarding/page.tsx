@@ -179,6 +179,7 @@ function StepGrade({
   selectedGrade,
   onSelect,
   onNext,
+  onTuitionChange,
 }: {
   college: College;
   track: Track | null;
@@ -186,10 +187,43 @@ function StepGrade({
   selectedGrade: number | null;
   onSelect: (g: number) => void;
   onNext: () => void;
+  onTuitionChange: (n: number) => void;
 }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempValue, setTempValue] = useState("");
+
   const gradeOptions = [1, 2, 3, 4];
   const collegeShort = college.name.replace("대학교", "").replace("대학", "대").replace("학부", "");
   const trackLabel = track?.name ? ` ${track.name}` : "";
+
+  const formatNumber = (val: string) => {
+    const digits = val.replace(/[^0-9]/g, "");
+    return digits ? Number(digits).toLocaleString("ko-KR") : "";
+  };
+
+  const handleEdit = () => {
+    setTempValue(tuition.toLocaleString("ko-KR"));
+    setIsEditing(true);
+  };
+
+  const handleConfirm = () => {
+    const num = Number(tempValue.replace(/,/g, ""));
+    if (num > 0) {
+      onTuitionChange(num);
+      setIsEditing(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") handleConfirm();
+    if (e.key === "Escape") {
+      setIsEditing(false);
+      setTempValue("");
+    }
+  };
+
+  const parsedTemp = Number(tempValue.replace(/,/g, ""));
+  const confirmDisabled = !tempValue || parsedTemp <= 0;
 
   return (
     <div className="flex-1 flex flex-col">
@@ -233,14 +267,36 @@ function StepGrade({
               {collegeShort}
               {trackLabel} · {selectedGrade}학년
             </p>
-            <div className="flex justify-between items-baseline mb-1.5">
+            <div className="flex justify-between items-baseline mb-2">
               <span className="text-[13px] text-ink-3">이번 학기 등록금</span>
-              <span className="text-[13px] text-blue">수정</span>
+              <button
+                onClick={isEditing ? handleConfirm : handleEdit}
+                className={`text-[13px] font-medium transition-colors ${
+                  isEditing && confirmDisabled ? "text-ink-4" : "text-blue"
+                }`}
+                disabled={isEditing && confirmDisabled}
+              >
+                {isEditing ? "확인" : "수정"}
+              </button>
             </div>
-            <p className="text-[28px] font-medium text-ink">
-              {formatKRW(tuition)}
-            </p>
-            <p className="text-[11px] text-ink-3 mt-1.5">2025학년도 1학기 기준</p>
+            {isEditing ? (
+              <input
+                autoFocus
+                type="text"
+                inputMode="numeric"
+                value={tempValue}
+                onChange={(e) =>
+                  setTempValue(formatNumber(e.target.value))
+                }
+                onKeyDown={handleKeyDown}
+                placeholder={tuition.toLocaleString("ko-KR")}
+                className="w-full text-[28px] font-medium text-ink bg-surface-muted rounded-[8px] px-3 py-1 outline-none"
+              />
+            ) : (
+              <p className="text-[28px] font-medium text-ink">
+                {formatKRW(tuition)}
+              </p>
+            )}
           </div>
         )}
       </div>
@@ -404,8 +460,10 @@ export default function OnboardingPage() {
   const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
   const [hasScholarship, setHasScholarship] = useState(false);
   const [scholarshipAmount, setScholarshipAmount] = useState(0);
+  const [customTuition, setCustomTuition] = useState<number | null>(null);
 
-  const tuition = selectedTrack?.tuition_2025_1 ?? selectedCollege?.tracks[0]?.tuition_2025_1 ?? 0;
+  const baseTuition = selectedTrack?.tuition_2025_1 ?? selectedCollege?.tracks[0]?.tuition_2025_1 ?? 0;
+  const tuition = customTuition ?? baseTuition;
   const netBurden = Math.max(0, tuition - (hasScholarship ? scholarshipAmount : 0));
 
   const goNext = useCallback(() => {
@@ -501,6 +559,7 @@ export default function OnboardingPage() {
           onSelect={(c) => {
             setSelectedCollege(c);
             setSelectedTrack(null);
+            setCustomTuition(null);
           }}
           onNext={goNext}
         />
@@ -523,6 +582,7 @@ export default function OnboardingPage() {
           selectedGrade={selectedGrade}
           onSelect={setSelectedGrade}
           onNext={goNext}
+          onTuitionChange={setCustomTuition}
         />
       )}
 

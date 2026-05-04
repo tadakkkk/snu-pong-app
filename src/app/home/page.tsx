@@ -86,6 +86,9 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* ── 스크롤 콘텐츠 영역 ── */}
+      <div className="flex-1 overflow-y-auto">
+
       {/* ── 물까치 + 큰 숫자 ── */}
       <div className="px-6 pt-8 pb-6">
         <div className="flex justify-center mb-5">
@@ -207,7 +210,7 @@ export default function HomePage() {
         </>
       )}
 
-      <div className="flex-1" />
+      </div>{/* end scrollable */}
       <BottomTabBar />
 
       {/* ── 학기 선택 모달 ── */}

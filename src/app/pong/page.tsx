@@ -17,6 +17,7 @@ import {
   FREQUENT_SITE_IDS,
   type SiteCategory,
 } from "@/data/sites";
+import { collegeSites } from "@/data/colleges_sites";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 import { useSearch } from "@/hooks/useSearch";
@@ -34,7 +35,8 @@ const popularItems = [...items].sort((a, b) => b.value - a.value).slice(0, 5);
 const deadlineItems = items.filter((i) => i.deadline_type === "weekly");
 const urgentItems =
   deadlineItems.length > 0 ? deadlineItems.slice(0, 3) : items.slice(0, 3);
-const frequentSites = FREQUENT_SITE_IDS.map((id) =>
+
+const frequentSiteObjects = FREQUENT_SITE_IDS.map((id) =>
   sites.find((s) => s.id === id)
 ).filter(Boolean) as typeof sites;
 
@@ -68,12 +70,33 @@ function ItemRow({
   );
 }
 
+// 단과대학 요약 카드 (클릭 시 단과대 카테고리로 이동)
+function CollegeSummaryCard({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full py-3 flex items-center justify-between gap-3 active:opacity-70 text-left"
+    >
+      <div>
+        <p className="text-[13px] text-ink font-medium">
+          🎓 단과대학 {collegeSites.length}개
+        </p>
+        <p className="text-[11px] text-ink-3 mt-0.5">
+          본인 단과대 공지·학사·장학
+        </p>
+      </div>
+      <span className="text-[13px] text-blue shrink-0">→</span>
+    </button>
+  );
+}
+
 export default function PongPage() {
   const [search, setSearch] = useState("");
   const [mode, setMode] = useState<ToggleMode>("items");
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-  const [activeSiteCategory, setActiveSiteCategory] =
-    useState<SiteCategory | null>(null);
+  const [activeSiteCategory, setActiveSiteCategory] = useState<
+    SiteCategory | "colleges" | null
+  >(null);
 
   const { activeSemesterId } = useSemesterStore();
   const { hasRecordForItem } = usePongStore();
@@ -91,7 +114,7 @@ export default function PongPage() {
     ? items.filter((i) => i.category === activeCategory)
     : items;
 
-  const filteredSites = activeSiteCategory
+  const filteredSites = activeSiteCategory && activeSiteCategory !== "colleges"
     ? sites.filter((s) => s.category === activeSiteCategory)
     : sites;
 
@@ -128,7 +151,7 @@ export default function PongPage() {
             setActiveSiteCategory(null);
           }}
           itemCount={items.length}
-          siteCount={sites.length}
+          siteCount={sites.length + collegeSites.length}
         />
       )}
 
@@ -279,10 +302,11 @@ export default function PongPage() {
         ) : (
           /* ── 부서 모드 ── */
           <>
-            {/* 부서 카테고리 칩 */}
+            {/* 부서 카테고리 그리드 */}
             <div className="px-5 pb-2">
-              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              <div className="grid grid-cols-4 gap-1.5">
                 {SITE_CATEGORIES.map((cat) => {
+                  const count = sites.filter((s) => s.category === cat).length;
                   const isActive = activeSiteCategory === cat;
                   return (
                     <button
@@ -290,26 +314,105 @@ export default function PongPage() {
                       onClick={() =>
                         setActiveSiteCategory(isActive ? null : cat)
                       }
-                      className={`shrink-0 rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors ${
-                        isActive
-                          ? "bg-ink text-white"
-                          : "bg-surface-sub text-ink-2"
+                      className={`rounded-[10px] py-2 px-1 text-center transition-colors ${
+                        isActive ? "bg-ink" : "bg-surface-sub"
                       }`}
                     >
-                      {SITE_CATEGORY_EMOJI[cat]} {SITE_CATEGORY_LABELS[cat]}
+                      <p className="text-[14px] mb-0.5">
+                        {SITE_CATEGORY_EMOJI[cat]}
+                      </p>
+                      <p
+                        className={`text-[10px] font-medium leading-tight ${
+                          isActive ? "text-white" : "text-ink"
+                        }`}
+                      >
+                        {SITE_CATEGORY_LABELS[cat]}
+                      </p>
+                      <p
+                        className={`text-[9px] mt-0.5 ${
+                          isActive ? "text-white/70" : "text-ink-3"
+                        }`}
+                      >
+                        {count}
+                      </p>
                     </button>
                   );
                 })}
+                {/* 단과대학 카테고리 */}
+                <button
+                  onClick={() =>
+                    setActiveSiteCategory(
+                      activeSiteCategory === "colleges" ? null : "colleges"
+                    )
+                  }
+                  className={`rounded-[10px] py-2 px-1 text-center transition-colors ${
+                    activeSiteCategory === "colleges" ? "bg-ink" : "bg-surface-sub"
+                  }`}
+                >
+                  <p className="text-[14px] mb-0.5">🎓</p>
+                  <p
+                    className={`text-[10px] font-medium leading-tight ${
+                      activeSiteCategory === "colleges" ? "text-white" : "text-ink"
+                    }`}
+                  >
+                    단과대학
+                  </p>
+                  <p
+                    className={`text-[9px] mt-0.5 ${
+                      activeSiteCategory === "colleges" ? "text-white/70" : "text-ink-3"
+                    }`}
+                  >
+                    {collegeSites.length}
+                  </p>
+                </button>
               </div>
             </div>
 
-            {activeSiteCategory ? (
-              /* 카테고리 필터 결과 */
+            {activeSiteCategory === "colleges" ? (
+              /* 단과대학 16개 리스트 */
               <div className="px-5 pb-6">
                 <div className="py-2.5 flex justify-between items-center">
                   <p className="text-[13px] font-medium text-ink">
-                    {SITE_CATEGORY_EMOJI[activeSiteCategory]}{" "}
-                    {SITE_CATEGORY_LABELS[activeSiteCategory]}
+                    🎓 단과대학
+                  </p>
+                  <button
+                    onClick={() => setActiveSiteCategory(null)}
+                    className="text-[12px] text-blue"
+                  >
+                    전체 보기
+                  </button>
+                </div>
+                {collegeSites.map((college) => (
+                  <div
+                    key={college.id}
+                    className="border-b border-hairline last:border-0"
+                  >
+                    <a
+                      href={college.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-3 flex items-center justify-between gap-3 active:opacity-70"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[13px] text-ink font-medium">
+                          {college.name}
+                        </p>
+                        <p className="text-[11px] text-ink-3 mt-0.5">
+                          {college.description}
+                        </p>
+                      </div>
+                      <span className="text-[11px] text-blue shrink-0">↗</span>
+                    </a>
+                  </div>
+                ))}
+              </div>
+            ) : activeSiteCategory ? (
+              /* 일반 카테고리 필터 결과 */
+              <div className="px-5 pb-6">
+                <div className="py-2.5 flex justify-between items-center">
+                  <p className="text-[13px] font-medium text-ink">
+                    {SITE_CATEGORY_EMOJI[activeSiteCategory as SiteCategory]}{" "}
+                    {SITE_CATEGORY_LABELS[activeSiteCategory as SiteCategory]}
                   </p>
                   <button
                     onClick={() => setActiveSiteCategory(null)}
@@ -328,13 +431,13 @@ export default function PongPage() {
                 ))}
               </div>
             ) : (
-              /* 자주 가는 곳 + 전체 */
+              /* 기본: 자주 가는 곳 + 전체 */
               <>
                 <div className="border-t border-hairline px-5 pt-3 pb-4">
                   <p className="text-[11px] text-ink-3 font-medium mb-1">
                     자주 가는 곳
                   </p>
-                  {frequentSites.map((site) => (
+                  {frequentSiteObjects.map((site) => (
                     <div
                       key={site.id}
                       className="border-b border-hairline last:border-0"
@@ -342,12 +445,24 @@ export default function PongPage() {
                       <SiteCard site={site} />
                     </div>
                   ))}
+                  {/* 단과대학 요약 카드 */}
+                  <div className="border-b border-hairline last:border-0">
+                    <CollegeSummaryCard
+                      onClick={() => setActiveSiteCategory("colleges")}
+                    />
+                  </div>
                 </div>
 
                 <div className="border-t border-hairline px-5 pt-3 pb-6">
                   <p className="text-[11px] text-ink-3 font-medium mb-1">
                     전체 {sites.length}개
                   </p>
+                  {/* 단과대학 요약 카드 */}
+                  <div className="border-b border-hairline">
+                    <CollegeSummaryCard
+                      onClick={() => setActiveSiteCategory("colleges")}
+                    />
+                  </div>
                   {sites.map((site) => (
                     <div
                       key={site.id}

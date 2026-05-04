@@ -5,9 +5,9 @@ interface Props {
 
 export default function MobileFrame({ children, className = "" }: Props) {
   return (
-    <div className="min-h-screen bg-surface-muted flex justify-center">
+    <div className="h-dvh bg-surface-muted flex justify-center overflow-hidden">
       <div
-        className={`w-full max-w-[380px] min-h-screen bg-surface flex flex-col relative overflow-x-hidden ${className}`}
+        className={`w-full max-w-[380px] h-full bg-surface flex flex-col relative overflow-hidden ${className}`}
       >
         {children}
       </div>

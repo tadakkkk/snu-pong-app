@@ -13,9 +13,16 @@ export default function BottomTabBar() {
   const pathname = usePathname();
 
   return (
-    <div className="border-t border-hairline flex pb-6 pt-3 bg-surface">
+    <div
+      className="border-t border-hairline flex bg-surface shrink-0"
+      style={{
+        paddingTop: "12px",
+        paddingBottom: "max(24px, env(safe-area-inset-bottom))",
+      }}
+    >
       {tabs.map((tab) => {
-        const active = pathname === tab.href || pathname.startsWith(tab.href + "/");
+        const active =
+          pathname === tab.href || pathname.startsWith(tab.href + "/");
         return (
           <Link
             key={tab.href}
