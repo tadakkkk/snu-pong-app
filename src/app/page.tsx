@@ -11,7 +11,7 @@ export default function RootPage() {
       const raw = localStorage.getItem("snu-pong-user");
       if (raw) {
         const data = JSON.parse(raw);
-        if (data?.state?.collegeId) {
+        if (data?.state?.onboardingDone) {
           router.replace("/home");
           return;
         }

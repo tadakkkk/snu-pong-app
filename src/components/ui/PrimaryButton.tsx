@@ -18,8 +18,10 @@ export default function PrimaryButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`w-full bg-ink text-white py-4 rounded-xl text-[15px] font-medium text-center transition-opacity ${
-        disabled ? "opacity-40" : "active:opacity-80"
+      className={`w-full py-4 rounded-xl text-[15px] font-medium text-center transition-colors ${
+        disabled
+          ? "bg-surface-muted text-ink-4 cursor-not-allowed"
+          : "bg-ink text-white active:opacity-80"
       } ${className}`}
     >
       {children}
