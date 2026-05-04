@@ -28,6 +28,7 @@ export interface PongItem {
   deadline_label: string;
   url: string;
   provider: string;
+  site_id?: string;
 }
 
 export const items: PongItem[] = [
@@ -52,6 +53,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "글쓰기교실",
+    site_id: "writing_center",
   },
   {
     id: "item_002",
@@ -73,6 +75,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "기초교육원",
+    site_id: "writer_basic",
   },
   {
     id: "item_003",
@@ -94,6 +97,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "기초교육원",
+    site_id: "writer_basic",
   },
   {
     id: "item_004",
@@ -115,6 +119,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "기초교육원",
+    site_id: "writer_basic",
   },
   {
     id: "item_005",
@@ -136,6 +141,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "글쓰기교실",
+    site_id: "writing_center",
   },
   {
     id: "item_006",
@@ -157,6 +163,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "기초교육원",
+    site_id: "writer_basic",
   },
   {
     id: "item_007",
@@ -178,6 +185,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "교수학습센터",
+    site_id: "cdcc_lifecenter",
   },
   {
     id: "item_008",
@@ -199,6 +207,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "교수학습센터",
+    site_id: "cdcc_lifecenter",
   },
   {
     id: "item_012",
@@ -221,6 +230,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "https://career.snu.ac.kr",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_013",
@@ -242,6 +252,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_014",
@@ -263,6 +274,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_015",
@@ -284,6 +296,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_016",
@@ -305,6 +318,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_017",
@@ -326,6 +340,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_018",
@@ -347,6 +362,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_019",
@@ -368,6 +384,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_020",
@@ -389,6 +406,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_021",
@@ -410,6 +428,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_022",
@@ -431,6 +450,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_023",
@@ -452,6 +472,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_024",
@@ -473,6 +494,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "경력개발센터",
+    site_id: "career_center",
   },
   {
     id: "item_027",
@@ -495,6 +517,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "https://snucounsel.snu.ac.kr",
     provider: "대학생활문화원",
+    site_id: "snucounsel",
   },
   {
     id: "item_028",
@@ -516,6 +539,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "대학생활문화원",
+    site_id: "snucounsel",
   },
   {
     id: "item_029",
@@ -537,6 +561,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "대학생활문화원",
+    site_id: "snucounsel",
   },
   {
     id: "item_030",
@@ -579,6 +604,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "상담센터",
+    site_id: "snucounsel",
   },
   {
     id: "item_036",
@@ -600,6 +626,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "관악학생생활관",
+    site_id: "snudorm",
   },
   {
     id: "item_037",
@@ -621,6 +648,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "관악학생생활관",
+    site_id: "snudorm",
   },
   {
     id: "item_049",
@@ -642,6 +670,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "중앙도서관",
+    site_id: "library",
   },
   {
     id: "item_050",
@@ -663,6 +692,7 @@ export const items: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "중앙도서관",
+    site_id: "library",
   },
 ];
 

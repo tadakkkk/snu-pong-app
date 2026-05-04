@@ -6,6 +6,7 @@ import MobileFrame from "@/components/ui/MobileFrame";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import MagpieIdle from "@/components/magpie/MagpieIdle";
 import { getItem } from "@/data/items";
+import { getSite } from "@/data/sites";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 
@@ -13,6 +14,7 @@ export default function PongDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const item = getItem(id);
+  const site = item?.site_id ? getSite(item.site_id) : undefined;
 
   const { addRecord, removeRecord, hasRecordForItem, getTotalBySemester, getRecordsBySemester } = usePongStore();
   const { activeSemesterId } = useSemesterStore();
@@ -133,6 +135,27 @@ export default function PongDetailPage() {
             <p className="text-[14px] text-ink leading-[1.7]">
               {item.description}
             </p>
+          </div>
+        )}
+
+        {/* 여기서 신청 */}
+        {site && (
+          <div className="px-6 py-4 border-t border-hairline">
+            <p className="text-[13px] text-ink-3 font-medium mb-2">여기서 신청</p>
+            <a
+              href={site.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-surface-sub rounded-xl px-4 py-[14px] active:opacity-70"
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <p className="text-[14px] font-medium text-ink">{site.name}</p>
+                <span className="text-[13px] text-blue">↗</span>
+              </div>
+              <p className="text-[11px] text-ink-3 leading-[1.5]">
+                {site.description}
+              </p>
+            </a>
           </div>
         )}
 
