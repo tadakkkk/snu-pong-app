@@ -67,7 +67,7 @@ function StepCollege({
         <p className="text-[13px] text-ink-3">단과대마다 등록금이 달라</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-5">
+      <div className="flex-1 overflow-y-auto px-5 min-h-0">
         <div className="flex flex-col gap-1.5 pb-4">
           {colleges.map((c) => {
             const isSelected = selected?.id === c.id;
@@ -88,7 +88,7 @@ function StepCollege({
         </div>
       </div>
 
-      <div className="px-5 pb-7 pt-4">
+      <div className="px-5 pb-7 pt-4 shrink-0 bg-surface border-t border-hairline">
         <PrimaryButton onClick={onNext} disabled={!selected}>
           다음
         </PrimaryButton>
@@ -125,7 +125,7 @@ function StepTrack({
         <p className="text-[13px] text-ink-3">학과별로 등록금이 달라</p>
       </div>
 
-      <div className="flex-1 px-5 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto px-5 min-h-0">
         <div className="flex flex-col gap-2 pb-4">
           {college.tracks.map((t) => {
             const isSelected = selected?.id === t.id;
@@ -162,7 +162,7 @@ function StepTrack({
         </div>
       </div>
 
-      <div className="px-5 pb-7 pt-4">
+      <div className="px-5 pb-7 pt-4 shrink-0 bg-surface border-t border-hairline">
         <PrimaryButton onClick={onNext} disabled={!selected}>
           다음
         </PrimaryButton>
