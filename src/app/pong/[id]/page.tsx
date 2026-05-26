@@ -77,16 +77,29 @@ export default function PongDetailPage() {
       <div className="flex-1 overflow-y-auto">
         {/* 카테고리 + 이름 + 가치 */}
         <div className="px-6 pb-6">
-          <span className="inline-block bg-surface-muted text-ink-2 text-[11px] px-2.5 py-1 rounded-md mb-3">
-            {item.category_label}
-          </span>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-block bg-surface-muted text-ink-2 text-[11px] px-2.5 py-1 rounded-md">
+              {item.category_label}
+            </span>
+            {item.is_crawled && (
+              <span className="inline-block bg-[#E1F5EE] text-[#0F6E56] text-[10px] px-1.5 py-1 rounded">
+                자동수집
+              </span>
+            )}
+          </div>
           <h1 className="text-[26px] font-medium text-ink leading-snug mb-4">
             {item.name}
           </h1>
           <p className="text-[13px] text-ink-3 mb-1">뽕뽑을 가치</p>
-          <p className="text-[36px] font-medium text-ink leading-tight">
-            +{item.value.toLocaleString("ko-KR")}원
-          </p>
+          {item.is_crawled && item.value_status === "needs_estimation" ? (
+            <p className="text-[28px] font-medium text-ink-3 leading-tight">
+              가치 확인 중
+            </p>
+          ) : (
+            <p className="text-[36px] font-medium text-ink leading-tight">
+              +{item.value.toLocaleString("ko-KR")}원
+            </p>
+          )}
           {item.value_basis && (
             <p className="text-[12px] text-ink-3 mt-1">{item.value_basis}</p>
           )}
@@ -159,6 +172,24 @@ export default function PongDetailPage() {
           </div>
         )}
 
+        {/* 자동수집 항목: 원문 링크 */}
+        {item.is_crawled && item.url && !site && (
+          <div className="px-6 py-4 border-t border-hairline">
+            <p className="text-[13px] text-ink-3 font-medium mb-2">원문 공지</p>
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-surface-sub rounded-xl px-4 py-[14px] active:opacity-70"
+            >
+              <div className="flex items-center justify-between">
+                <p className="text-[13px] text-ink truncate pr-4">{item.provider}</p>
+                <span className="text-[13px] text-blue shrink-0">↗</span>
+              </div>
+            </a>
+          </div>
+        )}
+
         {/* 신청 방법 */}
         {item.how_to_apply.length > 0 && (
           <div className="px-6 py-4 border-t border-hairline">
@@ -206,12 +237,23 @@ export default function PongDetailPage() {
 
       {/* 액션 버튼 */}
       <div className="px-5 pb-7 pt-4 border-t border-hairline bg-surface">
-        <PrimaryButton
-          onClick={handlePong}
-          disabled={alreadyPonged || !activeSemesterId}
-        >
-          {alreadyPonged ? "이미 뽕뽑았어요 ✓" : "뽕뽑았어요"}
-        </PrimaryButton>
+        {item.is_crawled && item.value_status === "needs_estimation" ? (
+          <a
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full text-center py-4 rounded-2xl bg-surface-sub text-[16px] font-medium text-blue active:opacity-70"
+          >
+            공지 원문 보기 ↗
+          </a>
+        ) : (
+          <PrimaryButton
+            onClick={handlePong}
+            disabled={alreadyPonged || !activeSemesterId}
+          >
+            {alreadyPonged ? "이미 뽕뽑았어요 ✓" : "뽕뽑았어요"}
+          </PrimaryButton>
+        )}
       </div>
 
       {/* ── 뽕뽑았어요 토스트 ── */}
