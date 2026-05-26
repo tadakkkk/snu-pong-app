@@ -29,6 +29,8 @@ export interface PongItem {
   url: string;
   provider: string;
   site_id?: string;
+  is_crawled?: boolean;
+  value_status?: "verified" | "needs_estimation";
 }
 
 export const items: PongItem[] = [
