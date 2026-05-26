@@ -87,9 +87,12 @@ export default function PongDetailPage() {
               </span>
             )}
           </div>
-          <h1 className="text-[26px] font-medium text-ink leading-snug mb-4">
+          <h1 className={`text-[26px] font-medium text-ink leading-snug ${item.subtitle ? "mb-1" : "mb-4"}`}>
             {item.name}
           </h1>
+          {item.subtitle && (
+            <p className="text-[13px] text-ink-3 mb-3">{item.subtitle}</p>
+          )}
           <p className="text-[13px] text-ink-3 mb-1">뽕뽑을 가치</p>
           {item.is_crawled && item.value_status === "needs_estimation" ? (
             <p className="text-[28px] font-medium text-ink-3 leading-tight">
