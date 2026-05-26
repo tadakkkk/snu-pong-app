@@ -31,10 +31,15 @@ const SITE_CATEGORIES = [
   ...new Set(sites.map((s) => s.category)),
 ] as SiteCategory[];
 
-const popularItems = [...items].sort((a, b) => b.value - a.value).slice(0, 5);
-const deadlineItems = items.filter((i) => i.deadline_type === "weekly");
+const _verifiedOnly = items.filter((i) => !i.is_crawled);
+const popularItems = [..._verifiedOnly].sort((a, b) => b.value - a.value).slice(0, 5);
+const deadlineItems = _verifiedOnly.filter((i) => i.deadline_type === "weekly");
 const urgentItems =
-  deadlineItems.length > 0 ? deadlineItems.slice(0, 3) : items.slice(0, 3);
+  deadlineItems.length > 0 ? deadlineItems.slice(0, 3) : _verifiedOnly.slice(0, 3);
+
+const _snucCrawledCount = items.filter(
+  (i) => i.is_crawled && i.provider === "서울대학교 학부대학"
+).length;
 
 const frequentSiteObjects = FREQUENT_SITE_IDS.map((id) =>
   sites.find((s) => s.id === id)
@@ -47,13 +52,20 @@ function ItemRow({
   item: (typeof items)[0];
   ponged: boolean;
 }) {
+  const isCrawledUnestimated =
+    item.is_crawled && item.value_status === "needs_estimation";
   return (
     <Link href={`/pong/${item.id}`}>
       <div className="py-2.5 flex justify-between items-center">
         <span
-          className={`text-[13px] ${ponged ? "text-ink-3 line-through" : "text-ink"}`}
+          className={`text-[13px] flex-1 min-w-0 ${ponged ? "text-ink-3 line-through" : "text-ink"}`}
         >
           {item.name}
+          {item.is_crawled && (
+            <span className="ml-1.5 inline-block px-1 py-0.5 text-[10px] rounded bg-[#E1F5EE] text-[#0F6E56] font-normal not-italic">
+              자동수집
+            </span>
+          )}
           {item.deadline_type === "weekly" && (
             <span className="ml-2 text-[11px] text-red">
               · {item.deadline_label}
@@ -61,9 +73,15 @@ function ItemRow({
           )}
         </span>
         <span
-          className={`text-[12px] font-medium ml-3 shrink-0 ${ponged ? "text-ink-4" : "text-ink"}`}
+          className={`text-[12px] font-medium ml-3 shrink-0 ${
+            isCrawledUnestimated
+              ? "text-[#8B95A1]"
+              : ponged
+              ? "text-ink-4"
+              : "text-ink"
+          }`}
         >
-          +{Math.round(item.value / 10000)}만
+          {isCrawledUnestimated ? "가치 확인 중" : `+${Math.round(item.value / 10000)}만`}
         </span>
       </div>
     </Link>
@@ -426,7 +444,10 @@ export default function PongPage() {
                     key={site.id}
                     className="border-b border-hairline last:border-0"
                   >
-                    <SiteCard site={site} />
+                    <SiteCard
+                        site={site}
+                        noticeCount={site.id === "snuc_undergrad" ? _snucCrawledCount : undefined}
+                      />
                   </div>
                 ))}
               </div>
@@ -442,7 +463,10 @@ export default function PongPage() {
                       key={site.id}
                       className="border-b border-hairline last:border-0"
                     >
-                      <SiteCard site={site} />
+                      <SiteCard
+                        site={site}
+                        noticeCount={site.id === "snuc_undergrad" ? _snucCrawledCount : undefined}
+                      />
                     </div>
                   ))}
                   {/* 단과대학 요약 카드 */}
@@ -468,7 +492,10 @@ export default function PongPage() {
                       key={site.id}
                       className="border-b border-hairline last:border-0"
                     >
-                      <SiteCard site={site} />
+                      <SiteCard
+                        site={site}
+                        noticeCount={site.id === "snuc_undergrad" ? _snucCrawledCount : undefined}
+                      />
                     </div>
                   ))}
                 </div>
