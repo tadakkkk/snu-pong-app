@@ -6,18 +6,25 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=718",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "예비대학 과목별 페이지에이 운영됩니다.\r\n수강 중 궁금한 점은 언제든지 질문해 주세요! 담당 교수님과 조교님이 직접 답변해 드립니다.\r\n1. 질의응답 운영 기간: 상시 운영\r\n2. 운영 과목: 총 10개의 \r\n[이용 방법]\r\n1. 서울대학교 SNUON(https://etl.snu.ac.kr/snuon) 접속 → 희망하는 과목 신청하기\r\n2. 수강 중인 예비대학 과목 배너 클릭-신청-학습하러 가기\r\n3. https://myetl.snu.ac.kr 접속-과목-게시판-Q&A 게시판 클릭\r\n4. '글쓰기' 버튼으로 질문 등록 (비밀글 설정 가능)\r\n과목 콘텐츠에 나오는 개념, 이해가 안되는 부분부터 연습문제 풀이법까지 어떤 질문이든 환영합니다.\r\n개인적인 질문이나 기초적인 질문도 괜찮습니다. 보이고 싶지 않다면 '비밀글' 기능을 활용하세요.\r\n질문자는 과목별로 추첨을 통해 해드립니다. \r\n많은 참여 부탁드립니다. \r\n관련 문의사항: 02-880-1327(교수학습개발센터)\r\nQ&A 게시판\r\n예비대학 운영 교과목 기초 콘텐츠 (수학, 통계, 물리, 컴퓨팅 A/B, 논리적 사고, 글쓰기와 말하기, 영어, 화학, 생명과학, 예술적 및 디자인적 사고)\r\n기프티콘 지급",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 30000,
+    "value_basis": "교수·조교 Q&A 상담 서비스, 1:1 상담 하한선 적용",
+    "subtitle": "예비대학 과목별 Q&A",
+    "unit": "상시",
+    "eligibility": "예비대학 수강생",
+    "apply_url": "https://etl.snu.ac.kr/snuon",
+    "how_to_apply": [
+      "SNUON 접속하여 과목 신청",
+      "myetl.snu.ac.kr에서 Q&A 게시판 이용",
+      "질문 등록하여 답변 받기"
+    ],
+    "site_id": "learning_center"
   },
   {
     "id": "snuc_notice_714",
@@ -38,11 +45,16 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "강의조교/튜터 모집 공고로 학생 혜택이 아님",
+    "subtitle": "컴퓨팅 교과목 조교 모집",
+    "unit": "하계계절수업",
+    "eligibility": "학부생·대학원생",
+    "deadline_date": "2026-05-29",
+    "how_to_apply": [
+      "모집공고 확인",
+      "지원서 제출"
+    ],
+    "site_id": "snuc"
   },
   {
     "id": "snuc_notice_713",
@@ -51,18 +63,26 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=713",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "안녕하세요, 학부대학 학습상담실입니다.\r\n서울대학교 학생들의 자기이해 및 학습역량 향상을 지원하기 위하여\r\n를 아래와 같이 실시하오니 많은 참여 바랍니다.\r\nSNU 핵심역량진단 및 SNU 학습유형검사 참여 이벤트\r\n📌 참여 방법\r\n1. SNU 비교과 홈페이지(https://extra.snu.ac.kr/) 접속 및 로그인\r\n2. 상단 메뉴 중 [역량·학습유형진단]에서 SNU 핵심역량진단/SNU 학습유형검사 모두 실시\r\n3. 결과 화면(본인 이름 확인 가능한 화면) 캡처\r\n4. 구글폼 제출 및 후기 작성(https://forms.gle/XZgk64oiCqJkU7qNA)\r\n📌 참여 대상\r\n서울대학교 학부생 및 대학원생\r\n📌 운영 기간\r\n2026년 5월 18일(월) ~ 6월 30일(화)\r\n※ 모집 인원 마감 시 조기 종료될 수 있음\r\n📌 참여 혜택\r\n진단검사 참여자(선착순 500명): 메가커피 기프티콘 지급\r\n우수 후기 작성자(선정 50명): 커피 기프티콘(1만원) 지급\r\n※ 우수 후기는 향후 홍보 자료로 활용될 수 있음\r\n📞 문의\r\n학부대학 학습상담실\r\n02-880-4027 / yein1029@snu.ac.kr",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 15000,
+    "value_basis": "진단검사 서비스 + 기프티콘(500명 선착순, 50명 우수후기)",
+    "subtitle": "핵심역량·학습유형 진단",
+    "unit": "1회",
+    "eligibility": "학부생·대학원생",
+    "deadline_date": "2026-06-30",
+    "apply_url": "https://extra.snu.ac.kr/",
+    "how_to_apply": [
+      "SNU 비교과 홈페이지 접속",
+      "역량·학습유형진단 실시",
+      "결과화면 캡처 후 구글폼 제출"
+    ],
+    "site_id": "learning_center"
   },
   {
     "id": "snuc_notice_710",
@@ -80,11 +100,18 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "금액 미명시된 국가장학금, 개인별 지원구간에 따라 상이",
+    "subtitle": "국가장학금 1차 신청",
+    "unit": "학기",
+    "eligibility": "학부생",
+    "deadline_date": "2026-06-22",
+    "apply_url": "http://www.kosaf.go.kr",
+    "how_to_apply": [
+      "한국장학재단 홈페이지 접속",
+      "국가장학금 신청",
+      "서류제출 및 가구원 동의"
+    ],
+    "site_id": "scholarship"
   },
   {
     "id": "snuc_notice_709",
@@ -96,18 +123,26 @@
       "2026. 6. 22.(월) 오후 6시까지",
       "2026. 6. 29.(월) 오후 6시까지"
     ],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
     "review_priority": "high",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "2026학년도 2학기 1차 주거안정장학금 학생 신청이 아래와 같이 진행됩니다.\r\n가. 선발대상:\r\n원거리 대학에 진학한 학자금지원구간 기초생활수급 또는 차상위 학부 재학생\r\n※ 본교 기준 부모님 주소지가 수도권 외 권역에 있는 경우\r\n나. 신청기간:\r\n2026. 5. 22.(금) 오전 9시 ~ 2026. 6. 22.(월) 오후 6시까지\r\n※ 서류제출 및 가구원동의: 2026. 5. 22.(금) 오전 9시 ~ 2026. 6. 29.(월) 오후 6시까지\r\n다. 신청방법:\r\n한국장학재단 홈페이지(http://www.kosaf.go.kr) 등에서\r\n학생 개별 신청\r\n라. 지원금액:\r\n2026학년도 2학기 정규학기 중 최대 월 20만 원 한도 내 주거관련 실비 지원(9~12월)\r\n마. 결과발표:\r\n2026년 10월 말 한국장학재단 발표 예정\r\n바. 관련문의:\r\n한국장학재단 상담센터 1599-2000",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 800000,
+    "value_basis": "월 20만원 × 4개월(9-12월) = 80만원",
+    "subtitle": "주거안정장학금",
+    "unit": "학기",
+    "eligibility": "원거리 기초생활수급·차상위 학부생",
+    "deadline_date": "2026-06-22",
+    "apply_url": "http://www.kosaf.go.kr",
+    "how_to_apply": [
+      "한국장학재단 홈페이지 접속",
+      "주거안정장학금 신청",
+      "서류제출 및 가구원동의"
+    ],
+    "site_id": "scholarship"
   },
   {
     "id": "snuc_notice_708",
@@ -127,10 +162,9 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
+    "value_basis": "교원 채용 공고로 학생 혜택 해당 없음",
+    "subtitle": "학부대학 객원교원 채용",
+    "deadline_date": "2026-05-27",
     "how_to_apply": []
   },
   {
@@ -140,18 +174,21 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=705",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "안녕하세요, 서울대학교 학부대학 강연 기획단입니다. 저희는 정답을 맞히는 '해결사'를 넘어 나만의 질문을 던지는 '개척자'의 삶을 탐구하는 프로젝트 < 세상에 질문을 던지는 자들 >을 진행하고 있습니다. 이번 강연에서는 스토리텔링 전문가 이종범 작가님과 함께, 이야기의 주인공이 가진 속성을 통해 우리 삶의 주체성을 회복하고 자신만의 고유한 서사를 직조하는 방법론을 나누고자 합니다.\r\n[강연 안내]\r\n-(전) 청강문화산업대학 만화콘텐츠스쿨 교수\r\n-(현) SWA(서울웹툰아카데미) 전임멘토\r\n-(현) 연세대학교 이윤재현대문화예술연구원 겸임교수\r\n-(현) JQ코믹스 크리에이티브 총괄디렉터\r\n-네이버 웹툰 <오늘만 사는 기사>, <역대급 영지 설계사>, <닥터, 조선 가다> 등 작품 프로듀싱\r\n○ 강연 주제: 심리학과 스토리텔링으로 보는 주인공성\r\n○ 강연 장소: 서울대학교 220동 203호\r\n자신만의 세계를 깊이 있게 파고들어 이를 타인과 소통하는 이야기로 확장해 오신 작가님의 경험은, 앞으로 각자의 삶에서 주체적인 서사를 써 내려가야 할 학생들에게 매우 현실적이고 명확한 이정표가 될 것입니다. 학생들은 본 강연을 통해 '나'라는 인물이 삶의 주인공으로서 가져야 할 속성을 이해하",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 20000,
+    "value_basis": "외부 유료 강연 시세 1~3만원(2시간 강연)",
+    "subtitle": "이종범 작가 특강",
+    "unit": "1회",
+    "eligibility": "학부생 누구나",
+    "how_to_apply": [
+      "강연 당일 참석"
+    ]
   },
   {
     "id": "snuc_notice_704",
@@ -160,18 +197,23 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=704",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
     "review_priority": "high",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "서울대학교 학부대학과 유네스코 한국위원회는 업무 협약을 맺고 하계/동계 인턴십을 진행하고 있습니다.\r\n국제기구 활동에 관심을 갖고 있는 학생들의 많은 참여 바랍니다.\r\n✅ 지원 대상 : 학부대학 자유전공학부 및 광역 재학생 (학년/전공 무관, 2026-1학기 등록생)\r\n✅ 지원 기간 : \r\n     ※ 지원자가 많을 경우 조기마감될 수 있음\r\n✅ 인턴 파견 기관 : 유네스코한국위원회(서울 중구 명동길 26, 유네스코회관)\r\n✅ 실습 기간 : 2026년 7월 1일(수) ~ 8월 28일(금), 주 5일 하루 8시간 풀타임 근무\r\n✅ 선발 인원 : 총 5명 (지원 가능 부서/인턴 업무/요구 역량에 관한 내용은 첨부 파일-하계 연수 인턴- 운영안 파일 참조)\r\n    ※ 본 인턴십은 무급으로 진행되지만, 학부에서 장학금을 지급할 예정(총 300만원/월 150만원)\r\n    ※ 장학금은 인턴십 시작 시점과 인턴십 종료 후 2회에 걸쳐서 지급 예정\r\n    ※ 인턴십을 성실하게 수료했음을 유네스코 측으로부터 확인받지 못한 경우 최초 지급한 장학금 또한 환수됨\r\n    ※ 선발된 학생은 사전교육(1회)에 참여해야하며, 상해 보험(학생 본인부담)에 가입해야 함\r\n✅ 지원 방법 : 자기소개서(첨",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 3000000,
+    "value_basis": "장학금 총 300만원 지급",
+    "subtitle": "유네스코 인턴십",
+    "unit": "2개월",
+    "eligibility": "자유전공학부 재학생",
+    "how_to_apply": [
+      "지원서 제출",
+      "서류심사",
+      "면접"
+    ]
   },
   {
     "id": "snuc_notice_699",
@@ -186,7 +228,7 @@
       "~  9/7",
       "~    6/5"
     ],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
     "review_priority": "high",
     "status": "needs_review",
@@ -202,11 +244,17 @@
       "[object Object]",
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 1200000,
+    "value_basis": "장학금 월 60만원, 총 120만원 지급",
+    "subtitle": "스타트업 인턴십",
+    "unit": "2개월",
+    "eligibility": "학부대학 학생",
+    "deadline_date": "2026-06-12",
+    "how_to_apply": [
+      "지원서 제출",
+      "매칭 과정",
+      "현장실습 참여"
+    ]
   },
   {
     "id": "snuc_notice_698",
@@ -222,10 +270,8 @@
     "source": "crawled_enriched",
     "body_excerpt": "2026 CAMPUS Asia The ACE Summer Intensive Program 참가학생 선발 결과는 다음과 같습니다.\r\n20 우*영\r\n21 현*환\r\n22 김*우\r\n24 모*연\r\n24 박*연\r\n25 민*영\r\n26 전*규\r\n26 박*형\r\n이상입니다.",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
+    "value_basis": "선발 결과 발표로 학생 혜택 해당 없음",
+    "subtitle": "CAMPUS Asia 선발결과",
     "how_to_apply": []
   },
   {
@@ -237,7 +283,7 @@
     "deadline_hints": [
       "~5/19"
     ],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
     "review_priority": "high",
     "status": "needs_review",
@@ -248,11 +294,16 @@
       "[object Object]",
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 30000,
+    "value_basis": "전공 탐색 집단 상담 성격의 박람회, 3타임 참석 기준",
+    "subtitle": "전공박람회 멘토링",
+    "unit": "2일 과정",
+    "eligibility": "학부대학 학생",
+    "deadline_date": "2026-05-19",
+    "how_to_apply": [
+      "구글폼 사전 예약",
+      "행사 당일 현장 신청 가능"
+    ]
   },
   {
     "id": "snuc_notice_686",
@@ -264,7 +315,7 @@
       "5/24 접수",
       "~5/24"
     ],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "high",
     "status": "needs_review",
@@ -273,11 +324,17 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 2000000,
+    "value_basis": "국내외 현장체험 프로그램 지원금 및 활동비 추정",
+    "subtitle": "현장체험 프로그램",
+    "unit": "상반기 과정",
+    "eligibility": "학부생+석사생 혼합팀(4-8인)",
+    "deadline_date": "2026-05-24",
+    "how_to_apply": [
+      "팀 구성(4-8인)",
+      "주제 및 지역 선정",
+      "신청서 제출"
+    ]
   },
   {
     "id": "snuc_notice_684",
@@ -297,11 +354,17 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "교원 채용 공고로 학생 혜택 해당 없음",
+    "subtitle": "교원 채용 공고",
+    "unit": "상시",
+    "eligibility": "해당없음",
+    "deadline_date": "2026-05-20",
+    "apply_url": "https://facultyrecr",
+    "how_to_apply": [
+      "채용사이트 접속",
+      "지원서 작성",
+      "서류 온라인 업로드"
+    ]
   },
   {
     "id": "snuc_notice_670",
@@ -312,18 +375,24 @@
     "deadline_hints": [
       "5/29 18시까지"
     ],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
     "review_priority": "high",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "가. 하계방학 집중근로 프로그램 개요\r\n• (지원대상)  2026학년도 1학기 국가근로장학금 일반유형을 신청한 학부 재학생\r\n• (근로기간)  2026. 7. 1.(수) ~ 8. 31.(월) ※ 교외근로기관에 따라 상이\r\n• (근로기관)  희망근로지 신청기간에 선택한 교외 근로기관(최대 5개) 중 자동 매칭\r\n• (선발인원)  20명 내외\r\n• (근로시간)  1일 최대 8시간, 주당 최대 40시간 이내\r\n• (장 학 금)  시간당 12,790원\r\n나. 참여방법\r\n1) 국가근로장학금 일반유형 추가신청: 2026. 4. 24.(금) 9시 ~ 5. 13.(수) 18시 ※ 기 신청자는 본 단계 생략\r\n- [붙임 1] 매뉴얼을 참고하여 한국장학재단 홈페이지 또는 모바일로 학생이 직접 신청\r\n※ 2026학년도 1학기 학자금 지원구간은 산정되었으나, 국가근로장학금을 아직 신청하지 않은 학생에 한하여 위 기간에 신청 가능\r\n2) 희망근로지 신청: 2026. 5. 20.(수) 9시 ~ 5. 29.(금) 18시\r\n- 한국장학재단 홈페이지 또는 모바일로 학생이 직접 신청\r\n• [메뉴] > [장학금] > [국가근로장학금] > [근로장학관리] > [희망근로지 신청]\r\n다. 선발일정\r\n1) (재    단) 근",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 2046400,
+    "value_basis": "하계방학 2개월(320시간) × 시급 12,790원 × 0.5(선발확률)",
+    "subtitle": "하계 집중근로장학금",
+    "unit": "하계방학",
+    "eligibility": "학부 재학생(국가근로 신청자)",
+    "deadline_date": "2026-05-29",
+    "how_to_apply": [
+      "국가근로장학금 신청",
+      "희망근로지 신청",
+      "매칭 결과 확인"
+    ]
   },
   {
     "id": "snuc_notice_648",
@@ -332,18 +401,23 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=648",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains welfare/access/risk-support signal; should be reviewed for student benefit value.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "ㅁ 서울대학교 학생처(장학복지과)에서는 2026학년도 '학교 경영자 배상책임 보험'을 가입하였기에 붙임과 같이 알려드립니다. 사고 발생 시 보험 청구를 희망하는 경우 붙임 문서를 확인하여 청구하시기 바랍니다.\r\n가. 보험사: 학교안전공제중앙회\r\n나. 계약기간: 2026. 4. 1.(화) 00:00 ~ 2027. 4. 1.(수) 00:00 (1년)\r\n다. 담보내역 및 보상 한도액\r\n라. 보상범위: [붙임 1] 참고\r\nㅁ 아울러, 교내·외 치료비 신청 시스템 메뉴가 다음과 같이 오픈되어 기존의 방문 접수 신청 절차가 시스템 신청으로 변경되었음을 안내드립니다.\r\n가. 청구방법: [붙임 2] 안내문에 명시된 제출서류를 모두 구비하여 mySNU 포털로 시스템 신청(방문 접수·대리인 접수·우편접수 불가)\r\n나. 시스템 오픈일: 2026. 4. 1.(수)\r\n다. 접속 경로\r\n○ PC 접속경로: mySNU > 학사정보 > 대학생활 > 교내외치료비 > 신청/확인\r\n○ 모바일(어플) 접속경로: 학사·행정 > 교내외치료비 신청/확인\r\n※ 그 밖에 담보(경영자 배상책임 등) 보험금 청구는 소관 부서(기관) 등에서 장학복지과로 문의\r\n담보위험\r\n구분\r\n대상\r\n인원(명)\r\n보상 한도액(단위:천원)\r\n1인당\r\n1사고",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 500000,
+    "value_basis": "학교 배상책임보험 연간 보장 혜택 추정치",
+    "subtitle": "배상책임보험 보장",
+    "unit": "연간",
+    "eligibility": "서울대 학생 누구나",
+    "how_to_apply": [
+      "사고 발생시",
+      "mySNU 포털 접속",
+      "교내외치료비 신청"
+    ]
   },
   {
     "id": "snuc_notice_636",
@@ -352,18 +426,25 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=636",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "서울대학교 2026학년도 신입생 및 재학생 여러분,\r\n입학 후 대학 공부와 연계하여 수강할 수 있는 예비대학 기초 콘텐츠를 안내드립니다.\r\n🎓 예비대학이란?\r\n대학 수업에 필요한 기초 학습 역량을 미리 다질 수 있도록\r\n온라인 콘텐츠(SNUON)와 인트로 특강을 제공하는 프로그램입니다.\r\n📚 개설 과목 (총 10과목)\r\n수학, 통계, 물리, 화학, 생명과학, 컴퓨팅(A/B), 영어, 논리적 사고, 글쓰기와 말하기, 예술적 및 디자인 사고\r\n* 컴퓨팅A: 파이썬 기초 / 컴퓨팅B: 데이터 분석 기초\r\n⏰ 지금 신청하면 이런 점이 좋습니다\r\n✔ 합격 후부터 여름방학까지 상시 학습 가능\r\n✔ 시간·장소 제약 없이 원하는 과목 자유롭게 수강\r\n✔ 대학 수업을 미리 경험하며 학습 부담 완화\r\n🎁 참여 이벤트\r\n수강 후기 이벤트 (선착순 기념품 제공)\r\n📝 신청 방법\r\nSNUON (etl.snu.ac.kr) 접속 후 과목별 신청\r\n💡 수업 막히는 순간, 바로 찾는 기초 강의\r\n여유 있는 지금, 예비대학으로 한발 먼저 시작해보세요.\r\n신입생 여러분의 많은 관심과 참여를 바랍니다.\r\n감사합니다.\r\n⇒\r\n예비대학 기초 콘텐츠 수강 바로 가기\r\n(QR 코드를 스캔하세요!)\r\n문의: 02-880-1327 / jsy95",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 400000,
+    "value_basis": "온라인 기초 10과목 강좌, 학기당 4만원 상당",
+    "subtitle": "예비대학 기초 10과목 상시 수강",
+    "unit": "학기",
+    "eligibility": "2026학년도 신입생 및 재학생",
+    "apply_url": "http://etl.snu.ac.kr",
+    "how_to_apply": [
+      "SNUON 접속",
+      "과목별 신청",
+      "상시 학습"
+    ],
+    "site_id": "learning_center"
   },
   {
     "id": "snuc_notice_633",
@@ -372,18 +453,24 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=633",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
     "review_priority": "high",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "❍ 외국어 역량 강화를 통한 국제적인 인재 양성\r\n❍ 외국어 의사소통 능력 향상\r\n❍ 학부대학 소속 학생(자유전공학부, 학부대학 광역) 대상 서울대학교 언어교육원 수강료 지원\r\n 수강료의 80% (연간 개인별 2회 이내)\r\n※ 수강료 할인 내역이 있는 경우 실제 결제된 금액을 기준으로 지원\r\n※ 지원 횟수 제한: 2026학년도(2026. 3월 ~ 2027. 2월) 중 개인별 2회 이내\r\n- 서울대학교 언어교육원 개설강좌 중 에 한해 지원\r\n※ 언어클리닉 등 기타 강좌는 제외\r\n- 출석률 80% 이상\r\n- 타인이 응시‧수강한 내역을 근거로 지원받거나 기타 부정한 방법으로 지원받은 경우, 해당 금액 환수 및 향후 지원 불가\r\n- 여러 학기에 걸쳐 수강하는 경우 이수 완료 시점을 기준으로 해당 학기 신청기간에 신청하며 신청기간 이후 제출 건은 지원하지 아니함\r\n※ 8월에 시작한 강좌가 9월 중에 끝났을 경우, 9월 이후에 80% 출석률을 확인할 수 있으므로 2학기 수강분 신청기간에 신청\r\n- 한 강좌만 지원 대상 [예외적으로 강좌 이수 중간에 학적이 변동되는 경우(‘재학→휴학’ 혹은 ‘휴학→복학’)에는 지원 가능]\r\n※ 수강 후 해당 학기에 졸업한 경우에도 지원 가능\r\n- 타 기관에서 동",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 320000,
+    "value_basis": "언어교육원 수강료 80% 지원, 연간 2회",
+    "subtitle": "외국어 교육비 80% 지원",
+    "unit": "연간 2회",
+    "eligibility": "학부대학 소속 학생",
+    "how_to_apply": [
+      "언어교육원 수강",
+      "출석률 80% 이상",
+      "학기별 신청기간에 신청"
+    ],
+    "site_id": "language_center"
   },
   {
     "id": "snuc_notice_621",
@@ -399,11 +486,17 @@
     "source": "crawled_enriched",
     "body_excerpt": "을 아래와 같이 공고하니 하여 주시기 바랍니다.\r\n2026학년도 2학기 전공 선택, 결정, 다전공, 학생설계전공 및 심화전공 신청\r\n전공설계지원센터 상담교원 면담 이후 전공 선택, 결정 및 취소를 신청\r\n구 분\r\n일 정\r\n연합전공 신청 기간(학생)\r\n2026. 3. 30.(월) 09:00 ~ 4. 3.(금) 18:00\r\n심화전공 신청 및 취소 신청 기간(학생)\r\n2026. 4. 13.(월) ~ 4. 24.(금) 18:00\r\n주전공 선택 및 취소 신청 기간(학생)\r\n2026. 4. 27.(월) ~ 5. 8.(금) 18:00\r\n부·연계·학생설계전공 신청 기간(학생)\r\n2026. 4. 20.(월) ~ 4. 24.(금) 18:00\r\n전공결정 신청기간(광역 학생)\r\n2026. 5. 11.(월) ~ 5. 22.(금) 18:00\r\n관련 위원회 심의\r\n2026. 6월 말 ~ 7월 초 개최\r\n전공선택·취소, 전공결정, 연합·연계전공 선발, 학생설계전공 및 심화전공 신청 결과 안내\r\n2026. 7. 15(수)\r\n◊ 신청방법: 마이스누 포털 학사행정에서 해당 서류 업로드 및 신청 (붙임 안내문 확인)\r\n붙임 문서를 정독한 뒤 신청할 것.\r\n첨부파일을 제대로 확인하지 않아서 발생하는 문제의 책임은 학생 본인에게 있음",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "전공 선택/결정 절차 안내로 직접적 혜택 없음",
+    "subtitle": "전공선택 및 다전공 신청",
+    "unit": "학기",
+    "eligibility": "학부대학 소속 학생",
+    "deadline_date": "2026-05-22",
+    "how_to_apply": [
+      "전공설계지원센터 상담",
+      "신청기간 내 온라인 신청",
+      "관련 위원회 심의"
+    ],
+    "site_id": "major_support_center"
   },
   {
     "id": "snuc_notice_584",
@@ -412,18 +505,25 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=584",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "학부대학 교수학습개발센터 학습상담실에서는\r\n학부생 및 대학원생을 대상으로 1:1 맞춤형 학습상담을 상시 운영하고 있습니다.\r\n✔ 공부가 막막할 때\r\n✔ 시간관리가 잘 되지 않을 때\r\n✔ 성적 향상을 위해 점검이 필요할 때\r\n전문 상담자와 함께 현재의 학습 상태를 정리하고 실행 가능한 학습 전략을 구체적으로 설계합니다.\r\n🍀상담 주요 내용\r\n- 학습역량·학습유형·학습전략 검사 및 결과 해석\r\n- 학습 습관 분석 및 맞춤 전략 수립\r\n- 학업 동기 및 학업 불안 관리\r\n- 전공·진로 연계 학습 설계\r\n🍀안내 사항\r\n- 대상: 학부생 및 대학원생\r\n- 운영: 1회기 50분 내외(최대 12회기)\r\n- 신청: 아래 링크 또는 포스터 내 QR 접속 후 신청서 작성 → 상담사 개별 연락을 통해 일정 조율\r\n✨ 학부생: https://forms.gle/zB7fYPzKoAZoSuE98\r\n✨ 대학원생: https://forms.gle/qxiW3wsKT7Zr5t3i9\r\n지금의 공부를 한 번 점검해보고 싶다면 누구나 신청할 수 있습니다.\r\n관심있는 분들의 많은 참여 부탁드립니다.",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 600000,
+    "value_basis": "1:1 학습상담 최대 12회, 회당 5만원 상당",
+    "subtitle": "1:1 맞춤형 학습상담",
+    "unit": "최대 12회",
+    "eligibility": "학부생 및 대학원생",
+    "apply_url": "https://forms.gle/zB7fYPzKoAZoSuE98",
+    "how_to_apply": [
+      "온라인 신청서 작성",
+      "상담사 개별 연락",
+      "일정 조율 후 상담"
+    ],
+    "site_id": "learning_center"
   },
   {
     "id": "snuc_notice_488",
@@ -439,11 +539,16 @@
     "source": "crawled_enriched",
     "body_excerpt": "에서 실시하는계획을 알려드리니, 희망하는 학생들이 이용할 수 있도록 적극 안내하여 주시기 바랍니다.\r\n가. 한국장학재단 학자금대출 개요\r\n나. 2026학년도 1학기 주요 개선 사항\r\n다. 대출금액 및 일정\r\n한국장학재단\r\n2026\r\n학년도\r\n1\r\n학기 학자금대출\r\n▪일반 상환 학자금대출, 취업 후 상환 학자금대출\r\n▪로서 2026학년도 1학기 또는 인 대학(원)생\r\n※ 학자금 지원구간(소득수준) 산정이 필요한 대출로 \r\n▪한국장학재단 또는 ※ [붙임 2] 참고\r\n▪\r\n▪성적 및 학자금 지원구간 등\r\n(\r\n대출종류\r\n)\r\n(\r\n신청대상\r\n)\r\n대한민국 국적자\r\n본교 재학\r\n입학 예정\r\n조기 신청 필요\r\n(\r\n심사기간 최대\r\n8\r\n주 소요\r\n)\r\n(\r\n신청방법\r\n)\r\n홈페이지\r\n모바일 직접신청\r\n(\r\n대출금리\r\n)\r\n연\r\n1.7%\r\n(\r\n대출자격\r\n)\r\n[\r\n붙임\r\n1]\r\n안내문 등 반드시 확인\r\n■ \r\n■ \r\n-(기존) 대출신청자 유형별 최장거치기간 상이 →\r\n취업 후 상환 학자금대출 지원대상 확대 개편\r\n<2026\r\n년 취업 후 상환 학자금대출 지원대상 확대 추진\r\n(\r\n안\r\n)>\r\n구분\r\n학부생\r\n대학원생\r\n’25-2\r\n학기\r\n’26-1\r\n학기\r\n~\r\n’25-2\r\n학기\r\n’26-1\r\n학기\r\n~\r\n등록금(전면확대)\r\n9구간 이하\r\n10구간 이하\r\n4구간 이하\r\n10구간 이하\r\n생활비(선별",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "학자금대출 안내로 대출상품이므로 혜택으로 분류 안함",
+    "subtitle": "한국장학재단 학자금대출",
+    "unit": "학기",
+    "eligibility": "재학생",
+    "how_to_apply": [
+      "한국장학재단 홈페이지 접속",
+      "모바일 직접신청",
+      "자격 요건 확인"
+    ],
+    "site_id": "scholarship_foundation"
   },
   {
     "id": "snuc_notice_463",
@@ -461,11 +566,16 @@
     "source": "crawled_enriched",
     "body_excerpt": "❍ 등록기간 : \r\n❍ 장소 : 농협은행, 신한은행 및 우리은행 전국 소재 지점\r\n❍ 신청기간 :\r\n❍ 신청방법\r\n- 서울대학교 포털 → 학사정보 → 학적변동(신청) → 휴학·복학\r\n- 수강신청이 복학 신청을 대신하지 않음. 따라서 수강신청을 하였어도 반드시 복학 신청해야 함\r\n❍ 신청기간: \r\n※ 군 휴학생이 \r\n❍ 군 복학(복귀)생 구비서류 및 검토사항\r\n- 수업일수 4분의 1선 2026. 3. 26.(목)까지 전역자: 병적증명서 또는 전역증 사본 등\r\n- 수업일수 4분의 1선 2026. 3. 26.(목)이후 전역자: 아래표 참고\r\n❍ 신청방법: 학과 사무실에 신청서 \r\n❍ 신청기간: (1차) \r\n❍ 허가일: 2026. 1. 23.(금)\r\n※ 복적 및 재입학을 허가받은 자는 등록기간 중 반드시 등록을 하여야 하며, 미등록시 복적 및 재입학 포기원서를 제출하여야 함\r\n❍ 신청기간\r\n※ 등록금 분납 중인 자는 완납해야 휴학 가능\r\n※ 등록 후 휴학하고자 하는 학생은 반드시 등록기간에 등록금을 납부한 후 휴학 신청을 해야 함\r\n     (휴학신청 후에는 등록금 고지서 출력 불가)\r\n❍ 신청방법: 서울대학교 포털 → 학사정보 → 학적변동(신청) → 휴학·복학\r\n- 가사휴학 외의 휴학은 증빙서류를 ",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "학사 행정 일정 안내로 직접적인 혜택 없음",
+    "subtitle": "등록·휴학·복학 일정",
+    "unit": "상시",
+    "eligibility": "학부생 누구나",
+    "deadline_date": "2026-03-26",
+    "how_to_apply": [
+      "서울대 포털 접속",
+      "학사정보 메뉴",
+      "학적변동 신청"
+    ]
   },
   {
     "id": "snuc_notice_249",
@@ -483,11 +593,13 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "제도 변경 안내로 직접적인 혜택 없음",
+    "subtitle": "국외수학 학점인정 변경",
+    "unit": "상시",
+    "eligibility": "자유전공학부 학생",
+    "how_to_apply": [
+      "교무처 가이드라인 확인"
+    ]
   },
   {
     "id": "snuc_notice_99",
@@ -503,11 +615,15 @@
     "source": "crawled_enriched",
     "body_excerpt": "*\r\n작성 및 저장 완료 후 반드시 \"신청\"을 클릭해야 합니다. \"신청\" 미클릭시 \"작성중\"으로 분류되어 시스템에서 승인 자체가 되지 않습니다.\r\n* 컴퓨터 (PC)를 사용해야 오류가 나지 않습니다. (핸드폰, 태블릿 등에서는 메뉴가 안 보이거나 오류 발생)\r\n* 아래 내용과 매뉴얼을 자세히 읽어보고 신청해 주세요. 신청이 안 되는 이유는 대체로 매뉴얼대로 하지 않은 경우입니다.\r\n* 텝스 등록 신청한 후 대학영어 사무실에 연락하지 않아도 됩니다. 수시로 신청 내역을 확인하여 승인하며, 잘못 신청한 건은 반려 처리하고 있습니다.\r\n* 신입생의 경우 입학일 (보통 전기: 3월 2일, 후기: 9월 1일) 이후 마이스누 사이트에서 텝스 성적 등록이 가능합니다. 입학일 전에 텝스 성적 등록 메뉴가 안 보이거나 등록이 안 되는 것은 오류가 아니라 입학 전이라서 권한이 부여되지 않았기 때문입니다.\r\n1. 대학영어 수강자격 확인용 텝스 성적 업로드 방법 변경 안내 (2021. 11. 10.부터)\r\n변경 전: 텝스 성적표 스캔본 대학영어 이메일로 제출→대학영어 사무실에서 업로드\r\n변경 후: 마이스누에서 직접 텝스 성적표 스캔본 업로드→대학영어 사무실에서 승인\r\n2. 텝스 성적 업로드 방법",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "성적 등록 방법 안내로 직접적인 혜택 없음",
+    "subtitle": "텝스 성적 업로드 방법",
+    "unit": "상시",
+    "eligibility": "학부생 누구나",
+    "how_to_apply": [
+      "마이스누 접속",
+      "텝스 성적 등록 메뉴",
+      "성적 업로드"
+    ]
   },
   {
     "id": "snuc_notice_98",
@@ -516,7 +632,7 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=98",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
     "review_priority": "high",
     "status": "needs_review",
@@ -527,11 +643,16 @@
       "[object Object]",
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 400000,
+    "value_basis": "대학영어 수강(학기당 어학강좌 중간값 40만원)",
+    "subtitle": "대학영어 수강신청 안내",
+    "unit": "학기",
+    "eligibility": "학부생 누구나",
+    "how_to_apply": [
+      "수강신청 기간 확인",
+      "텝스 성적 등록",
+      "수강신청 시스템 접속"
+    ]
   },
   {
     "id": "snuc_notice_722",
@@ -540,18 +661,22 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=722",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains welfare/access/risk-support signal; should be reviewed for student benefit value.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "서울대학교 장애학생지원센터 발간 - 장애학생 지원 길라잡이(학생용): 첨부파일 확인하시기 바랍니다.",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 100000,
+    "value_basis": "장애학생 지원 서비스(1:1 상담/지원 하위값 10만원)",
+    "subtitle": "장애학생 지원 안내",
+    "unit": "상시",
+    "eligibility": "장애학생",
+    "how_to_apply": [
+      "장애학생지원센터 문의",
+      "지원 길라잡이 확인"
+    ]
   },
   {
     "id": "snuc_notice_721",
@@ -560,7 +685,7 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=721",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "medium",
     "status": "needs_review",
@@ -569,11 +694,16 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 20000,
+    "value_basis": "참여형 예술 프로그램 체험, 외부 유료 강연/체험 시세 적용",
+    "subtitle": "AI시대 즉흥공감극장",
+    "unit": "1회",
+    "eligibility": "서울대 구성원 누구나",
+    "how_to_apply": [
+      "신청 링크를 통해 접수",
+      "선착순 80명 선정",
+      "개별 문자 안내"
+    ]
   },
   {
     "id": "snuc_notice_720",
@@ -589,11 +719,17 @@
     "source": "crawled_enriched",
     "body_excerpt": "2026년 서울대학교 개교 80주년을 맞이하여 아래와 같이 '서울대학교 개교 80주년 축하영상 공모전'을 개최합니다.\r\n가. 주제: 서울대학교 개교 80주년 축하 메시지\r\n나. 참여 대상: 서울대학교 전 구성원 및 동문\r\n다. 출품 규격: 5~20초 분량의 가로형(16:9) 영상\r\n라. 일정: (접수) 2026. 5. 20.(수) ~ 2026. 6. 30.(화)\r\n(결과 발표) 2026. 7월 중\r\n마. 시상: 최우수상(1명/팀) 100만원, 우수상-아이디어 부문(10명/팀) 각 20만원, 우수상-팀워크 부문(10팀) 각 20만원, 장려상(80명/팀) 각 1만원\r\n바. 문의: 기획처 소통팀(02-880-2555)\r\n사. 참여 링크: https://www.snu.ac.kr/80th-anniversary/contest",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "value_basis": "영상 공모전 시상금은 수상시에만 해당되어 일반적 혜택으로 산정 불가",
+    "subtitle": "개교80주년 영상공모전",
+    "unit": "1회",
+    "eligibility": "서울대 전 구성원",
+    "deadline_date": "2026-06-30",
+    "apply_url": "https://www.snu.ac.kr/80th-anniversary/contest",
+    "how_to_apply": [
+      "참여 링크 접속",
+      "5~20초 영상 제작",
+      "온라인 제출"
+    ]
   },
   {
     "id": "snuc_notice_719",
@@ -602,17 +738,18 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=719",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
+    "estimated_value": 20000,
+    "value_basis": "AI 공존 사회 발표회, 외부 유료 강연 시세 적용",
+    "subtitle": "AI공존사회 발표회",
+    "unit": "1회",
+    "eligibility": "서울대 구성원",
     "how_to_apply": []
   },
   {
@@ -622,18 +759,25 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=715",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "융합과학기술대학원에서는 학부생들에게 다양한 융합연구의 기회를 제공하기 위해 방학 기간 중 「융합연구프로그램」을 운영하고 있습니다.\r\n관련 분야 진학이나 취업, 연구 등에 관심 있는 우수한 학생들의 많은 지원 바랍니다.\r\n가. 자격요건: 학부 4학기 이상 재학생 또는 학부 수료·졸업(예정)자\r\n나. 모집분야: 응용바이오공학과, 지능정보융합학과, 분자의학및바이오제약학과 소속 19개 연구실\r\n▶ 참여 연구실 상세 모집공고 https://docs.google.com/spreadsheets/d/1Ip0gFpmjjQ35_YdH2Ngptjj96VxJR7bPMEkvePcpWk4/edit?usp=sharing\r\n다. 접수기간: 2026. 5. 18.(월) ~ 5. 25.(월) * 기한 엄수\r\n라. 합격발표: 2026년 6월 중순 예정\r\n마. 참여기간: 2026. 7. 1.(수) ~ 8. 28.(금) * 공휴일 및 주말 제외\r\n바. 문 의: 융합과학기술대학원 교학행정실(☎031-888-9153) 및 각 연구실 담당자\r\n사. 기 타: 융합연구프로그램 참여학생 모집 공고(https://convergence.snu.ac.kr/21669/)",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 400000,
+    "value_basis": "8주간 융합연구 체험, 전문 연구실 참여 프로그램 가치",
+    "subtitle": "하계융합연구프로그램",
+    "unit": "8주 코스",
+    "eligibility": "학부 4학기 이상",
+    "deadline_date": "2026-05-25",
+    "apply_url": "https://docs.google.com/spreadsheets/d/1Ip0gFpmjjQ35_YdH2Ngptjj96VxJR7bPMEkvePcpWk4/edit?usp=sharing",
+    "how_to_apply": [
+      "모집공고 확인",
+      "지원서 작성",
+      "기한 내 접수"
+    ]
   },
   {
     "id": "snuc_notice_712",
@@ -644,7 +788,7 @@
     "deadline_hints": [
       "~8/16"
     ],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "high",
     "status": "needs_review",
@@ -653,11 +797,17 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 1500000,
+    "value_basis": "6개월 아시아 전문가 양성과정 + 해외 현지조사 지원 포함",
+    "subtitle": "아시아지역탐구과정",
+    "unit": "6개월 코스",
+    "eligibility": "학부 재학생",
+    "deadline_date": "2026-08-16",
+    "how_to_apply": [
+      "매주 금요일 오프라인 수업 참여",
+      "현지조사 팀별 활동",
+      "과정 이수"
+    ]
   },
   {
     "id": "snuc_notice_711",
@@ -666,7 +816,7 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=711",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
     "review_priority": "high",
     "status": "needs_review",
@@ -675,11 +825,18 @@
     "outbound_links": [
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 34320000,
+    "value_basis": "월 143,000엔 × 24개월 + 항공료 + 학비 지원 (엔화 900원 환산)",
+    "subtitle": "일본 정부 장학금",
+    "unit": "2년 과정",
+    "eligibility": "1992.4.2 이후 출생 한국 국적자",
+    "deadline_date": "2026-05-25",
+    "how_to_apply": [
+      "온라인 접수 번호 신청",
+      "필기시험 등록",
+      "서류 제출"
+    ],
+    "site_id": "snuc"
   },
   {
     "id": "snuc_notice_707",
@@ -688,18 +845,22 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=707",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "medium",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "글쓰기 피어튜터링 프로그램에서는 학생들과 튜터들의 글쓰기 역량 강화를 위해 명사 초청 특강을 준비하였습니다. 대학 글쓰기의 경계를 넘어 스토리텔링 기법과 공공 분야의 연구 제안서 실무 전략에 대해 배워가는 시간을 갖고자 합니다.\r\n◯ 강연 주제: 경계를 넘는 글쓰기 - 스토리텔링 기법과 공공 연구 제안서 실무 전략\r\n◯ 강연 일시: 2026년 5월 22일 금요일 ｜ 18:00 ~ 20:00\r\n◯ 강연 장소: 서울대학교 61동 320호\r\n◯ 강연 안내\r\n1. 고호관 작가, 글쓰기와 스토리텔링: 정보 전달에서 대중적 서사로\r\n인문, 사회, 이공계를 망라하는 학술적 소재를 발굴하여 독자가 깊이 공감할 수 있는 서사로 재구성하는 스토리텔링의 프로세스를 다룰 예쩡. 학문적 엄밀성과 대중적 흥미를 균형 있게 결합하는 융합적 작법에 관해 설명할 예정\r\n2. 안형준 박사, 글 잘 쓰는 과학기술자: 설득력 있는 연구 제안서 쓰기\r\n정부·공공기관 대상 제안서와 국가 사업 계획서에서 심사위원 및 평가자를 설득할 수 있는 정교한 논리 구조를 설명할 예쩡. 거시적 국가 과학기술 정책의 맥락을 가독성 높은 공적 문서로 구현해 내는 학술적 필치와 정교한 서술 방법론을 제시할 예정\r\n◯ 강연자 소개\r\n●",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 20000,
+    "value_basis": "2시간 명사 특강, 외부 유료 강연 시세 적용",
+    "subtitle": "글쓰기 특강",
+    "unit": "1회",
+    "eligibility": "학부대학 학생",
+    "how_to_apply": [
+      "현장 참석"
+    ],
+    "site_id": "snuc"
   },
   {
     "id": "snuc_notice_706",
@@ -708,7 +869,7 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=706",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
     "review_priority": "medium",
     "status": "needs_review",
@@ -718,11 +879,17 @@
       "[object Object]",
       "[object Object]"
     ],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 20000,
+    "value_basis": "1시간 진로 상담 및 연구실 탐방, 1:1 상담 시세 적용",
+    "subtitle": "연구실 탐방",
+    "unit": "1회",
+    "eligibility": "학부대학 학생",
+    "apply_url": "https://forms.gle/zZG96PL2mAWYkWny5",
+    "how_to_apply": [
+      "구글폼 신청",
+      "선착순 마감"
+    ],
+    "site_id": "snuc"
   },
   {
     "id": "snuc_notice_703",
@@ -731,17 +898,24 @@
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=703",
     "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "needs_estimation",
+    "value_status": "estimated",
     "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
     "review_priority": "high",
     "status": "needs_review",
     "source": "crawled_enriched",
     "body_excerpt": "2027년도 일본 정부(문부과학성) 장학금 연구유학생 및 일한공동고등교육 유학생 교류사업 (석사·박사학위 과정) 선발을 아래와 같이 안내드립니다.\r\nㅇ 지원자격 및 선발규모\r\n가) 연령: 1992년 4월 2일 이후 출생한 대한민국 국적 소지자\r\n나) 학력: 일본의 대학 졸업 또는 졸업예정자와 동등한 자격을 가진 자 등\r\n다) 인원: 미정(2025년도 : 이공계 분야 14명, 그 외 분야 21명 선발)\r\nㅇ 장학내용\r\n가) 기간: 원칙적으로 2027년 4월부터 2년간이며, 10월(또는 9월)부터는 1년 6개월간\r\n(※단, 상위과정 진학 시 연장 가능)\r\n나) 장학금: 학비 및 항공요금 지급 외에 매월 약 143,000엔(모집요강 참조) 지급 등\r\nㅇ 지원방법: 온라인으로 접수 번호 신청(2026.5.25. 16:00까지) 후 필기시험 등록\r\nㅇ 제출서류 및 선발절차 등 지원관련 세부사항은 반드시 별첨 모집요강 및 주한일본대사관 홈페이지 공지사항( https://www.kr.emb-japan.go.jp/itprtop_ko/index.html ) 참조\r\nㅇ 문의처: 주한일본대사관 공보문화원 (전화 02-765-3011/3 <내선 145>, 이메일: yuhak@so.mofa.go.jp",
     "outbound_links": [],
-    "value_basis": "AI 정제 실패",
-    "subtitle": "",
-    "unit": "",
-    "eligibility": "",
-    "how_to_apply": []
+    "estimated_value": 34320000,
+    "value_basis": "월 143,000엔 × 24개월 + 항공료 + 학비 지원 (엔화 900원 환산)",
+    "subtitle": "일본 정부 장학금",
+    "unit": "2년 과정",
+    "eligibility": "1992.4.2 이후 출생 한국 국적자",
+    "deadline_date": "2026-05-25",
+    "how_to_apply": [
+      "온라인 접수 번호 신청",
+      "필기시험 등록",
+      "서류 제출"
+    ],
+    "site_id": "snuc"
   }
 ]
