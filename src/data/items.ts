@@ -1,3 +1,5 @@
+import _crawledData from "./crawled-items.json";
+
 export type Category =
   | "learning"
   | "career"
@@ -31,9 +33,10 @@ export interface PongItem {
   site_id?: string;
   is_crawled?: boolean;
   value_status?: "verified" | "needs_estimation";
+  review_priority?: "high" | "medium";
 }
 
-export const items: PongItem[] = [
+const _verifiedItems: PongItem[] = [
   {
     id: "item_001",
     category: "learning",
@@ -711,6 +714,75 @@ export const CATEGORY_META: Record<
   facility: { label: "시설", emoji: "🏛️" },
   scholarship: { label: "장학", emoji: "💰" },
 };
+
+// Crawled data integration
+
+interface _CrawledRawItem {
+  id: string;
+  name: string;
+  category: string;
+  source_url: string;
+  provider: string;
+  deadline_hints: string[];
+  value_status: string;
+  value_basis_hint: string;
+  review_priority: string;
+  status: string;
+  source: "crawled";
+}
+
+const _CRAWLED_CATEGORY_MAP: Record<string, Category> = {
+  learning: "learning",
+  scholarship: "scholarship",
+  experience: "experience",
+  culture: "culture",
+  welfare: "welfare",
+  other: "learning",
+};
+
+function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
+  const cat = (_CRAWLED_CATEGORY_MAP[raw.category] ?? "learning") as Category;
+  return {
+    id: raw.id,
+    category: cat,
+    category_label: CATEGORY_META[cat].label,
+    name: raw.name,
+    value: 0,
+    value_basis: raw.value_basis_hint,
+    unit: "1회",
+    private_price: 0,
+    school_price: 0,
+    verified: false,
+    source: raw.source_url,
+    description: "",
+    how_to_apply: [],
+    eligibility: "서울대 학부생",
+    duration_minutes: null,
+    deadline_type: raw.deadline_hints.length > 0 ? "once" : "always",
+    deadline_label:
+      raw.deadline_hints.length > 0 ? raw.deadline_hints[0] : "상시",
+    url: raw.source_url,
+    provider: raw.provider,
+    is_crawled: true,
+    value_status: raw.value_status as "needs_estimation" | "verified",
+    review_priority: raw.review_priority as "high" | "medium",
+  };
+}
+
+const _verifiedUrls = new Set(
+  _verifiedItems.map((i) => i.url).filter(Boolean)
+);
+const _crawledConverted = (
+  _crawledData as unknown as _CrawledRawItem[]
+)
+  .map(_crawledToPongItem)
+  .filter((c) => !_verifiedUrls.has(c.url));
+
+export const items: PongItem[] = [
+  ..._verifiedItems,
+  ..._crawledConverted.filter((c) => c.review_priority === "high"),
+  ..._crawledConverted.filter((c) => c.review_priority !== "high"),
+];
 
 export const totalClaimableValue = items.reduce(
   (sum, item) => sum + item.value,
