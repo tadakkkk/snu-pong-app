@@ -5,6 +5,8 @@ on:
       - 'src/data/crawled/*.sql'
       - 'src/data/crawled-items.json'
   workflow_dispatch:
+permissions:
+  contents: write
 
 jobs:
   enrich:
@@ -14,10 +16,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install openai
+      - run: pip install google-generativeai
       - run: python scripts/enrich-crawled-data.py
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

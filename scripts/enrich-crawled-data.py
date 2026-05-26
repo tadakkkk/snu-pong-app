@@ -1,6 +1,8 @@
-import openai, json, os, sys
+import google.generativeai as genai
+import json, os, sys
 
-client = openai.OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 BATCH_SIZE = 5
 
@@ -14,10 +16,6 @@ VALUE_GUIDE = """가치 환산 기준 (사설 시세 대비):
 - 무료 강연/행사: 외부 유료 강연 시세 1~3만원
 - 해외 프로그램: 항공+숙박+수업료 합산
 - 판단 불가: null"""
-
-SYSTEM_PROMPT = """너는 서울대 학생 혜택 데이터를 정제하는 AI야.
-공지 제목과 본문을 보고 학생에게 도움 되는 정보를 구조화해서 JSON으로 반환해.
-반드시 JSON 배열만 반환. 다른 텍스트 없이."""
 
 def enrich_batch(articles):
     articles_text = ""
@@ -33,11 +31,12 @@ def enrich_batch(articles):
         if body:
             articles_text += f"본문발췌: {body[:500]}\n"
 
-    user_prompt = f"""다음 서울대 공지 {len(articles)}개에서 학생 혜택 정보를 추출해.
+    prompt = f"""너는 서울대 학생 혜택 데이터를 정제하는 AI야.
+다음 서울대 공지 {len(articles)}개에서 학생 혜택 정보를 추출해.
 
 {VALUE_GUIDE}
 
-각 항목마다 이 형식으로:
+각 항목마다 이 형식의 JSON 객체로 만들어:
 {{
   "id": "원본 id 그대로",
   "estimated_value": 숫자(원) 또는 null,
@@ -51,24 +50,19 @@ def enrich_batch(articles):
   "site_id": "career_center / writing_center 등 또는 null"
 }}
 
-JSON 배열만 반환. 마크다운 코드블록이나 설명 텍스트 없이.
+JSON 배열만 반환. 마크다운 코드블록(```)이나 설명 텍스트 없이. [ 로 시작해서 ] 로 끝나게.
 
 {articles_text}"""
 
-    resp = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_prompt}
-        ],
-        temperature=0.2,
-    )
+    resp = model.generate_content(prompt)
+    raw_text = resp.text.strip()
 
-    raw_text = resp.choices[0].message.content.strip()
+    # 코드블록 감싸져있으면 제거
     if raw_text.startswith("```"):
-        raw_text = raw_text.split("\n", 1)[1]
+        lines = raw_text.split("\n")
+        raw_text = "\n".join(lines[1:])
         if raw_text.endswith("```"):
-            raw_text = raw_text[:-3]
+            raw_text = raw_text[:-3].strip()
 
     return json.loads(raw_text)
 
