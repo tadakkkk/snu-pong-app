@@ -1,8 +1,8 @@
-import google.generativeai as genai
+import anthropic
 import json, os, sys
 
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-model = genai.GenerativeModel("gemini-2.0-flash")
+client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+MODEL = "claude-sonnet-4-20250514"
 
 BATCH_SIZE = 5
 
@@ -54,8 +54,12 @@ JSON 배열만 반환. 마크다운 코드블록(```)이나 설명 텍스트 없
 
 {articles_text}"""
 
-    resp = model.generate_content(prompt)
-    raw_text = resp.text.strip()
+    resp = client.messages.create(
+        model=MODEL,
+        max_tokens=4096,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    raw_text = resp.content[0].text.strip()
 
     # 코드블록 감싸져있으면 제거
     if raw_text.startswith("```"):
