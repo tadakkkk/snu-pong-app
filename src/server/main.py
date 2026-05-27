@@ -138,6 +138,10 @@ SCHEDULED_CRAWLERS: tuple[CrawlerScheduleEntry, ...] = (
     CrawlerScheduleEntry("welfare_transit", "welfare", "welfare/Transit.py"),
     CrawlerScheduleEntry("affiliated_disability_support", "affiliated", "affiliated/DisabilitySupport.py"),
     CrawlerScheduleEntry("affiliated_student_center", "affiliated", "affiliated/StudentCenter.py"),
+    CrawlerScheduleEntry("related_international_affairs", "related", "related/InternationalAffairs.py"),
+    CrawlerScheduleEntry("related_it_office", "related", "related/ITOffice.py"),
+    CrawlerScheduleEntry("related_library", "related", "related/Library.py"),
+    CrawlerScheduleEntry("related_future_strategy", "related", "related/FutureStrategy.py"),
     CrawlerScheduleEntry(
         "departments",
         "departments",

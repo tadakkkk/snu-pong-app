@@ -1,14 +1,14 @@
 # 크롤링 대상 사이트
 
-이 문서는 `src/server/crawling_rules/local/progress.md`에서 `deleted` 상태가 아닌 행만 추려 만든 크롤링 대상 목록이다. 각 대상은 원칙적으로 공지사항, 소식, 행사, 학생 지원, 복지 서비스처럼 서울대 재학생에게 직접 도움이 될 가능성이 있는 정보를 수집하는 데 사용한다.
+이 문서는 `src/server/crawling_rules/local/progress.md`에서 `implemented` 상태인 행만 추려 만든 크롤링 대상 목록이다. 각 대상은 원칙적으로 공지사항, 소식, 행사, 학생 지원, 복지 서비스처럼 서울대 재학생에게 직접 도움이 될 가능성이 있는 정보를 수집하는 데 사용한다.
 
-- 총 대상 수: 228
+- 총 대상 수: 222
 - 비교과: 2개
 - 공지·소식: 4개
-- 캠퍼스·복지: 13개
+- 캠퍼스·복지: 11개
 - 대학 및 학과: 199개
-- 유관 기관: 3개
-- 관련 사이트: 7개
+- 유관 기관: 2개
+- 관련 사이트: 4개
 
 ## 대상 목록
 
@@ -32,19 +32,17 @@
 
 | # | 대상 | URL | 상태 | 설명 |
 | ---: | --- | --- | --- | --- |
-| 18 | 스누식단 | http://snuco.snu.ac.kr/foodmenu | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 19 | 학내교통 | https://www.snu.ac.kr/about/gwanak/shuttles/campus_shuttles | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 20 | 도서관 | https://www.snu.ac.kr/campuslife/facilities/library | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 21 | 관악학생생활관 | https://www.snu.ac.kr/campuslife/facilities/dorm | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 22 | 장학금·학자금 | https://student.snu.ac.kr/%eb%8c%80%ed%95%99%ec%83%9d%ed%99%9c/%ec%9e%a5%ed%95%99/%ec%9e%a5%ed%95%99%ec%86%8c%ea%b0%9c/ | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 23 | 학생지원서비스 | https://www.snu.ac.kr/campuslife/aid/administration | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 24 | 장애학생지원센터 | https://www.snu.ac.kr/campuslife/aid/disabled | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 25 | 정보화서비스 | https://www.snu.ac.kr/campuslife/aid/it | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 26 | 의료보건서비스 | https://www.snu.ac.kr/campuslife/aid/health/hospital1 | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 27 | 문화서비스 | https://www.snu.ac.kr/campuslife/facilities/cultural-services | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 28 | 편의시설 | https://www.snu.ac.kr/campuslife/facilities/amenities | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 29 | 캠퍼스맵 | http://map.snu.ac.kr | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 30 | 연건캠퍼스 | https://www.snu.ac.kr/about/multicampus/yongon | not_started | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 18 | 스누식단 | http://snuco.snu.ac.kr/foodmenu | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 19 | 학내교통 | https://www.snu.ac.kr/about/gwanak/shuttles/campus_shuttles | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 20 | 도서관 | https://www.snu.ac.kr/campuslife/facilities/library | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 21 | 관악학생생활관 | https://www.snu.ac.kr/campuslife/facilities/dorm | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 22 | 장학금·학자금 | https://student.snu.ac.kr/%eb%8c%80%ed%95%99%ec%83%9d%ed%99%9c/%ec%9e%a5%ed%95%99/%ec%9e%a5%ed%95%99%ec%86%8c%ea%b0%9c/ | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 23 | 학생지원서비스 | https://www.snu.ac.kr/campuslife/aid/administration | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 24 | 장애학생지원센터 | https://www.snu.ac.kr/campuslife/aid/disabled | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 25 | 정보화서비스 | https://www.snu.ac.kr/campuslife/aid/it | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 26 | 의료보건서비스 | https://www.snu.ac.kr/campuslife/aid/health/hospital1 | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 27 | 문화서비스 | https://www.snu.ac.kr/campuslife/facilities/cultural-services | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
+| 28 | 편의시설 | https://www.snu.ac.kr/campuslife/facilities/amenities | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
 
 ### 대학 및 학과
 
@@ -254,7 +252,6 @@
 
 | # | 대상 | URL | 상태 | 설명 |
 | ---: | --- | --- | --- | --- |
-| 230 | 총학생회 / 동아리 | https://we.snu.ac.kr | blocked | 학생 혜택 가능성이 있으나 로그인 또는 접근 제한 때문에 자동 수집이 막힌 대상이다. |
 | 231 | 학생지원센터 | https://student.snu.ac.kr | implemented | 학생지원, 장애지원 등 유관 기관의 학생 대상 공지 게시물을 수집한다. |
 | 232 | 장애학생지원센터 | https://snudanbi.snu.ac.kr | implemented | 학생지원, 장애지원 등 유관 기관의 학생 대상 공지 게시물을 수집한다. |
 
@@ -262,10 +259,7 @@
 
 | # | 대상 | URL | 상태 | 설명 |
 | ---: | --- | --- | --- | --- |
-| 243 | 서울대학교 | http://www.snu.ac.kr | not_started | 학생 생활과 연결될 수 있는 공식 관련 사이트이며, 구조 확인 후 공지나 서비스 정보를 수집한다. |
-| 244 | 학생처 | https://student.snu.ac.kr/ | not_started | 학생 생활과 연결될 수 있는 공식 관련 사이트이며, 구조 확인 후 공지나 서비스 정보를 수집한다. |
-| 245 | 서울대견학 | http://tour.snu.ac.kr | not_started | 학생 생활과 연결될 수 있는 공식 관련 사이트이며, 구조 확인 후 공지나 서비스 정보를 수집한다. |
-| 246 | 국제처 | http://oia.snu.ac.kr/ | not_started | 학생 생활과 연결될 수 있는 공식 관련 사이트이며, 구조 확인 후 공지나 서비스 정보를 수집한다. |
-| 247 | 정보화본부 | http://ist.snu.ac.kr/ | not_started | 학생 생활과 연결될 수 있는 공식 관련 사이트이며, 구조 확인 후 공지나 서비스 정보를 수집한다. |
-| 248 | 도서관 | http://library.snu.ac.kr/ | not_started | 학생 생활과 연결될 수 있는 공식 관련 사이트이며, 구조 확인 후 공지나 서비스 정보를 수집한다. |
-| 249 | 국가미래전략원 | https://ifs.snu.ac.kr/ | not_started | 학생 생활과 연결될 수 있는 공식 관련 사이트이며, 구조 확인 후 공지나 서비스 정보를 수집한다. |
+| 246 | 국제처 | http://oia.snu.ac.kr/ | implemented | 학생 생활과 연결될 수 있는 공식 관련 사이트의 공지, 행사, 서비스 정보를 수집한다. |
+| 247 | 정보화본부 | http://ist.snu.ac.kr/ | implemented | 학생 생활과 연결될 수 있는 공식 관련 사이트의 공지, 행사, 서비스 정보를 수집한다. |
+| 248 | 도서관 | http://library.snu.ac.kr/ | implemented | 학생 생활과 연결될 수 있는 공식 관련 사이트의 공지, 행사, 서비스 정보를 수집한다. |
+| 249 | 국가미래전략원 | https://ifs.snu.ac.kr/ | implemented | 학생 생활과 연결될 수 있는 공식 관련 사이트의 공지, 행사, 서비스 정보를 수집한다. |
