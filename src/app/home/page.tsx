@@ -166,6 +166,7 @@ export default function HomePage() {
           <div className="flex flex-col items-center">
             <MagpieByProgress percent={percent} size={120} />
             <p className="mt-2 text-[12px] text-ink-3">{getMood(percent)}</p>
+            <p className="text-[10px] text-ink-3 opacity-40">물까치 · 주식은 돈</p>
           </div>
           <div className="text-center mt-4">
             <p className="text-[13px] text-ink-3 mb-1.5">
