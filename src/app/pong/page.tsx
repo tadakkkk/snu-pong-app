@@ -36,17 +36,6 @@ const SITE_CATEGORIES = [
 const _verifiedOnly = items.filter((i) => !i.is_crawled);
 const popularItems = [..._verifiedOnly].sort((a, b) => b.value - a.value).slice(0, 5);
 
-// 일정 뷰: always가 아닌 항목 (crawled 포함, deadline_date 있는 것 우선)
-const scheduleItems = [...items]
-  .filter((i) => i.deadline_type !== "always")
-  .sort((a, b) => {
-    if (a.deadline_date && b.deadline_date)
-      return new Date(a.deadline_date).getTime() - new Date(b.deadline_date).getTime();
-    if (a.deadline_date) return -1;
-    if (b.deadline_date) return 1;
-    return 0;
-  });
-
 function getDday(dateStr: string): number {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -84,12 +73,18 @@ function ItemRow({
               자동수집
             </span>
           )}
-          {item.deadline_type === "weekly" && (
-            <span className="ml-2 text-[11px] text-red">
-              · {item.deadline_label}
-            </span>
-          )}
         </span>
+        {item.deadline_date && (() => {
+          const d = getDday(item.deadline_date);
+          if (d < 0) return null;
+          return (
+            <span className={`text-[11px] font-medium ml-2 shrink-0 tabular-nums ${
+              d === 0 ? "text-red" : d <= 3 ? "text-red" : d <= 14 ? "text-[#E88B30]" : "text-ink-3"
+            }`}>
+              {d === 0 ? "D-Day" : `D-${d}`}
+            </span>
+          );
+        })()}
         <span
           className={`text-[12px] font-medium ml-3 shrink-0 ${
             isCrawledUnestimated
@@ -184,7 +179,6 @@ export default function PongPage() {
             setActiveSiteCategory(null);
           }}
           itemCount={items.length}
-          scheduleCount={scheduleItems.length}
           siteCount={sites.length + collegeSites.length}
         />
       )}
@@ -198,57 +192,6 @@ export default function PongPage() {
             sites={searchSites}
             pongedIds={pongedIds}
           />
-        ) : mode === "schedule" ? (
-          /* ── 일정 모드 ── */
-          <div className="px-5 pt-3 pb-6">
-            <p className="text-[11px] text-ink-3 font-medium mb-3">
-              마감 있는 항목 {scheduleItems.length}개
-            </p>
-            <div className="flex flex-col">
-              {scheduleItems.map((item) => {
-                const dday = item.deadline_date ? getDday(item.deadline_date) : null;
-                const isPast = dday !== null && dday < 0;
-                const ponged = isPonged(item.id);
-                return (
-                  <Link key={item.id} href={`/pong/${item.id}`}>
-                    <div className={`py-3 border-b border-hairline flex items-center gap-3 active:opacity-70 ${isPast ? "opacity-40" : ""}`}>
-                      {/* D-day 배지 */}
-                      <div className="shrink-0 w-14 text-right">
-                        {dday !== null ? (
-                          <span className={`text-[12px] font-medium tabular-nums ${
-                            isPast ? "text-ink-3" :
-                            dday === 0 ? "text-red" :
-                            dday <= 3 ? "text-red" :
-                            dday <= 14 ? "text-[#E88B30]" :
-                            "text-ink-3"
-                          }`}>
-                            {isPast ? "마감" : dday === 0 ? "D-Day" : `D-${dday}`}
-                          </span>
-                        ) : (
-                          <span className="text-[11px] text-ink-3">매주</span>
-                        )}
-                      </div>
-                      {/* 항목 정보 */}
-                      <div className="flex-1 min-w-0">
-                        <p className={`text-[13px] leading-snug truncate ${ponged ? "line-through text-ink-3" : "text-ink"}`}>
-                          {item.name}
-                        </p>
-                        <p className="text-[11px] text-ink-3 mt-0.5">
-                          {item.deadline_label}
-                        </p>
-                      </div>
-                      {/* 가치 */}
-                      {item.value > 0 && (
-                        <span className="shrink-0 text-[12px] font-medium text-ink">
-                          +{Math.round(item.value / 10000)}만
-                        </span>
-                      )}
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
         ) : mode === "items" ? (
           /* ── 항목 모드 ── */
           <>
