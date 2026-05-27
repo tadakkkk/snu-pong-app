@@ -1,12 +1,13 @@
 "use client";
 
-export type ToggleMode = "items" | "sites";
+export type ToggleMode = "items" | "schedule" | "sites";
 
 interface ItemSiteToggleProps {
   mode: ToggleMode;
   onChange: (mode: ToggleMode) => void;
   itemCount: number;
   siteCount: number;
+  scheduleCount: number;
 }
 
 export default function ItemSiteToggle({
@@ -14,6 +15,7 @@ export default function ItemSiteToggle({
   onChange,
   itemCount,
   siteCount,
+  scheduleCount,
 }: ItemSiteToggleProps) {
   return (
     <div className="px-5 pb-3">
@@ -21,19 +23,23 @@ export default function ItemSiteToggle({
         <button
           onClick={() => onChange("items")}
           className={`flex-1 py-2 rounded-[8px] text-[12px] font-medium transition-colors ${
-            mode === "items"
-              ? "bg-surface text-ink shadow-sm"
-              : "text-ink-3"
+            mode === "items" ? "bg-surface text-ink shadow-sm" : "text-ink-3"
           }`}
         >
           항목 {itemCount}
         </button>
         <button
+          onClick={() => onChange("schedule")}
+          className={`flex-1 py-2 rounded-[8px] text-[12px] font-medium transition-colors ${
+            mode === "schedule" ? "bg-surface text-ink shadow-sm" : "text-ink-3"
+          }`}
+        >
+          일정 {scheduleCount}
+        </button>
+        <button
           onClick={() => onChange("sites")}
           className={`flex-1 py-2 rounded-[8px] text-[12px] font-medium transition-colors ${
-            mode === "sites"
-              ? "bg-surface text-ink shadow-sm"
-              : "text-ink-3"
+            mode === "sites" ? "bg-surface text-ink shadow-sm" : "text-ink-3"
           }`}
         >
           부서 {siteCount}
