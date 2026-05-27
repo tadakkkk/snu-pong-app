@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import MobileFrame from "@/components/ui/MobileFrame";
+import StatusBar from "@/components/ui/StatusBar";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import MagpieIdle from "@/components/magpie/MagpieIdle";
 import { getItem } from "@/data/items";
@@ -61,11 +62,7 @@ export default function PongDetailPage() {
 
   return (
     <MobileFrame>
-      {/* 상태바 */}
-      <div className="px-5 pt-3 flex justify-between text-[11px] text-ink-3">
-        <span>9:41</span>
-        <span>● ● ●</span>
-      </div>
+      <StatusBar />
 
       <button
         onClick={() => router.back()}

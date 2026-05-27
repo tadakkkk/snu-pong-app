@@ -1,7 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { Category } from "@/data/items";
 
 interface UserState {
+  nickname: string | null;
+  interests: Category[];
   collegeId: string | null;
   trackId: string | null;
   grade: number | null;
@@ -13,7 +16,9 @@ interface UserState {
   reset: () => void;
 }
 
-const initial = {
+const initial: Omit<UserState, "setProfile" | "reset"> = {
+  nickname: null,
+  interests: [],
   collegeId: null,
   trackId: null,
   grade: null,

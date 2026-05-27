@@ -717,16 +717,16 @@ const _verifiedItems: PongItem[] = [
 
 export const CATEGORY_META: Record<
   Category,
-  { label: string; emoji: string }
+  { label: string; emoji: string; hint: string }
 > = {
-  learning: { label: "학습", emoji: "📚" },
-  career: { label: "커리어", emoji: "💼" },
-  sports: { label: "체육", emoji: "💪" },
-  welfare: { label: "복지", emoji: "🩺" },
-  culture: { label: "문화", emoji: "🎵" },
-  experience: { label: "경험", emoji: "✈️" },
-  facility: { label: "시설", emoji: "🏛️" },
-  scholarship: { label: "장학", emoji: "💰" },
+  learning: { label: "공부·글쓰기", emoji: "📚", hint: "첨삭, 학습코칭, 언어교육" },
+  career: { label: "취업·진로", emoji: "💼", hint: "상담, 자소서, 면접 준비" },
+  sports: { label: "운동하기", emoji: "💪", hint: "헬스장, 수영, 테니스" },
+  welfare: { label: "마음 챙기기", emoji: "🩺", hint: "심리상담, 건강검진" },
+  culture: { label: "문화·예술", emoji: "🎵", hint: "공연, 전시, 악기 대관" },
+  experience: { label: "해외·경험", emoji: "✈️", hint: "교환학생, 봉사, 연수" },
+  facility: { label: "공간·도서관", emoji: "🏛️", hint: "도서 대출, 열람실" },
+  scholarship: { label: "장학금", emoji: "💰", hint: "추가 장학 신청하기" },
 };
 
 // Crawled data integration

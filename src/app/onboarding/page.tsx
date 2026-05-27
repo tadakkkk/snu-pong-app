@@ -4,10 +4,11 @@ import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import MobileFrame from "@/components/ui/MobileFrame";
 import PrimaryButton from "@/components/ui/PrimaryButton";
+import StatusBar from "@/components/ui/StatusBar";
 import MagpieWithCoin from "@/components/magpie/MagpieWithCoin";
-import MagpieSad from "@/components/magpie/MagpieSad";
+import MagpieHappy from "@/components/magpie/MagpieHappy";
 import { colleges, type College, type Track } from "@/data/colleges";
-import { totalClaimableValue } from "@/data/items";
+import { items, CATEGORY_META, type Category } from "@/data/items";
 import { useUserStore } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 
@@ -40,7 +41,73 @@ function StepWelcome({ onNext }: { onNext: () => void }) {
   );
 }
 
-// ─── Step 1: 단과대 ────────────────────────────────────────────────
+// ─── Step 1: 관심 분야 (첫 번째 질문) ─────────────────────────────
+function StepInterests({
+  selected,
+  onToggle,
+  onNext,
+}: {
+  selected: Category[];
+  onToggle: (cat: Category) => void;
+  onNext: () => void;
+}) {
+  const categories = Object.entries(CATEGORY_META) as [
+    Category,
+    { label: string; emoji: string; hint: string }
+  ][];
+
+  return (
+    <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 px-6 pt-8">
+        <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
+          어떤 걸 누리고 싶어?
+        </h2>
+        <p className="text-[13px] text-ink-3 mb-6">
+          골라두면 관련 혜택 위주로 추천해줄게
+        </p>
+        <div className="grid grid-cols-2 gap-2 pb-4">
+          {categories.map(([cat, meta]) => {
+            const isSelected = selected.includes(cat);
+            return (
+              <button
+                key={cat}
+                onClick={() => onToggle(cat)}
+                className={`flex flex-col items-start gap-1 px-4 py-3.5 rounded-xl border transition-colors ${
+                  isSelected
+                    ? "bg-ink text-white border-ink"
+                    : "bg-surface text-ink border-hairline"
+                }`}
+              >
+                <span className="text-[22px] leading-none mb-0.5">{meta.emoji}</span>
+                <span className={`text-[14px] font-medium leading-snug ${isSelected ? "text-white" : "text-ink"}`}>
+                  {meta.label}
+                </span>
+                <span className={`text-[11px] leading-snug ${isSelected ? "text-white/60" : "text-ink-3"}`}>
+                  {meta.hint}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <div className="shrink-0 px-5 pb-8 pt-4 bg-surface border-t border-hairline flex flex-col gap-3">
+        <PrimaryButton onClick={onNext}>
+          {selected.length > 0 ? `${selected.length}개 선택 · 다음` : "다음"}
+        </PrimaryButton>
+        {selected.length === 0 && (
+          <button
+            onClick={onNext}
+            className="text-center text-[13px] text-ink-3 py-1"
+          >
+            건너뛰기
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 2: 단과대 ────────────────────────────────────────────────
 function StepCollege({
   selected,
   onSelect,
@@ -52,12 +119,11 @@ function StepCollege({
 }) {
   return (
     <div className="flex-1 flex flex-col min-h-0">
-      {/* 고정 헤더 */}
       <div className="shrink-0 px-5 pb-5">
         <div className="h-[3px] bg-surface-muted rounded-full">
-          <div className="w-1/4 h-[3px] bg-ink rounded-full" />
+          <div className="w-1/3 h-[3px] bg-ink rounded-full" />
         </div>
-        <p className="text-[11px] text-ink-3 mt-1.5">1 / 4</p>
+        <p className="text-[11px] text-ink-3 mt-1.5">1 / 3</p>
       </div>
       <div className="shrink-0 px-6 pb-5">
         <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
@@ -65,8 +131,6 @@ function StepCollege({
         </h2>
         <p className="text-[13px] text-ink-3">단과대마다 등록금이 달라</p>
       </div>
-
-      {/* 스크롤 리스트 */}
       <div className="flex-1 overflow-y-auto min-h-0 px-5">
         <div className="flex flex-col gap-1.5 pb-4">
           {colleges.map((c) => {
@@ -87,8 +151,6 @@ function StepCollege({
           })}
         </div>
       </div>
-
-      {/* 고정 하단 버튼 */}
       <div className="shrink-0 px-5 pb-7 pt-4 bg-surface border-t border-hairline">
         <PrimaryButton onClick={onNext} disabled={!selected}>
           다음
@@ -98,7 +160,7 @@ function StepCollege({
   );
 }
 
-// ─── Step 2: 계열 ──────────────────────────────────────────────────
+// ─── Step 3: 계열 (조건부) ─────────────────────────────────────────
 function StepTrack({
   college,
   selected,
@@ -112,12 +174,11 @@ function StepTrack({
 }) {
   return (
     <div className="flex-1 flex flex-col min-h-0">
-      {/* 고정 헤더 */}
       <div className="shrink-0 px-5 pb-5">
         <div className="h-[3px] bg-surface-muted rounded-full">
-          <div className="w-2/4 h-[3px] bg-ink rounded-full" />
+          <div className="w-2/3 h-[3px] bg-ink rounded-full" />
         </div>
-        <p className="text-[11px] text-ink-3 mt-1.5">2 / 4</p>
+        <p className="text-[11px] text-ink-3 mt-1.5">2 / 3</p>
       </div>
       <div className="shrink-0 px-6 pb-6">
         <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
@@ -125,8 +186,6 @@ function StepTrack({
         </h2>
         <p className="text-[13px] text-ink-3">학과별로 등록금이 달라</p>
       </div>
-
-      {/* 스크롤 리스트 */}
       <div className="flex-1 overflow-y-auto min-h-0 px-5">
         <div className="flex flex-col gap-2 pb-4">
           {college.tracks.map((t) => {
@@ -146,16 +205,12 @@ function StepTrack({
                     {t.name}
                   </p>
                   {t.departments && (
-                    <p
-                      className={`text-[11px] mt-0.5 ${
-                        isSelected ? "text-white/70" : "text-ink-3"
-                      }`}
-                    >
+                    <p className={`text-[11px] mt-0.5 ${isSelected ? "text-white/70" : "text-ink-3"}`}>
                       {t.departments}
                     </p>
                   )}
                 </div>
-                <span className={`text-[13px] font-medium ${isSelected ? "text-white" : "text-ink"}`}>
+                <span className={`text-[13px] font-medium shrink-0 ml-3 ${isSelected ? "text-white" : "text-ink"}`}>
                   {formatKRW(t.tuition_2025_1)}
                 </span>
               </button>
@@ -163,8 +218,6 @@ function StepTrack({
           })}
         </div>
       </div>
-
-      {/* 고정 하단 버튼 */}
       <div className="shrink-0 px-5 pb-7 pt-4 bg-surface border-t border-hairline">
         <PrimaryButton onClick={onNext} disabled={!selected}>
           다음
@@ -174,30 +227,30 @@ function StepTrack({
   );
 }
 
-// ─── Step 3: 학년 ──────────────────────────────────────────────────
-function StepGrade({
-  college,
-  track,
+// ─── Step 4: 등록금 + 장학금 ──────────────────────────────────────
+function StepTuition({
   tuition,
-  selectedGrade,
-  onSelect,
-  onNext,
+  hasScholarship,
+  scholarshipAmount,
   onTuitionChange,
+  onToggle,
+  onChange,
+  onNext,
 }: {
-  college: College;
-  track: Track | null;
   tuition: number;
-  selectedGrade: number | null;
-  onSelect: (g: number) => void;
-  onNext: () => void;
+  hasScholarship: boolean | null;
+  scholarshipAmount: number;
   onTuitionChange: (n: number) => void;
+  onToggle: (v: boolean) => void;
+  onChange: (n: number) => void;
+  onNext: () => void;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [tempValue, setTempValue] = useState("");
 
-  const gradeOptions = [1, 2, 3, 4];
-  const collegeShort = college.name.replace("대학교", "").replace("대학", "대").replace("학부", "");
-  const trackLabel = track?.name ? ` ${track.name}` : "";
+  const appliedScholarship = hasScholarship ? scholarshipAmount : 0;
+  const netBurden = Math.max(0, tuition - appliedScholarship);
+  const disabled = hasScholarship === null || (hasScholarship && scholarshipAmount <= 0);
 
   const formatNumber = (val: string) => {
     const digits = val.replace(/[^0-9]/g, "");
@@ -217,151 +270,63 @@ function StepGrade({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleConfirm();
-    if (e.key === "Escape") {
-      setIsEditing(false);
-      setTempValue("");
-    }
-  };
-
-  const parsedTemp = Number(tempValue.replace(/,/g, ""));
-  const confirmDisabled = !tempValue || parsedTemp <= 0;
-
   return (
     <div className="flex-1 flex flex-col min-h-0">
-      {/* 고정 헤더 */}
-      <div className="shrink-0 px-5 pb-5">
-        <div className="h-[3px] bg-surface-muted rounded-full">
-          <div className="w-3/4 h-[3px] bg-ink rounded-full" />
-        </div>
-        <p className="text-[11px] text-ink-3 mt-1.5">3 / 4</p>
-      </div>
-
-      {/* 스크롤 콘텐츠 */}
-      <div className="flex-1 overflow-y-auto min-h-0 px-6">
-        <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
-          몇 학년이야?
-        </h2>
-        <p className="text-[13px] text-ink-3 mb-7">
-          학년에 따라 등록금이 살짝 달라
-        </p>
-
-        <div className="grid grid-cols-4 gap-1.5 mb-6">
-          {gradeOptions.map((g) => {
-            const isSelected = selectedGrade === g;
-            return (
-              <button
-                key={g}
-                onClick={() => onSelect(g)}
-                className={`py-[14px] rounded-[10px] text-[14px] border transition-colors ${
-                  isSelected
-                    ? "bg-ink text-white border-ink font-medium"
-                    : "text-ink-3 border-hairline"
-                }`}
-              >
-                {g === 4 ? "4+" : g}
-              </button>
-            );
-          })}
-        </div>
-
-        {selectedGrade && (
-          <div className="bg-surface-sub rounded-xl p-[18px] mb-4">
-            <p className="text-[12px] text-ink-3 mb-1">
-              {collegeShort}
-              {trackLabel} · {selectedGrade}학년
-            </p>
-            <div className="flex justify-between items-baseline mb-2">
-              <span className="text-[13px] text-ink-3">이번 학기 등록금</span>
-              <button
-                onClick={isEditing ? handleConfirm : handleEdit}
-                className={`text-[13px] font-medium transition-colors ${
-                  isEditing && confirmDisabled ? "text-ink-4" : "text-blue"
-                }`}
-                disabled={isEditing && confirmDisabled}
-              >
-                {isEditing ? "확인" : "수정"}
-              </button>
-            </div>
-            {isEditing ? (
-              <input
-                autoFocus
-                type="text"
-                inputMode="numeric"
-                value={tempValue}
-                onChange={(e) =>
-                  setTempValue(formatNumber(e.target.value))
-                }
-                onKeyDown={handleKeyDown}
-                placeholder={tuition.toLocaleString("ko-KR")}
-                className="w-full text-[28px] font-medium text-ink bg-surface-muted rounded-[8px] px-3 py-1 outline-none"
-              />
-            ) : (
-              <p className="text-[28px] font-medium text-ink">
-                {formatKRW(tuition)}
-              </p>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* 고정 하단 버튼 */}
-      <div className="shrink-0 px-5 pb-7 pt-4 bg-surface border-t border-hairline">
-        <PrimaryButton onClick={onNext} disabled={!selectedGrade}>
-          다음
-        </PrimaryButton>
-      </div>
-    </div>
-  );
-}
-
-// ─── Step 4: 장학금 ────────────────────────────────────────────────
-function StepScholarship({
-  tuition,
-  hasScholarship,
-  scholarshipAmount,
-  onToggle,
-  onChange,
-  onDone,
-  disabled,
-}: {
-  tuition: number;
-  hasScholarship: boolean | null;
-  scholarshipAmount: number;
-  onToggle: (v: boolean) => void;
-  onChange: (v: number) => void;
-  onDone: () => void;
-  disabled: boolean;
-}) {
-  const appliedScholarship = hasScholarship ? scholarshipAmount : 0;
-  const netBurden = Math.max(0, tuition - appliedScholarship);
-
-  return (
-    <div className="flex-1 flex flex-col min-h-0">
-      {/* 고정 헤더 */}
       <div className="shrink-0 px-5 pb-5">
         <div className="h-[3px] bg-surface-muted rounded-full">
           <div className="w-full h-[3px] bg-ink rounded-full" />
         </div>
-        <p className="text-[11px] text-ink-3 mt-1.5">4 / 4</p>
+        <p className="text-[11px] text-ink-3 mt-1.5">3 / 3</p>
       </div>
-
-      {/* 스크롤 콘텐츠 */}
       <div className="flex-1 overflow-y-auto min-h-0 px-6">
-        <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
-          장학금 받았어?
+        <h2 className="text-[22px] font-medium text-ink leading-snug mb-1">
+          이번 학기 등록금
         </h2>
-        <p className="text-[13px] text-ink-3 mb-7">
-          받았으면 실 부담액에서 빼줄게
+        <p className="text-[13px] text-ink-3 mb-6">
+          트랙 기준으로 자동입력했어, 다르면 수정해줘
         </p>
 
-        <div className="flex gap-2 mb-5">
-          {[false, true].map((v) => (
+        {/* 등록금 */}
+        <div className="bg-surface-sub rounded-xl px-5 py-4 mb-5">
+          <div className="flex justify-between items-center mb-1">
+            <span className="text-[13px] text-ink-3">등록금</span>
+            <button
+              onClick={isEditing ? handleConfirm : handleEdit}
+              className="text-[13px] text-blue font-medium"
+              disabled={isEditing && !tempValue}
+            >
+              {isEditing ? "확인" : "수정"}
+            </button>
+          </div>
+          {isEditing ? (
+            <input
+              autoFocus
+              type="text"
+              inputMode="numeric"
+              value={tempValue}
+              onChange={(e) => setTempValue(formatNumber(e.target.value))}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleConfirm();
+                if (e.key === "Escape") setIsEditing(false);
+              }}
+              className="w-full text-[28px] font-medium text-ink bg-surface-muted rounded-[8px] px-3 py-1 outline-none"
+            />
+          ) : (
+            <p className="text-[28px] font-medium text-ink">{formatKRW(tuition)}</p>
+          )}
+        </div>
+
+        {/* 장학금 */}
+        <p className="text-[14px] font-medium text-ink mb-3">장학금 받았어?</p>
+        <div className="flex gap-2 mb-4">
+          {([false, true] as const).map((v) => (
             <button
               key={String(v)}
-              onClick={() => onToggle(v)}
-              className={`flex-1 py-[14px] rounded-[10px] text-[14px] border transition-colors ${
+              onClick={() => {
+                onToggle(v);
+                if (!v) onChange(0);
+              }}
+              className={`flex-1 py-[13px] rounded-[10px] text-[14px] border transition-colors ${
                 hasScholarship === v
                   ? "bg-ink text-white border-ink font-medium"
                   : "text-ink-3 border-hairline"
@@ -377,6 +342,7 @@ function StepScholarship({
             <p className="text-[12px] text-ink-3 mb-2">받은 금액</p>
             <div className="border border-hairline rounded-[10px] px-4 py-[14px] flex justify-between items-center">
               <input
+                autoFocus
                 type="number"
                 value={scholarshipAmount || ""}
                 onChange={(e) => onChange(Number(e.target.value))}
@@ -388,72 +354,97 @@ function StepScholarship({
           </div>
         )}
 
-        <div className="bg-surface-sub rounded-xl px-[18px] py-4 mb-4">
-          <div className="flex justify-between text-[13px] mb-2">
-            <span className="text-ink-3">등록금</span>
-            <span className="text-ink">{formatKRW(tuition)}</span>
-          </div>
-          {hasScholarship && (
+        {hasScholarship !== null && (
+          <div className="bg-surface-sub rounded-xl px-5 py-4 mb-6">
             <div className="flex justify-between text-[13px] mb-2">
-              <span className="text-ink-3">장학금</span>
-              <span className="text-ink">- {formatKRW(appliedScholarship)}</span>
+              <span className="text-ink-3">등록금</span>
+              <span className="text-ink">{formatKRW(tuition)}</span>
             </div>
-          )}
-          <div className="border-t border-hairline pt-2.5 flex justify-between text-[14px]">
-            <span className="text-ink font-medium">실 부담액</span>
-            <span className="text-ink font-medium">{formatKRW(netBurden)}</span>
+            {hasScholarship && (
+              <div className="flex justify-between text-[13px] mb-2">
+                <span className="text-ink-3">장학금</span>
+                <span className="text-ink">− {formatKRW(appliedScholarship)}</span>
+              </div>
+            )}
+            <div className="border-t border-hairline pt-2.5 flex justify-between text-[14px]">
+              <span className="text-ink font-medium">실 부담액</span>
+              <span className="text-ink font-medium">{formatKRW(netBurden)}</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
-
-      {/* 고정 하단 버튼 */}
       <div className="shrink-0 px-5 pb-7 pt-4 bg-surface border-t border-hairline">
-        <PrimaryButton onClick={onDone} disabled={disabled}>완료</PrimaryButton>
+        <PrimaryButton onClick={onNext} disabled={disabled}>
+          다음
+        </PrimaryButton>
       </div>
     </div>
   );
 }
 
-// ─── Step 5: 충격 화면 ─────────────────────────────────────────────
-function StepShock({
+// ─── Step 5: 결과 화면 ─────────────────────────────────────────────
+function StepResult({
+  interests,
   netBurden,
   onStart,
 }: {
+  interests: Category[];
   netBurden: number;
   onStart: () => void;
 }) {
-  const ratio = netBurden > 0
-    ? Math.round((totalClaimableValue / netBurden) * 100)
-    : 0;
+  const matchingItems = (
+    interests.length > 0
+      ? items.filter((i) => !i.is_crawled && (interests as string[]).includes(i.category))
+      : items.filter((i) => !i.is_crawled)
+  ).sort((a, b) => b.value - a.value);
+
+  const topItems = matchingItems.slice(0, 4);
+  const potential = matchingItems.reduce((sum, i) => sum + i.value, 0);
+  const ratio = netBurden > 0 ? Math.round((potential / netBurden) * 100) : 0;
 
   return (
     <div className="flex-1 flex flex-col">
-      <div className="flex-1 px-7 pt-14">
-        <p className="text-[14px] text-ink-3 mb-2">너가 낸 등록금</p>
-        <p className="text-[36px] font-medium text-ink leading-tight mb-8">
-          {formatKRW(netBurden)}
-        </p>
-
-        <div className="border-t border-surface-muted mb-8" />
-
-        <p className="text-[14px] text-ink-3 mb-2">이 돈으로 뽑을 수 있는 가치</p>
-        <p className="text-[36px] font-medium text-ink leading-tight mb-2">
-          {formatKRW(totalClaimableValue)}
-        </p>
-        <p className="text-[13px] text-ink-3 mb-8">
-          잘 뽑으면 등록금의 {ratio}%까지
-        </p>
-
+      <div className="flex-1 overflow-y-auto px-7 pt-10">
         <div className="flex justify-center mb-7">
-          <MagpieSad size={80} />
+          <MagpieHappy size={96} />
         </div>
-
-        <p className="text-center text-[13px] text-ink-3 leading-relaxed">
-          평균 학생은 이 중 15%만 뽑고<br />나머지 85%를 그냥 버려
+        <p className="text-[14px] text-ink-3 mb-1">
+          {interests.length > 0 ? "관심 분야 기준" : "전체 기준"} 이번 학기 최대
         </p>
-      </div>
+        <p className="text-[38px] font-medium text-ink leading-tight mb-1">
+          {formatKRW(potential)}
+        </p>
+        {netBurden > 0 && (
+          <p className="text-[13px] text-ink-3 mb-8">
+            실 부담액의 {ratio}%를 뽑을 수 있어
+          </p>
+        )}
 
-      <div className="px-5 pb-8 pt-6">
+        {topItems.length > 0 && (
+          <div className="flex flex-col gap-2 mb-4">
+            {topItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-surface-sub rounded-xl px-4 py-3 flex justify-between items-center"
+              >
+                <div>
+                  <p className="text-[11px] text-ink-3 mb-0.5">{item.category_label}</p>
+                  <p className="text-[13px] font-medium text-ink">{item.name}</p>
+                </div>
+                <span className="text-[13px] font-medium text-ink shrink-0 ml-3">
+                  +{Math.round(item.value / 10000)}만
+                </span>
+              </div>
+            ))}
+            {matchingItems.length > 4 && (
+              <p className="text-[12px] text-ink-3 text-center mt-1">
+                외 {matchingItems.length - 4}개 항목
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+      <div className="shrink-0 px-5 pb-8 pt-4 bg-surface border-t border-hairline">
         <PrimaryButton onClick={onStart}>뽕뽑으러 가기</PrimaryButton>
       </div>
     </div>
@@ -467,65 +458,49 @@ export default function OnboardingPage() {
   const addSemester = useSemesterStore((s) => s.addSemester);
 
   const [step, setStep] = useState<Step>(0);
+  const [selectedInterests, setSelectedInterests] = useState<Category[]>([]);
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
-  const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
   const [hasScholarship, setHasScholarship] = useState<boolean | null>(null);
   const [scholarshipAmount, setScholarshipAmount] = useState(0);
   const [customTuition, setCustomTuition] = useState<number | null>(null);
 
-  const baseTuition = selectedTrack?.tuition_2025_1 ?? selectedCollege?.tracks[0]?.tuition_2025_1 ?? 0;
+  const baseTuition =
+    selectedTrack?.tuition_2025_1 ??
+    selectedCollege?.tracks[0]?.tuition_2025_1 ??
+    0;
   const tuition = customTuition ?? baseTuition;
   const appliedScholarship = hasScholarship ? scholarshipAmount : 0;
   const netBurden = Math.max(0, tuition - appliedScholarship);
 
+  const toggleInterest = useCallback((cat: Category) => {
+    setSelectedInterests((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  }, []);
+
   const goNext = useCallback(() => {
     setStep((s) => {
-      if (s === 1) {
-        if (!selectedCollege) {
-          return s;
-        }
-
-        setProfile({
-          collegeId: selectedCollege.id,
-          trackId: null,
-        });
-
-        // step 1 → step 2 or 3 (skip track if single track)
+      if (s === 2) {
+        if (!selectedCollege) return s;
         if (selectedCollege.tracks.length === 1) {
           setSelectedTrack(selectedCollege.tracks[0]);
-          setProfile({
-            collegeId: selectedCollege.id,
-            trackId: selectedCollege.tracks[0].id,
-          });
-          return 3;
+          return 4;
         }
-        return 2;
-      }
-      if (s === 2) {
-        if (!selectedCollege || !selectedTrack) {
-          return s;
-        }
-
-        setProfile({
-          collegeId: selectedCollege.id,
-          trackId: selectedTrack.id,
-        });
+        return 3;
       }
       return (s + 1) as Step;
     });
-  }, [selectedCollege, selectedTrack, setProfile]);
+  }, [selectedCollege]);
 
   const goBack = useCallback(() => {
     setStep((s) => {
-      if (s === 3 && selectedCollege && selectedCollege.tracks.length === 1) {
-        return 1;
-      }
+      if (s === 4 && selectedCollege && selectedCollege.tracks.length === 1) return 2;
       return Math.max(0, s - 1) as Step;
     });
   }, [selectedCollege]);
 
-  const handleDone = useCallback(() => {
+  const handleSaveAndResult = useCallback(() => {
     if (!selectedCollege || hasScholarship === null) return;
     const track = selectedTrack ?? selectedCollege.tracks[0];
     const scholarship = hasScholarship ? scholarshipAmount : 0;
@@ -538,9 +513,9 @@ export default function OnboardingPage() {
     const semesterId = `${year}-${term}`;
 
     setProfile({
+      interests: selectedInterests,
       collegeId: selectedCollege.id,
       trackId: track.id,
-      grade: selectedGrade,
       tuition,
       scholarship,
       netBurden: net,
@@ -559,9 +534,9 @@ export default function OnboardingPage() {
 
     setStep(5);
   }, [
+    selectedInterests,
     selectedCollege,
     selectedTrack,
-    selectedGrade,
     hasScholarship,
     scholarshipAmount,
     tuition,
@@ -571,13 +546,8 @@ export default function OnboardingPage() {
 
   return (
     <MobileFrame>
-      {/* 상단 상태바 영역 */}
-      <div className="shrink-0 px-5 pt-3 pb-0 flex justify-between text-[11px] text-ink-3">
-        <span>9:41</span>
-        <span>● ● ●</span>
-      </div>
+      <StatusBar />
 
-      {/* 뒤로 버튼 */}
       {step > 0 && step < 5 && (
         <button
           onClick={goBack}
@@ -590,27 +560,19 @@ export default function OnboardingPage() {
       {step === 0 && <StepWelcome onNext={() => setStep(1)} />}
 
       {step === 1 && (
+        <StepInterests
+          selected={selectedInterests}
+          onToggle={toggleInterest}
+          onNext={goNext}
+        />
+      )}
+
+      {step === 2 && (
         <StepCollege
           selected={selectedCollege}
           onSelect={(c) => {
             setSelectedCollege(c);
             setSelectedTrack(null);
-            setSelectedGrade(null);
-            setHasScholarship(null);
-            setScholarshipAmount(0);
-            setCustomTuition(null);
-          }}
-          onNext={goNext}
-        />
-      )}
-
-      {step === 2 && selectedCollege && (
-        <StepTrack
-          college={selectedCollege}
-          selected={selectedTrack}
-          onSelect={(track) => {
-            setSelectedTrack(track);
-            setSelectedGrade(null);
             setHasScholarship(null);
             setScholarshipAmount(0);
             setCustomTuition(null);
@@ -620,34 +582,34 @@ export default function OnboardingPage() {
       )}
 
       {step === 3 && selectedCollege && (
-        <StepGrade
+        <StepTrack
           college={selectedCollege}
-          track={selectedTrack}
-          tuition={tuition}
-          selectedGrade={selectedGrade}
-          onSelect={setSelectedGrade}
+          selected={selectedTrack}
+          onSelect={(t) => {
+            setSelectedTrack(t);
+            setHasScholarship(null);
+            setScholarshipAmount(0);
+            setCustomTuition(null);
+          }}
           onNext={goNext}
-          onTuitionChange={setCustomTuition}
         />
       )}
 
       {step === 4 && (
-        <StepScholarship
+        <StepTuition
           tuition={tuition}
           hasScholarship={hasScholarship}
           scholarshipAmount={scholarshipAmount}
-          onToggle={(v) => {
-            setHasScholarship(v);
-            if (!v) setScholarshipAmount(0);
-          }}
+          onTuitionChange={setCustomTuition}
+          onToggle={setHasScholarship}
           onChange={setScholarshipAmount}
-          onDone={handleDone}
-          disabled={hasScholarship === null}
+          onNext={handleSaveAndResult}
         />
       )}
 
       {step === 5 && (
-        <StepShock
+        <StepResult
+          interests={selectedInterests}
           netBurden={netBurden}
           onStart={() => router.replace("/home")}
         />

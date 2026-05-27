@@ -10,12 +10,13 @@ export const colors = {
   blue: "#3182F6",
   red: "#E14C4C",
   redLight: "#FEF1F1",
-  mpieBlue: "#5B8FE8",
-  mpieBluLight: "#7BA8EC",
-  mpieBeige: "#E8DFCB",
-  mpieYellow: "#F5C247",
-  mpieGold: "#D4A030",
-  mpieBlack: "#191F28",
+  nueCream: "#EDE8D8",
+  nueRing: "#C8BDA0",
+  nueBlush: "#F5A0A0",
+  nueBrown: "#8B7355",
+  nueGold: "#F5C247",
+  nueShadow: "#C8921E",
+  nueTear: "#7BA8EC",
 } as const;
 
 export const radius = {

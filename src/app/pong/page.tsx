@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import MobileFrame from "@/components/ui/MobileFrame";
+import StatusBar from "@/components/ui/StatusBar";
 import BottomTabBar from "@/components/layout/BottomTabBar";
 import MagpieWithCoin from "@/components/magpie/MagpieWithCoin";
 import SearchBar from "@/components/pong/SearchBar";
@@ -20,6 +21,7 @@ import {
 import { collegeSites } from "@/data/colleges_sites";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
+import { useUserStore } from "@/store/user";
 import { useSearch } from "@/hooks/useSearch";
 
 const CATEGORIES = Object.entries(CATEGORY_META) as [
@@ -118,6 +120,7 @@ export default function PongPage() {
 
   const { activeSemesterId } = useSemesterStore();
   const { hasRecordForItem } = usePongStore();
+  const user = useUserStore();
 
   const isPonged = (id: string) =>
     activeSemesterId ? hasRecordForItem(activeSemesterId, id) : false;
@@ -140,11 +143,7 @@ export default function PongPage() {
 
   return (
     <MobileFrame>
-      {/* 상태바 */}
-      <div className="px-5 pt-3 flex justify-between text-[11px] text-ink-3">
-        <span>9:41</span>
-        <span>● ● ●</span>
-      </div>
+      <StatusBar />
 
       {/* 헤더 */}
       <div className="px-5 pt-4 pb-3 flex justify-between items-center">
@@ -258,6 +257,29 @@ export default function PongPage() {
             ) : (
               /* 기본 섹션 뷰 */
               <>
+                {/* 맞춤 추천 (관심 분야 설정 시) */}
+                {user.interests.length > 0 && (() => {
+                  const personalItems = items
+                    .filter(
+                      (i) =>
+                        !i.is_crawled &&
+                        (user.interests as string[]).includes(i.category) &&
+                        !isPonged(i.id)
+                    )
+                    .slice(0, 4);
+                  if (personalItems.length === 0) return null;
+                  return (
+                    <div className="border-t border-hairline px-5 pt-3 pb-4">
+                      <p className="text-[11px] text-blue font-medium mb-1">
+                        내 관심 분야
+                      </p>
+                      {personalItems.map((item) => (
+                        <ItemRow key={item.id} item={item} ponged={false} />
+                      ))}
+                    </div>
+                  );
+                })()}
+
                 {/* 마감 임박 */}
                 <div className="border-t border-hairline px-5 pt-3 pb-4">
                   <p className="text-[11px] text-red font-medium mb-1">

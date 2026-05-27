@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import MobileFrame from "@/components/ui/MobileFrame";
+import StatusBar from "@/components/ui/StatusBar";
 import BottomTabBar from "@/components/layout/BottomTabBar";
 import MagpieByProgress from "@/components/magpie/MagpieByProgress";
 import ProgressBar from "@/components/ui/ProgressBar";
@@ -65,11 +66,7 @@ export default function RecordsPage() {
 
   return (
     <MobileFrame>
-      {/* 상태바 */}
-      <div className="px-5 pt-3 flex justify-between text-[11px] text-ink-3">
-        <span>9:41</span>
-        <span>● ● ●</span>
-      </div>
+      <StatusBar />
 
       {/* 헤더 */}
       <div className="px-5 pt-4 pb-3 flex justify-between items-center">

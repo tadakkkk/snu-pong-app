@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import MobileFrame from "@/components/ui/MobileFrame";
+import StatusBar from "@/components/ui/StatusBar";
 import BottomTabBar from "@/components/layout/BottomTabBar";
 import MagpieByProgress from "@/components/magpie/MagpieByProgress";
 import ProgressBar from "@/components/ui/ProgressBar";
@@ -38,12 +39,17 @@ export default function HomePage() {
     ? getDaysUntilSemesterEnd(activeSemester.year, activeSemester.term)
     : 0;
 
-  // 미완료 항목 중 첫 번째 추천
-  const recommendedItem = items.find(
-    (item) =>
-      !activeSemesterId ||
-      !hasRecordForItem(activeSemesterId, item.id)
-  );
+  // 미완료 항목 중 관심 분야 우선 추천
+  const recommendedItem = (() => {
+    const uncompleted = items.filter(
+      (item) => !activeSemesterId || !hasRecordForItem(activeSemesterId, item.id)
+    );
+    if (user.interests.length > 0) {
+      const match = uncompleted.find((i) => (user.interests as string[]).includes(i.category));
+      if (match) return match;
+    }
+    return uncompleted[0];
+  })();
 
   const semesterLabel = activeSemester
     ? `${activeSemester.year} - ${activeSemester.term}학기`
@@ -57,10 +63,7 @@ export default function HomePage() {
   return (
     <MobileFrame>
       {/* 상태바 */}
-      <div className="px-5 pt-3 flex justify-between text-[11px] text-ink-3">
-        <span>9:41</span>
-        <span>● ● ●</span>
-      </div>
+      <StatusBar />
 
       {/* 헤더 */}
       <div className="px-5 pt-4 flex justify-between items-center">
@@ -96,7 +99,7 @@ export default function HomePage() {
         </div>
         <div className="text-center">
           <p className="text-[13px] text-ink-3 mb-1.5">
-            이번 학기 등록금 뽕뽑은 가치
+            {user.nickname ? `${user.nickname}의 이번 학기 뽕뽑은 가치` : "이번 학기 등록금 뽕뽑은 가치"}
           </p>
           <p className="text-[38px] font-medium text-ink leading-tight">
             {totalPonged.toLocaleString("ko-KR")}

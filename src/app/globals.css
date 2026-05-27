@@ -20,13 +20,14 @@
   --color-red: #E14C4C;
   --color-red-light: #FEF1F1;
 
-  /* Magpie palette */
-  --color-mpie-blue: #5B8FE8;
-  --color-mpie-blue-light: #7BA8EC;
-  --color-mpie-beige: #E8DFCB;
-  --color-mpie-yellow: #F5C247;
-  --color-mpie-gold: #D4A030;
-  --color-mpie-black: #191F28;
+  /* Nue (누에 실크웜) palette */
+  --color-nue-cream: #EDE8D8;
+  --color-nue-ring: #C8BDA0;
+  --color-nue-blush: #F5A0A0;
+  --color-nue-brown: #8B7355;
+  --color-nue-gold: #F5C247;
+  --color-nue-shadow: #C8921E;
+  --color-nue-tear: #7BA8EC;
 }
 
 * {
