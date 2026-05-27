@@ -26,7 +26,7 @@ export default function ItemSiteToggle({
             mode === "items" ? "bg-surface text-ink shadow-sm" : "text-ink-3"
           }`}
         >
-          항목 {itemCount}
+          전체 {itemCount}
         </button>
         <button
           onClick={() => onChange("schedule")}
@@ -34,7 +34,7 @@ export default function ItemSiteToggle({
             mode === "schedule" ? "bg-surface text-ink shadow-sm" : "text-ink-3"
           }`}
         >
-          일정 {scheduleCount}
+          마감 {scheduleCount}
         </button>
         <button
           onClick={() => onChange("sites")}
@@ -42,7 +42,7 @@ export default function ItemSiteToggle({
             mode === "sites" ? "bg-surface text-ink shadow-sm" : "text-ink-3"
           }`}
         >
-          부서 {siteCount}
+          신청 {siteCount}
         </button>
       </div>
     </div>

@@ -35,9 +35,6 @@ const SITE_CATEGORIES = [
 
 const _verifiedOnly = items.filter((i) => !i.is_crawled);
 const popularItems = [..._verifiedOnly].sort((a, b) => b.value - a.value).slice(0, 5);
-const deadlineItems = _verifiedOnly.filter((i) => i.deadline_type === "weekly");
-const urgentItems =
-  deadlineItems.length > 0 ? deadlineItems.slice(0, 3) : _verifiedOnly.slice(0, 3);
 
 // 일정 뷰: always가 아닌 항목 (crawled 포함, deadline_date 있는 것 우선)
 const scheduleItems = [...items]
@@ -350,29 +347,6 @@ export default function PongPage() {
                     </div>
                   );
                 })()}
-
-                {/* 마감 임박 */}
-                <div className="border-t border-hairline px-5 pt-3 pb-4">
-                  <p className="text-[11px] text-red font-medium mb-1">
-                    ⚠ 마감 임박
-                  </p>
-                  {urgentItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="py-2 flex justify-between items-center"
-                    >
-                      <span className="text-[13px] text-ink">
-                        {item.name}
-                        <span className="text-[11px] text-ink-3 ml-1">
-                          · {item.deadline_label}
-                        </span>
-                      </span>
-                      <span className="text-[12px] font-medium text-ink">
-                        +{Math.round(item.value / 10000)}만
-                      </span>
-                    </div>
-                  ))}
-                </div>
 
                 {/* 가치 높은 항목 */}
                 <div className="border-t border-hairline px-5 pt-3 pb-4">
