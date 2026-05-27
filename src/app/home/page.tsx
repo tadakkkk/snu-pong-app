@@ -248,7 +248,7 @@ export default function HomePage() {
           <div className="px-5 pb-8">
             <Link href="/pong">
               <PrimaryButton>
-                이번 학기 뽕뽑기 {remainingCount}개 보기
+                남은 뽕 {remainingCount}개 뽑으러 가기 보기
               </PrimaryButton>
             </Link>
           </div>
@@ -258,7 +258,7 @@ export default function HomePage() {
               <div className="bg-ink rounded-xl px-[18px] py-4 flex justify-between items-center">
                 <div>
                   <p className="text-[15px] font-medium text-white mb-0.5">
-                    이번 학기 뽕뽑기 {remainingCount}개
+                    남은 뽕 {remainingCount}개 뽑으러 가기
                   </p>
                   <p className="text-[12px] text-white/70">
                     아직 안 한 것들이 남아 있어
