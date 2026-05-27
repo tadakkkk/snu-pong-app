@@ -70,7 +70,7 @@ export default function RecordsPage() {
 
       {/* 헤더 */}
       <div className="px-5 pt-4 pb-3 flex justify-between items-center">
-        <h1 className="text-[22px] font-medium text-ink">내가 모은 것</h1>
+        <h1 className="text-[22px] font-medium text-ink">내가 뽑은 뽕</h1>
         <button
           onClick={handleShare}
           className="text-[13px] text-blue font-medium active:opacity-60"
@@ -107,8 +107,7 @@ export default function RecordsPage() {
               <p className="text-[12px] text-ink-3 mb-0.5">
                 {viewSemester
                   ? `${viewSemester.year} - ${viewSemester.term}학기`
-                  : "전체"}{" "}
-                뽕뽑은 가치
+                  : "전체"}
               </p>
               <p className="text-[28px] font-medium text-ink leading-tight">
                 +{total.toLocaleString("ko-KR")}원

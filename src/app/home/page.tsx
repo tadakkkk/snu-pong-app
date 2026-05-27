@@ -151,7 +151,7 @@ export default function HomePage() {
           <div className="px-6 pt-5 pb-2">
             <div className="bg-surface-sub rounded-xl p-[18px]">
               <p className="text-[13px] text-ink leading-relaxed mb-3">
-                첫 항목 뽑으면 까마고치 표정이 바뀌어.{" "}
+                첫 항목 뽑으면 물까치 표정이 바뀌어.{" "}
                 {`${Math.round(firstUnponged.value / 10000)}만원짜리 ${firstUnponged.name}부터 어때?`}
               </p>
               <Link href="/pong" className="text-[13px] text-blue font-medium">
@@ -166,7 +166,6 @@ export default function HomePage() {
           <div className="flex flex-col items-center">
             <MagpieByProgress percent={percent} size={120} />
             <p className="mt-2 text-[12px] text-ink-3">{getMood(percent)}</p>
-            <p className="text-[10px] text-ink-3 opacity-40">물까치 · 주식은 돈</p>
           </div>
           <div className="text-center mt-4">
             <p className="text-[13px] text-ink-3 mb-1.5">

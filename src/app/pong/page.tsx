@@ -258,7 +258,7 @@ export default function PongPage() {
                     onClick={() => setActiveCategory(null)}
                     className="text-[12px] text-blue"
                   >
-                    전체 보기
+                    돌아가기
                   </button>
                 </div>
                 {filteredItems.map((item) => (
@@ -407,7 +407,7 @@ export default function PongPage() {
                     onClick={() => setActiveSiteCategory(null)}
                     className="text-[12px] text-blue"
                   >
-                    전체 보기
+                    돌아가기
                   </button>
                 </div>
                 {collegeSites.map((college) => (
@@ -446,7 +446,7 @@ export default function PongPage() {
                     onClick={() => setActiveSiteCategory(null)}
                     className="text-[12px] text-blue"
                   >
-                    전체 보기
+                    돌아가기
                   </button>
                 </div>
                 {filteredSites.map((site) => (
