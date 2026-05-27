@@ -3,11 +3,11 @@ export function getSemesterLabel(year: number, term: 1 | 2): string {
 }
 
 export function getDaysUntilSemesterEnd(year: number, term: 1 | 2): number {
-  // 1학기: ~8월 31일, 2학기: ~익년 2월 28일
+  // 1학기: ~6월 20일 (기말고사 종료), 2학기: ~12월 20일
   const endDate =
     term === 1
-      ? new Date(year, 7, 31) // Aug 31
-      : new Date(year + 1, 1, 28); // Feb 28 of next year
+      ? new Date(year, 5, 20) // Jun 20
+      : new Date(year, 11, 20); // Dec 20
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const diff = endDate.getTime() - today.getTime();
