@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MobileFrame from "@/components/ui/MobileFrame";
 import PrimaryButton from "@/components/ui/PrimaryButton";
@@ -536,6 +536,14 @@ export default function OnboardingPage() {
   const addSemester = useSemesterStore((s) => s.addSemester);
 
   const [step, setStep] = useState<Step>(0);
+
+  // Google 로그인 완료 후 돌아온 경우 step 0을 건너뜀
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) setStep(1);
+    });
+  }, []);
   const [selectedInterests, setSelectedInterests] = useState<Category[]>([]);
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
