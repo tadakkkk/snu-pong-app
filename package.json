@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "convert-data": "tsx scripts/convert-crawled-data.ts",
+    "convert-data": "tsx src/data/tools/convert-crawled-data.ts",
     "prebuild": "npm run convert-data",
     "dev": "npm run convert-data && next dev",
     "build": "next build",

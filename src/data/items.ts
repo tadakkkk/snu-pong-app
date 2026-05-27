@@ -743,7 +743,7 @@ interface _CrawledRawItem {
   review_priority: string;
   status: string;
   source: "crawled" | "crawled_enriched";
-  // fields added by enrich-crawled-data.py
+  // fields added by src/server/enrichment/enrich-crawled-data.py
   estimated_value?: number | null;
   value_basis?: string;
   subtitle?: string;

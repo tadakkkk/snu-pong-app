@@ -1,10 +1,15 @@
 import anthropic
-import json, os, sys
+import json
+import os
+import sys
+from pathlib import Path
+
 
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
 MODEL = "claude-sonnet-4-20250514"
 
 BATCH_SIZE = 5
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 VALUE_GUIDE = """가치 환산 기준 (사설 시세 대비):
 - 1:1 상담/코칭: 회당 5~15만원
@@ -17,17 +22,18 @@ VALUE_GUIDE = """가치 환산 기준 (사설 시세 대비):
 - 해외 프로그램: 항공+숙박+수업료 합산
 - 판단 불가: null"""
 
+
 def enrich_batch(articles):
     articles_text = ""
     for i, a in enumerate(articles):
-        articles_text += f"\n---\n항목 {i+1} (id: {a.get('id', 'unknown')}):\n"
+        articles_text += f"\n---\n항목 {i + 1} (id: {a.get('id', 'unknown')}):\n"
         articles_text += f"제목: {a.get('name', '')}\n"
         articles_text += f"카테고리: {a.get('category', '')}\n"
         articles_text += f"제공: {a.get('provider', '')}\n"
         articles_text += f"원본URL: {a.get('source_url', '')}\n"
         articles_text += f"마감힌트: {json.dumps(a.get('deadline_hints', []), ensure_ascii=False)}\n"
         articles_text += f"가치힌트: {a.get('value_basis_hint', '')}\n"
-        body = a.get('body_excerpt', '')
+        body = a.get("body_excerpt", "")
         if body:
             articles_text += f"본문발췌: {body[:500]}\n"
 
@@ -61,7 +67,6 @@ JSON 배열만 반환. 마크다운 코드블록(```)이나 설명 텍스트 없
     )
     raw_text = resp.content[0].text.strip()
 
-    # 코드블록 감싸져있으면 제거
     if raw_text.startswith("```"):
         lines = raw_text.split("\n")
         raw_text = "\n".join(lines[1:])
@@ -70,23 +75,23 @@ JSON 배열만 반환. 마크다운 코드블록(```)이나 설명 텍스트 없
 
     return json.loads(raw_text)
 
-def main():
-    crawled_path = os.path.join(os.path.dirname(__file__), "..", "src", "data", "crawled-items.json")
-    crawled_path = os.path.normpath(crawled_path)
 
-    if not os.path.exists(crawled_path):
+def main():
+    crawled_path = PROJECT_ROOT / "src" / "data" / "crawled-items.json"
+
+    if not crawled_path.exists():
         print(f"crawled-items.json not found at {crawled_path}")
         sys.exit(1)
 
-    with open(crawled_path, "r", encoding="utf-8") as f:
+    with crawled_path.open("r", encoding="utf-8") as f:
         items = json.load(f)
 
     print(f"Loaded {len(items)} items")
 
     enriched = []
     for i in range(0, len(items), BATCH_SIZE):
-        batch = items[i:i+BATCH_SIZE]
-        print(f"Batch {i//BATCH_SIZE + 1} ({len(batch)} items)...")
+        batch = items[i : i + BATCH_SIZE]
+        print(f"Batch {i // BATCH_SIZE + 1} ({len(batch)} items)...")
         try:
             result = enrich_batch(batch)
             if isinstance(result, list):
@@ -96,14 +101,20 @@ def main():
         except Exception as e:
             print(f"Error: {e}")
             for item in batch:
-                enriched.append({
-                    "id": item.get("id", "unknown"),
-                    "estimated_value": None,
-                    "value_basis": "AI 정제 실패",
-                    "subtitle": "", "unit": "", "eligibility": "",
-                    "deadline_date": None, "apply_url": None,
-                    "how_to_apply": [], "site_id": None
-                })
+                enriched.append(
+                    {
+                        "id": item.get("id", "unknown"),
+                        "estimated_value": None,
+                        "value_basis": "AI 정제 실패",
+                        "subtitle": "",
+                        "unit": "",
+                        "eligibility": "",
+                        "deadline_date": None,
+                        "apply_url": None,
+                        "how_to_apply": [],
+                        "site_id": None,
+                    }
+                )
 
     enriched_map = {e["id"]: e for e in enriched}
     final = []
@@ -111,22 +122,31 @@ def main():
         merged = {**item}
         ai = enriched_map.get(item.get("id", ""))
         if ai:
-            for key in ["estimated_value", "value_basis", "subtitle", "unit",
-                        "eligibility", "deadline_date", "apply_url", "how_to_apply", "site_id"]:
+            for key in [
+                "estimated_value",
+                "value_basis",
+                "subtitle",
+                "unit",
+                "eligibility",
+                "deadline_date",
+                "apply_url",
+                "how_to_apply",
+                "site_id",
+            ]:
                 if ai.get(key) is not None:
                     merged[key] = ai[key]
             merged["value_status"] = "estimated" if ai.get("estimated_value") else "needs_estimation"
             merged["source"] = "crawled_enriched"
         final.append(merged)
 
-    output_path = os.path.join(os.path.dirname(__file__), "..", "src", "data", "enriched-items.json")
-    output_path = os.path.normpath(output_path)
+    output_path = PROJECT_ROOT / "src" / "data" / "enriched-items.json"
 
-    with open(output_path, "w", encoding="utf-8") as f:
+    with output_path.open("w", encoding="utf-8") as f:
         json.dump(final, f, ensure_ascii=False, indent=2)
 
     estimated = sum(1 for i in final if i.get("estimated_value"))
     print(f"Done: {len(final)} items, {estimated} with values")
+
 
 if __name__ == "__main__":
     main()

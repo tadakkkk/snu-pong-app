@@ -6,6 +6,8 @@ from importlib import util
 from pathlib import Path
 from typing import Any, Callable, Literal
 import asyncio
+import json
+import os
 import random
 import sys
 
@@ -19,6 +21,20 @@ SCHEDULED_CRAWLER_DELAY_SECONDS = 2.0
 SCHEDULED_CRAWLER_JITTER_SECONDS = 1.0
 DEPARTMENT_REQUEST_DELAY_SECONDS = 1.5
 DEPARTMENT_REQUEST_JITTER_SECONDS = 0.5
+ENRICHMENT_BATCH_SIZE = 5
+ENRICHMENT_MODEL = "claude-sonnet-4-20250514"
+ANTHROPIC_API_KEY_ENV = "ANTHROPIC_API_KEY"
+
+VALUE_GUIDE = """가치 환산 기준 (사설 시세 대비):
+- 1:1 상담/코칭: 회당 5~15만원
+- 집단 상담/워크숍: 회당 3~5만원
+- 글쓰기 첨삭: 회당 3~5만원
+- 어학 강좌: 학기당 30~50만원
+- 장학금/지원금: 공고에 적힌 금액 그대로
+- 인턴십/근로장학: 월 급여 기준
+- 무료 강연/행사: 외부 유료 강연 시세 1~3만원
+- 해외 프로그램: 항공+숙박+수업료 합산
+- 판단 불가: null"""
 
 CrawlStatus = Literal[
     "ready",
@@ -90,6 +106,7 @@ class ScheduledActionContext:
     scheduled_for_kst_hour: int = DAILY_CRAWL_HOUR_KST
     now: datetime | None = None
     max_records_per_crawler: int | None = None
+    enrich_records: bool = True
 
 
 @dataclass(frozen=True)
@@ -102,6 +119,15 @@ class ScheduledCrawlerResult:
 
 
 @dataclass(frozen=True)
+class EnrichmentResult:
+    status: Literal["success", "skipped", "failed"]
+    input_records_count: int
+    enriched_records_count: int
+    estimated_value_count: int
+    error: str | None = None
+
+
+@dataclass(frozen=True)
 class ScheduledActionResult:
     status: Literal["success", "partial_failure", "failed"]
     scheduled_cron_utc: str
@@ -110,6 +136,7 @@ class ScheduledActionResult:
     finished_at: str
     records_count: int
     crawler_results: list[ScheduledCrawlerResult]
+    enrichment_result: EnrichmentResult
 
 
 @dataclass(frozen=True)
@@ -118,6 +145,12 @@ class CrawlerScheduleEntry:
     group: str
     relative_path: str
     crawl_kwargs: dict[str, Any] | None = None
+
+
+@dataclass(frozen=True)
+class CrawlerRunOutcome:
+    result: ScheduledCrawlerResult
+    records: list[dict[str, Any]]
 
 
 SCHEDULED_CRAWLERS: tuple[CrawlerScheduleEntry, ...] = (
@@ -188,15 +221,20 @@ class DailyCrawlAt5amKst:
     ) -> ScheduledActionResult:
         started_at = (context.now or datetime.now()).isoformat()
         crawler_results: list[ScheduledCrawlerResult] = []
+        crawled_records: list[dict[str, Any]] = []
 
         for index, crawler_entry in enumerate(SCHEDULED_CRAWLERS):
             if index > 0:
                 await _sleep_between_crawlers()
-            crawler_results.append(await _run_scheduled_crawler(crawler_entry, context))
+            outcome = await _run_scheduled_crawler(crawler_entry, context)
+            crawler_results.append(outcome.result)
+            crawled_records.extend(outcome.records)
+
+        enrichment_result = await _enrich_crawled_records(crawled_records, context)
 
         finished_at = datetime.now().isoformat()
         failed_count = sum(1 for result in crawler_results if result.status == "failed")
-        if failed_count == 0:
+        if failed_count == 0 and enrichment_result.status != "failed":
             status: Literal["success", "partial_failure", "failed"] = "success"
         elif failed_count == len(crawler_results):
             status = "failed"
@@ -211,6 +249,7 @@ class DailyCrawlAt5amKst:
             finished_at=finished_at,
             records_count=sum(result.records_count for result in crawler_results),
             crawler_results=crawler_results,
+            enrichment_result=enrichment_result,
         )
 
 
@@ -222,27 +261,211 @@ async def _sleep_between_crawlers() -> None:
 async def _run_scheduled_crawler(
     crawler_entry: CrawlerScheduleEntry,
     context: ScheduledActionContext,
-) -> ScheduledCrawlerResult:
+) -> CrawlerRunOutcome:
     try:
         crawl = _load_crawl_function(crawler_entry)
         kwargs = dict(crawler_entry.crawl_kwargs or {})
         if context.max_records_per_crawler is not None:
             kwargs["max_records"] = context.max_records_per_crawler
         records = await asyncio.to_thread(crawl, **kwargs)
-        return ScheduledCrawlerResult(
-            crawler_id=crawler_entry.crawler_id,
-            group=crawler_entry.group,
-            status="success",
-            records_count=len(records),
+        return CrawlerRunOutcome(
+            result=ScheduledCrawlerResult(
+                crawler_id=crawler_entry.crawler_id,
+                group=crawler_entry.group,
+                status="success",
+                records_count=len(records),
+            ),
+            records=records,
         )
     except Exception as error:
-        return ScheduledCrawlerResult(
-            crawler_id=crawler_entry.crawler_id,
-            group=crawler_entry.group,
+        return CrawlerRunOutcome(
+            result=ScheduledCrawlerResult(
+                crawler_id=crawler_entry.crawler_id,
+                group=crawler_entry.group,
+                status="failed",
+                records_count=0,
+                error=repr(error),
+            ),
+            records=[],
+        )
+
+
+async def _enrich_crawled_records(
+    records: list[dict[str, Any]],
+    context: ScheduledActionContext,
+) -> EnrichmentResult:
+    if not context.enrich_records:
+        return EnrichmentResult(
+            status="skipped",
+            input_records_count=len(records),
+            enriched_records_count=0,
+            estimated_value_count=0,
+            error="Enrichment disabled by ScheduledActionContext.enrich_records",
+        )
+    if not records:
+        return EnrichmentResult(
+            status="skipped",
+            input_records_count=0,
+            enriched_records_count=0,
+            estimated_value_count=0,
+            error="No crawled records to enrich",
+        )
+    if not os.environ.get(ANTHROPIC_API_KEY_ENV):
+        return EnrichmentResult(
+            status="skipped",
+            input_records_count=len(records),
+            enriched_records_count=0,
+            estimated_value_count=0,
+            error=f"{ANTHROPIC_API_KEY_ENV} is not configured",
+        )
+
+    try:
+        enriched_records = await asyncio.to_thread(enrich_records, records)
+        await _store_enriched_records(enriched_records)
+        return EnrichmentResult(
+            status="success",
+            input_records_count=len(records),
+            enriched_records_count=len(enriched_records),
+            estimated_value_count=sum(1 for record in enriched_records if record.get("estimated_value")),
+        )
+    except Exception as error:
+        return EnrichmentResult(
             status="failed",
-            records_count=0,
+            input_records_count=len(records),
+            enriched_records_count=0,
+            estimated_value_count=0,
             error=repr(error),
         )
+
+
+def enrich_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    enriched_items: list[dict[str, Any]] = []
+    for index in range(0, len(records), ENRICHMENT_BATCH_SIZE):
+        batch = records[index : index + ENRICHMENT_BATCH_SIZE]
+        try:
+            batch_enrichment = _enrich_batch(batch)
+        except Exception:
+            batch_enrichment = [_fallback_enrichment(record) for record in batch]
+        enriched_items.extend(_merge_enrichment(batch, batch_enrichment))
+    return enriched_items
+
+
+def _enrich_batch(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    try:
+        import anthropic
+    except ImportError as error:
+        raise RuntimeError("anthropic package is required for server-side enrichment") from error
+
+    client = anthropic.Anthropic(api_key=os.environ[ANTHROPIC_API_KEY_ENV])
+    response = client.messages.create(
+        model=ENRICHMENT_MODEL,
+        max_tokens=4096,
+        messages=[{"role": "user", "content": _enrichment_prompt(records)}],
+    )
+    raw_text = response.content[0].text.strip()
+    if raw_text.startswith("```"):
+        lines = raw_text.splitlines()
+        raw_text = "\n".join(lines[1:])
+        if raw_text.endswith("```"):
+            raw_text = raw_text[:-3].strip()
+
+    parsed = json.loads(raw_text)
+    if isinstance(parsed, dict) and isinstance(parsed.get("items"), list):
+        return parsed["items"]
+    if isinstance(parsed, list):
+        return parsed
+    raise ValueError("AI enrichment response must be a JSON array or an object with an items array")
+
+
+def _enrichment_prompt(records: list[dict[str, Any]]) -> str:
+    articles_text = ""
+    for index, record in enumerate(records):
+        record_id = _record_id(record)
+        articles_text += f"\n---\n항목 {index + 1} (id: {record_id}):\n"
+        articles_text += f"제목: {record.get('name') or record.get('title') or ''}\n"
+        articles_text += f"카테고리: {record.get('category') or ''}\n"
+        articles_text += f"제공: {record.get('provider') or record.get('author') or ''}\n"
+        articles_text += f"원본URL: {record.get('source_url') or ''}\n"
+        articles_text += f"마감힌트: {json.dumps(record.get('deadline_hints', []), ensure_ascii=False)}\n"
+        articles_text += f"가치힌트: {record.get('value_basis_hint') or ''}\n"
+        body = record.get("body_excerpt") or record.get("raw_content") or ""
+        if body:
+            articles_text += f"본문발췌: {str(body)[:500]}\n"
+
+    return f"""너는 서울대 학생 혜택 데이터를 정제하는 AI야.
+다음 서울대 공지 {len(records)}개에서 학생 혜택 정보를 추출해.
+
+{VALUE_GUIDE}
+
+각 항목마다 이 형식의 JSON 객체로 만들어:
+{{
+  "id": "원본 id 그대로",
+  "estimated_value": 숫자(원) 또는 null,
+  "value_basis": "산출 근거 한 줄",
+  "subtitle": "15자 이내 한 줄 설명",
+  "unit": "1회 / 8회 코스 / 학기 / 상시 등",
+  "eligibility": "학부생 누구나 / 1학년만 등",
+  "deadline_date": "2026-05-29 형식 또는 null",
+  "apply_url": "신청 링크 또는 null",
+  "how_to_apply": ["단계1", "단계2", "단계3"],
+  "site_id": "career_center / writing_center 등 또는 null"
+}}
+
+JSON 배열만 반환. 마크다운 코드블록이나 설명 텍스트 없이 [ 로 시작해서 ] 로 끝나게.
+
+{articles_text}"""
+
+
+def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    enrichment_by_id = {str(item.get("id")): item for item in enrichments if item.get("id") is not None}
+    merged_records: list[dict[str, Any]] = []
+    for record in records:
+        merged = dict(record)
+        enrichment = enrichment_by_id.get(_record_id(record))
+        if enrichment is None:
+            enrichment = _fallback_enrichment(record)
+        for key in (
+            "estimated_value",
+            "value_basis",
+            "subtitle",
+            "unit",
+            "eligibility",
+            "deadline_date",
+            "apply_url",
+            "how_to_apply",
+            "site_id",
+        ):
+            if enrichment.get(key) is not None:
+                merged[key] = enrichment[key]
+        merged["value_status"] = "estimated" if enrichment.get("estimated_value") else "needs_estimation"
+        merged["source"] = "server_crawled_enriched"
+        merged_records.append(merged)
+    return merged_records
+
+
+def _fallback_enrichment(record: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "id": _record_id(record),
+        "estimated_value": None,
+        "value_basis": "AI 정제 실패",
+        "subtitle": "",
+        "unit": "",
+        "eligibility": "",
+        "deadline_date": None,
+        "apply_url": None,
+        "how_to_apply": [],
+        "site_id": None,
+    }
+
+
+def _record_id(record: dict[str, Any]) -> str:
+    return str(record.get("id") or record.get("uid") or record.get("draft_id") or record.get("source_url") or "unknown")
+
+
+async def _store_enriched_records(records: list[dict[str, Any]]) -> None:
+    # Later this should upsert into the SQL benefit-items table. It intentionally
+    # does not write generated JSON or commit files from the server runtime.
+    _ = records
 
 
 def _load_crawl_function(crawler_entry: CrawlerScheduleEntry) -> Callable[..., list[dict[str, Any]]]:
