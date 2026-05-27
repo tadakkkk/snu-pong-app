@@ -15,7 +15,7 @@ import { useUserStore } from "@/store/user";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 import { items } from "@/data/items";
-import { getDaysUntilSemesterEnd, getRecommendText } from "@/lib/semester";
+import { getDaysUntilSemesterEnd } from "@/lib/semester";
 
 function getMood(percent: number): string {
   if (percent === 0) return "배고파";
@@ -24,6 +24,14 @@ function getMood(percent: number): string {
   if (percent < 75) return "신나";
   if (percent < 100) return "행복해";
   return "완벽해 ✨";
+}
+
+function getDday(dateStr: string): number {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const d = new Date(dateStr);
+  d.setHours(0, 0, 0, 0);
+  return Math.round((d.getTime() - today.getTime()) / 86400000);
 }
 
 export default function HomePage() {
@@ -45,17 +53,6 @@ export default function HomePage() {
     ? getDaysUntilSemesterEnd(activeSemester.year, activeSemester.term)
     : 0;
 
-  const recommendedItem = (() => {
-    const uncompleted = items.filter(
-      (item) => !activeSemesterId || !hasRecordForItem(activeSemesterId, item.id)
-    );
-    if (user.interests.length > 0) {
-      const match = uncompleted.find((i) => (user.interests as string[]).includes(i.category));
-      if (match) return match;
-    }
-    return uncompleted[0];
-  })();
-
   const semesterLabel = activeSemester
     ? `${activeSemester.year} - ${activeSemester.term}학기`
     : "학기 없음";
@@ -63,6 +60,59 @@ export default function HomePage() {
   const remainingCount = activeSemesterId
     ? items.filter((i) => !hasRecordForItem(activeSemesterId, i.id)).length
     : items.length;
+
+  // 운세 카드 3장 계산
+  const unponged = items.filter(
+    (i) => !activeSemesterId || !hasRecordForItem(activeSemesterId, i.id)
+  );
+
+  // 1) 마감 임박: deadline_date 있고 D-0~30, 가장 급한 것
+  const urgentPick = unponged
+    .filter((i) => i.deadline_date && getDday(i.deadline_date) >= 0 && getDday(i.deadline_date) <= 30)
+    .sort((a, b) => getDday(a.deadline_date!) - getDday(b.deadline_date!))[0] ?? null;
+
+  // 2) 관심 카테고리: 관심 분야 중 아직 안 한 것 (urgentPick 제외)
+  const interestPick = (() => {
+    const exclude = new Set([urgentPick?.id]);
+    if (user.interests.length > 0) {
+      return unponged.find(
+        (i) => !exclude.has(i.id) && (user.interests as string[]).includes(i.category)
+      ) ?? null;
+    }
+    return unponged.find((i) => !exclude.has(i.id)) ?? null;
+  })();
+
+  // 3) 랜덤: 나머지 중 무작위 (시드: 오늘 날짜 기반 의사랜덤)
+  const randomPick = (() => {
+    const exclude = new Set([urgentPick?.id, interestPick?.id]);
+    const pool = unponged.filter((i) => !exclude.has(i.id));
+    if (pool.length === 0) return null;
+    const seed = new Date().getDate() + new Date().getMonth() * 31;
+    return pool[seed % pool.length];
+  })();
+
+  const fortuneCards = [
+    urgentPick && {
+      item: urgentPick,
+      label: "마감 임박",
+      labelColor: "text-red",
+      dday: getDday(urgentPick.deadline_date!),
+    },
+    interestPick && {
+      item: interestPick,
+      label: user.interests.length > 0 ? "관심 분야" : "추천",
+      labelColor: "text-blue",
+      dday: null,
+    },
+    randomPick && {
+      item: randomPick,
+      label: "오늘의 운",
+      labelColor: "text-ink-3",
+      dday: null,
+    },
+  ].filter(Boolean) as { item: typeof items[0]; label: string; labelColor: string; dday: number | null }[];
+
+  const firstUnponged = unponged[0] ?? null;
 
   return (
     <MobileFrame>
@@ -96,15 +146,13 @@ export default function HomePage() {
       {/* ── 스크롤 콘텐츠 영역 ── */}
       <div className="flex-1 overflow-y-auto">
 
-        {/* ── 첫 뽕뽑기 유도 (까치 위) ── */}
-        {totalPonged === 0 && (
+        {/* ── 첫 뽕뽑기 유도 (빈 상태, 까치 위) ── */}
+        {totalPonged === 0 && firstUnponged && (
           <div className="px-6 pt-5 pb-2">
             <div className="bg-surface-sub rounded-xl p-[18px]">
               <p className="text-[13px] text-ink leading-relaxed mb-3">
                 첫 항목 뽑으면 까마고치 표정이 바뀌어.{" "}
-                {recommendedItem
-                  ? `${Math.round(recommendedItem.value / 10000)}만원짜리 ${recommendedItem.name}부터 어때?`
-                  : "글쓰기 첨삭부터 어때?"}
+                {`${Math.round(firstUnponged.value / 10000)}만원짜리 ${firstUnponged.name}부터 어때?`}
               </p>
               <Link href="/pong" className="text-[13px] text-blue font-medium">
                 바로 뽕뽑으러 가기 →
@@ -136,6 +184,37 @@ export default function HomePage() {
           <ProgressBar percent={percent} className="mt-6" />
         </div>
 
+        {/* ── 운세 카드 3장 ── */}
+        {fortuneCards.length > 0 && (
+          <div className="mb-5">
+            <p className="text-[11px] text-ink-3 font-medium px-5 mb-2">오늘의 뽕운세</p>
+            <div className="flex gap-2.5 overflow-x-auto px-5 pb-1 [&::-webkit-scrollbar]:hidden">
+              {fortuneCards.map(({ item, label, labelColor, dday }) => (
+                <Link
+                  key={item.id}
+                  href={`/pong/${item.id}`}
+                  className="shrink-0 w-[148px] bg-surface-sub rounded-xl p-3.5 active:opacity-70"
+                >
+                  <p className={`text-[10px] font-medium mb-2 ${labelColor}`}>{label}</p>
+                  <p className="text-[13px] text-ink font-medium leading-snug line-clamp-2 mb-3">
+                    {item.name}
+                  </p>
+                  <div className="flex items-end justify-between">
+                    <p className="text-[12px] font-medium text-ink">
+                      +{Math.round(item.value / 10000)}만
+                    </p>
+                    {dday !== null && (
+                      <p className={`text-[11px] font-medium tabular-nums ${dday <= 3 ? "text-red" : "text-[#E88B30]"}`}>
+                        D-{dday}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ── 등록금 내역 카드 ── */}
         {activeSemester && (
           <div className="px-6 mb-5">
@@ -164,6 +243,7 @@ export default function HomePage() {
           </div>
         )}
 
+        {/* ── CTA ── */}
         {totalPonged === 0 ? (
           <div className="px-5 pb-8">
             <Link href="/pong">
@@ -173,46 +253,21 @@ export default function HomePage() {
             </Link>
           </div>
         ) : (
-          <>
-            <div className="px-5 mb-3">
-              <Link href="/pong">
-                <div className="bg-ink rounded-xl px-[18px] py-4 flex justify-between items-center">
-                  <div>
-                    <p className="text-[15px] font-medium text-white mb-0.5">
-                      이번 학기 뽕뽑기 {remainingCount}개
-                    </p>
-                    <p className="text-[12px] text-white/70">
-                      아직 안 한 것들이 남아 있어
-                    </p>
-                  </div>
-                  <span className="text-[20px] text-white">→</span>
-                </div>
-              </Link>
-            </div>
-
-            {recommendedItem && (
-              <div className="px-5 mb-8">
-                <div className="bg-surface-sub rounded-xl px-[18px] py-4">
-                  <p className="text-[11px] text-blue font-medium mb-1.5 tracking-wide">
-                    까마고치 추천
+          <div className="px-5 mb-8">
+            <Link href="/pong">
+              <div className="bg-ink rounded-xl px-[18px] py-4 flex justify-between items-center">
+                <div>
+                  <p className="text-[15px] font-medium text-white mb-0.5">
+                    이번 학기 뽕뽑기 {remainingCount}개
                   </p>
-                  <p className="text-[14px] text-ink leading-relaxed mb-2.5">
-                    {getRecommendText(
-                      recommendedItem.name,
-                      recommendedItem.value,
-                      recommendedItem.deadline_label
-                    )}
+                  <p className="text-[12px] text-white/70">
+                    아직 안 한 것들이 남아 있어
                   </p>
-                  <Link
-                    href={`/pong/${recommendedItem.id}`}
-                    className="text-[13px] text-blue font-medium"
-                  >
-                    자세히 보기 →
-                  </Link>
                 </div>
+                <span className="text-[20px] text-white">→</span>
               </div>
-            )}
-          </>
+            </Link>
+          </div>
         )}
 
       </div>
