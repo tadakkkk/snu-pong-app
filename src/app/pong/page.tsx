@@ -44,6 +44,10 @@ function getDday(dateStr: string): number {
   return Math.round((d.getTime() - today.getTime()) / 86400000);
 }
 
+const urgentItems = items
+  .filter((i) => i.deadline_date && getDday(i.deadline_date) >= 0 && getDday(i.deadline_date) <= 14)
+  .sort((a, b) => getDday(a.deadline_date!) - getDday(b.deadline_date!));
+
 const _snucCrawledCount = items.filter(
   (i) => i.is_crawled && i.provider === "서울대학교 학부대학"
 ).length;
@@ -268,6 +272,16 @@ export default function PongPage() {
             ) : (
               /* 기본 섹션 뷰 */
               <>
+                {/* 마감 임박 */}
+                {urgentItems.length > 0 && (
+                  <div className="border-t border-hairline px-5 pt-3 pb-4">
+                    <p className="text-[11px] text-red font-medium mb-1">⚑ 마감 임박</p>
+                    {urgentItems.map((item) => (
+                      <ItemRow key={item.id} item={item} ponged={isPonged(item.id)} />
+                    ))}
+                  </div>
+                )}
+
                 {/* 맞춤 추천 (관심 분야 설정 시) */}
                 {user.interests.length > 0 && (() => {
                   const personalItems = items
