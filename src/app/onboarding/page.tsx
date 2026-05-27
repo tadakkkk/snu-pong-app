@@ -13,7 +13,7 @@ import { useUserStore } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { createClient } from "@/lib/supabase/client";
 
-type Step = 0 | 1 | 2 | 3 | 4 | 5;
+type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 function formatKRW(n: number) {
   return n.toLocaleString("ko-KR") + "원";
@@ -144,9 +144,9 @@ function StepCollege({
     <div className="flex-1 flex flex-col min-h-0">
       <div className="shrink-0 px-5 pb-5">
         <div className="h-[3px] bg-surface-muted rounded-full">
-          <div className="w-1/3 h-[3px] bg-ink rounded-full" />
+          <div className="w-1/4 h-[3px] bg-ink rounded-full" />
         </div>
-        <p className="text-[11px] text-ink-3 mt-1.5">1 / 3</p>
+        <p className="text-[11px] text-ink-3 mt-1.5">1 / 4</p>
       </div>
       <div className="shrink-0 px-6 pb-5">
         <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
@@ -199,9 +199,9 @@ function StepTrack({
     <div className="flex-1 flex flex-col min-h-0">
       <div className="shrink-0 px-5 pb-5">
         <div className="h-[3px] bg-surface-muted rounded-full">
-          <div className="w-2/3 h-[3px] bg-ink rounded-full" />
+          <div className="w-2/4 h-[3px] bg-ink rounded-full" />
         </div>
-        <p className="text-[11px] text-ink-3 mt-1.5">2 / 3</p>
+        <p className="text-[11px] text-ink-3 mt-1.5">2 / 4</p>
       </div>
       <div className="shrink-0 px-6 pb-6">
         <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
@@ -250,7 +250,62 @@ function StepTrack({
   );
 }
 
-// ─── Step 4: 등록금 + 장학금 ──────────────────────────────────────
+// ─── Step 4: 학년 ─────────────────────────────────────────────────
+function StepGrade({
+  selected,
+  onSelect,
+  onNext,
+}: {
+  selected: number | null;
+  onSelect: (g: number) => void;
+  onNext: () => void;
+}) {
+  return (
+    <div className="flex-1 flex flex-col min-h-0">
+      <div className="shrink-0 px-5 pb-5">
+        <div className="h-[3px] bg-surface-muted rounded-full">
+          <div className="w-3/4 h-[3px] bg-ink rounded-full" />
+        </div>
+        <p className="text-[11px] text-ink-3 mt-1.5">3 / 4</p>
+      </div>
+      <div className="shrink-0 px-6 pb-6">
+        <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
+          몇 학년이야?
+        </h2>
+        <p className="text-[13px] text-ink-3">학년별 맞춤 추천에 활용할게</p>
+      </div>
+      <div className="flex-1 min-h-0 px-5">
+        <div className="grid grid-cols-4 gap-2">
+          {[1, 2, 3, 4].map((g) => (
+            <button
+              key={g}
+              onClick={() => onSelect(g)}
+              className={`py-[14px] rounded-[10px] text-[14px] border transition-colors ${
+                selected === g
+                  ? "bg-ink text-white border-ink font-medium"
+                  : "text-ink-3 border-hairline"
+              }`}
+            >
+              {g === 4 ? "4+" : g}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="shrink-0 px-5 pb-7 pt-4 bg-surface border-t border-hairline flex flex-col gap-3">
+        <PrimaryButton onClick={onNext} disabled={!selected}>
+          다음
+        </PrimaryButton>
+        {!selected && (
+          <button onClick={onNext} className="text-center text-[13px] text-ink-3 py-1">
+            건너뛰기
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 5: 등록금 + 장학금 ──────────────────────────────────────
 function StepTuition({
   tuition,
   hasScholarship,
@@ -299,7 +354,7 @@ function StepTuition({
         <div className="h-[3px] bg-surface-muted rounded-full">
           <div className="w-full h-[3px] bg-ink rounded-full" />
         </div>
-        <p className="text-[11px] text-ink-3 mt-1.5">3 / 3</p>
+        <p className="text-[11px] text-ink-3 mt-1.5">4 / 4</p>
       </div>
       <div className="flex-1 overflow-y-auto min-h-0 px-6">
         <h2 className="text-[22px] font-medium text-ink leading-snug mb-1">
@@ -484,6 +539,7 @@ export default function OnboardingPage() {
   const [selectedInterests, setSelectedInterests] = useState<Category[]>([]);
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
+  const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
   const [hasScholarship, setHasScholarship] = useState<boolean | null>(null);
   const [scholarshipAmount, setScholarshipAmount] = useState(0);
   const [customTuition, setCustomTuition] = useState<number | null>(null);
@@ -508,9 +564,9 @@ export default function OnboardingPage() {
         if (!selectedCollege) return s;
         if (selectedCollege.tracks.length === 1) {
           setSelectedTrack(selectedCollege.tracks[0]);
-          return 4;
+          return 4; // skip Track → Grade
         }
-        return 3;
+        return 3; // Track
       }
       return (s + 1) as Step;
     });
@@ -539,6 +595,7 @@ export default function OnboardingPage() {
       interests: selectedInterests,
       collegeId: selectedCollege.id,
       trackId: track.id,
+      grade: selectedGrade,
       tuition,
       scholarship,
       netBurden: net,
@@ -555,11 +612,12 @@ export default function OnboardingPage() {
       isActive: true,
     });
 
-    setStep(5);
+    setStep(6);
   }, [
     selectedInterests,
     selectedCollege,
     selectedTrack,
+    selectedGrade,
     hasScholarship,
     scholarshipAmount,
     tuition,
@@ -571,7 +629,7 @@ export default function OnboardingPage() {
     <MobileFrame>
       <StatusBar />
 
-      {step > 0 && step < 5 && (
+      {step > 0 && step < 6 && (
         <button
           onClick={goBack}
           className="shrink-0 px-5 py-4 text-[22px] text-ink-3 self-start"
@@ -619,6 +677,14 @@ export default function OnboardingPage() {
       )}
 
       {step === 4 && (
+        <StepGrade
+          selected={selectedGrade}
+          onSelect={setSelectedGrade}
+          onNext={goNext}
+        />
+      )}
+
+      {step === 5 && (
         <StepTuition
           tuition={tuition}
           hasScholarship={hasScholarship}
@@ -630,7 +696,7 @@ export default function OnboardingPage() {
         />
       )}
 
-      {step === 5 && (
+      {step === 6 && (
         <StepResult
           interests={selectedInterests}
           netBurden={netBurden}

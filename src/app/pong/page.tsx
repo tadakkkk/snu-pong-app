@@ -270,7 +270,7 @@ export default function PongPage() {
                 ))}
               </div>
             ) : (
-              /* 기본 섹션 뷰 */
+              /* 기본 섹션 뷰: 카테고리 미선택 상태 */
               <>
                 {/* 마감 임박 */}
                 {urgentItems.length > 0 && (
@@ -306,7 +306,7 @@ export default function PongPage() {
                 })()}
 
                 {/* 가치 높은 항목 */}
-                <div className="border-t border-hairline px-5 pt-3 pb-4">
+                <div className="border-t border-hairline px-5 pt-3 pb-6">
                   <p className="text-[11px] text-ink-3 font-medium mb-1">
                     가치 높은 항목
                   </p>
@@ -322,20 +322,6 @@ export default function PongPage() {
                         </span>
                       </div>
                     </Link>
-                  ))}
-                </div>
-
-                {/* 전체 항목 */}
-                <div className="border-t border-hairline px-5 pt-3 pb-6">
-                  <p className="text-[11px] text-ink-3 font-medium mb-1">
-                    전체 {items.length}개
-                  </p>
-                  {items.map((item) => (
-                    <ItemRow
-                      key={item.id}
-                      item={item}
-                      ponged={isPonged(item.id)}
-                    />
                   ))}
                 </div>
               </>
@@ -476,54 +462,28 @@ export default function PongPage() {
                 ))}
               </div>
             ) : (
-              /* 기본: 자주 가는 곳 + 전체 */
-              <>
-                <div className="border-t border-hairline px-5 pt-3 pb-4">
-                  <p className="text-[11px] text-ink-3 font-medium mb-1">
-                    자주 가는 곳
-                  </p>
-                  {frequentSiteObjects.map((site) => (
-                    <div
-                      key={site.id}
-                      className="border-b border-hairline last:border-0"
-                    >
-                      <SiteCard
-                        site={site}
-                        noticeCount={site.id === "snuc_undergrad" ? _snucCrawledCount : undefined}
-                      />
-                    </div>
-                  ))}
-                  {/* 단과대학 요약 카드 */}
-                  <div className="border-b border-hairline last:border-0">
-                    <CollegeSummaryCard
-                      onClick={() => setActiveSiteCategory("colleges")}
+              /* 기본: 자주 가는 곳 */
+              <div className="border-t border-hairline px-5 pt-3 pb-6">
+                <p className="text-[11px] text-ink-3 font-medium mb-1">
+                  자주 가는 곳
+                </p>
+                {frequentSiteObjects.map((site) => (
+                  <div
+                    key={site.id}
+                    className="border-b border-hairline last:border-0"
+                  >
+                    <SiteCard
+                      site={site}
+                      noticeCount={site.id === "snuc_undergrad" ? _snucCrawledCount : undefined}
                     />
                   </div>
+                ))}
+                <div className="border-b border-hairline last:border-0">
+                  <CollegeSummaryCard
+                    onClick={() => setActiveSiteCategory("colleges")}
+                  />
                 </div>
-
-                <div className="border-t border-hairline px-5 pt-3 pb-6">
-                  <p className="text-[11px] text-ink-3 font-medium mb-1">
-                    전체 {sites.length}개
-                  </p>
-                  {/* 단과대학 요약 카드 */}
-                  <div className="border-b border-hairline">
-                    <CollegeSummaryCard
-                      onClick={() => setActiveSiteCategory("colleges")}
-                    />
-                  </div>
-                  {sites.map((site) => (
-                    <div
-                      key={site.id}
-                      className="border-b border-hairline last:border-0"
-                    >
-                      <SiteCard
-                        site={site}
-                        noticeCount={site.id === "snuc_undergrad" ? _snucCrawledCount : undefined}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </>
+              </div>
             )}
           </>
         )}
