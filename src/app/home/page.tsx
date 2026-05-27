@@ -81,7 +81,7 @@ export default function HomePage() {
           ≡
         </button>
       </div>
-      {activeSemester && (
+      {activeSemester && daysLeft > 0 && (
         <div className="px-5 pb-2">
           <p className="text-[12px] text-ink-3">
             학기 종료까지 {daysLeft}일
