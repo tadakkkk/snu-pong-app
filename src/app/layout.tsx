@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import SupabaseSync from "@/components/SupabaseSync";
 
 export const metadata: Metadata = {
   title: "서울대 등록금 뽕뽑기",
@@ -42,7 +43,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className="h-full">
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <SupabaseSync />
+        {children}
+      </body>
     </html>
   );
 }
