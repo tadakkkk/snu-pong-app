@@ -1,11 +1,10 @@
 # 크롤링 대상 사이트
 
-이 문서는 `src/server/crawling_rules/local/progress.md`에서 `implemented` 상태인 행만 추려 만든 크롤링 대상 목록이다. 각 대상은 원칙적으로 공지사항, 소식, 행사, 학생 지원, 복지 서비스처럼 서울대 재학생에게 직접 도움이 될 가능성이 있는 정보를 수집하는 데 사용한다.
+이 문서는 `implemented` 상태인 행만 추려 만든 크롤링 대상 목록이다. 각 대상은 원칙적으로 공지사항, 소식, 행사, 학생 지원, 복지 서비스처럼 서울대 재학생에게 직접 도움이 될 가능성이 있는 정보를 수집하는 데 사용한다.
 
-- 총 대상 수: 222
+- 총 대상 수: 211
 - 비교과: 2개
 - 공지·소식: 4개
-- 캠퍼스·복지: 11개
 - 대학 및 학과: 199개
 - 유관 기관: 2개
 - 관련 사이트: 4개
@@ -27,22 +26,6 @@
 | 13 | 행사·전시 | https://www.snu.ac.kr/snunow/events/today | implemented | 서울대학교 본부의 학생 관련 일정, 행사, 일반공지, 공개강연 정보를 수집한다. |
 | 15 | 일반공지 | https://www.snu.ac.kr/snunow/notice/genernal?sc=y | implemented | 서울대학교 본부의 학생 관련 일정, 행사, 일반공지, 공개강연 정보를 수집한다. |
 | 17 | 대중강연·문화행사 | https://www.snu.ac.kr/about/sharing-snu/public-lecture | implemented | 서울대학교 본부의 학생 관련 일정, 행사, 일반공지, 공개강연 정보를 수집한다. |
-
-### 캠퍼스·복지
-
-| # | 대상 | URL | 상태 | 설명 |
-| ---: | --- | --- | --- | --- |
-| 18 | 스누식단 | http://snuco.snu.ac.kr/foodmenu | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 19 | 학내교통 | https://www.snu.ac.kr/about/gwanak/shuttles/campus_shuttles | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 20 | 도서관 | https://www.snu.ac.kr/campuslife/facilities/library | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 21 | 관악학생생활관 | https://www.snu.ac.kr/campuslife/facilities/dorm | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 22 | 장학금·학자금 | https://student.snu.ac.kr/%eb%8c%80%ed%95%99%ec%83%9d%ed%99%9c/%ec%9e%a5%ed%95%99/%ec%9e%a5%ed%95%99%ec%86%8c%ea%b0%9c/ | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 23 | 학생지원서비스 | https://www.snu.ac.kr/campuslife/aid/administration | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 24 | 장애학생지원센터 | https://www.snu.ac.kr/campuslife/aid/disabled | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 25 | 정보화서비스 | https://www.snu.ac.kr/campuslife/aid/it | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 26 | 의료보건서비스 | https://www.snu.ac.kr/campuslife/aid/health/hospital1 | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 27 | 문화서비스 | https://www.snu.ac.kr/campuslife/facilities/cultural-services | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
-| 28 | 편의시설 | https://www.snu.ac.kr/campuslife/facilities/amenities | implemented | 식단, 교통, 도서관, 주거, 장학, 지원서비스 등 캠퍼스 생활 편의 정보를 수집한다. |
 
 ### 대학 및 학과
 
