@@ -165,6 +165,8 @@ SCHEDULED_CRAWLERS: tuple[CrawlerScheduleEntry, ...] = (
     CrawlerScheduleEntry("related_it_office", "related", "related/ITOffice.py"),
     CrawlerScheduleEntry("related_library", "related", "related/Library.py"),
     CrawlerScheduleEntry("related_future_strategy", "related", "related/FutureStrategy.py"),
+CrawlerScheduleEntry("extracurricular_programs", "extracurricular", "extracurricular/Extracurricular.py"),
+    CrawlerScheduleEntry("extracurricular_social_outreach", "extracurricular", "extracurricular/SocialOutreach.py"),
     CrawlerScheduleEntry(
         "departments",
         "departments",
