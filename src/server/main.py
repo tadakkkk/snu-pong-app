@@ -6,6 +6,7 @@ from importlib import util
 from pathlib import Path
 from typing import Any, Callable, Literal
 import asyncio
+import dataclasses
 import json
 import os
 import random
@@ -193,21 +194,77 @@ class ServerQueries:
         query: BenefitItemQuery,
         context: ServerQueryContext = ServerQueryContext(),
     ) -> list[BenefitItemSummary]:
-        raise NotImplementedError("list_benefit_items is not implemented")
+        import db as _db
+        category = query.categories[0] if query.categories else None
+        rows = await asyncio.to_thread(_db.get_items, category)
+        results: list[BenefitItemSummary] = []
+        for row in rows:
+            updated_at = row.get("updated_at")
+            if hasattr(updated_at, "isoformat"):
+                updated_at = updated_at.isoformat()
+            results.append(BenefitItemSummary(
+                id=row["id"],
+                title=row.get("name") or "",
+                source_name=row.get("provider") or "",
+                source_url=row.get("source_url") or "",
+                category=row.get("category") or "",
+                estimated_value_krw=row.get("estimated_value"),
+                deadline_at=row.get("deadline_date"),
+                updated_at=str(updated_at or ""),
+            ))
+        return results
 
     async def get_benefit_item_by_id(
         self,
         item_id: str,
         context: ServerQueryContext = ServerQueryContext(),
     ) -> BenefitItemDetail | None:
-        raise NotImplementedError("get_benefit_item_by_id is not implemented")
+        import db as _db
+        row = await asyncio.to_thread(_db.get_item_by_id, item_id)
+        if row is None:
+            return None
+        updated_at = row.get("updated_at")
+        if hasattr(updated_at, "isoformat"):
+            updated_at = updated_at.isoformat()
+        return BenefitItemDetail(
+            id=row["id"],
+            title=row.get("name") or "",
+            source_name=row.get("provider") or "",
+            source_url=row.get("source_url") or "",
+            category=row.get("category") or "",
+            estimated_value_krw=row.get("estimated_value"),
+            deadline_at=row.get("deadline_date"),
+            updated_at=str(updated_at or ""),
+            description=row.get("body_excerpt") or "",
+            eligibility_text=row.get("eligibility"),
+            application_url=row.get("apply_url"),
+            location=None,
+        )
 
     async def list_crawl_sources(
         self,
         query: SourceQuery = SourceQuery(),
         context: ServerQueryContext = ServerQueryContext(),
     ) -> list[CrawlSourceSummary]:
-        raise NotImplementedError("list_crawl_sources is not implemented")
+        import db as _db
+        db_rows = await asyncio.to_thread(_db.get_sources)
+        db_by_id = {row["id"]: row for row in db_rows}
+        results: list[CrawlSourceSummary] = []
+        for entry in SCHEDULED_CRAWLERS:
+            db_row = db_by_id.get(entry.crawler_id, {})
+            last_crawled_at = db_row.get("last_crawled_at")
+            if hasattr(last_crawled_at, "isoformat"):
+                last_crawled_at = last_crawled_at.isoformat()
+            results.append(CrawlSourceSummary(
+                id=entry.crawler_id,
+                name=entry.crawler_id.replace("_", " ").title(),
+                url="",
+                group=entry.group,
+                enabled=True,
+                crawl_status="ready",
+                last_crawled_at=str(last_crawled_at) if last_crawled_at else None,
+            ))
+        return results
 
 
 class DailyCrawlAt5amKst:
@@ -463,9 +520,8 @@ def _record_id(record: dict[str, Any]) -> str:
 
 
 async def _store_enriched_records(records: list[dict[str, Any]]) -> None:
-    # Later this should upsert into the SQL benefit-items table. It intentionally
-    # does not write generated JSON or commit files from the server runtime.
-    _ = records
+    import db as _db
+    await asyncio.to_thread(_db.upsert_items, records)
 
 
 def _load_crawl_function(crawler_entry: CrawlerScheduleEntry) -> Callable[..., list[dict[str, Any]]]:
@@ -491,3 +547,85 @@ def _ensure_crawler_import_paths() -> None:
 
 server_queries = ServerQueries()
 daily_crawl_at_5am_kst = DailyCrawlAt5amKst()
+
+
+# ─── FastAPI web server ────────────────────────────────────────────────────────
+
+from contextlib import asynccontextmanager
+
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+_ALLOWED_ORIGINS = [
+    "https://snu-pong-app.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:8000",
+]
+
+
+@asynccontextmanager
+async def _lifespan(application: FastAPI):
+    import db as _db
+    await asyncio.to_thread(_db.init_db)
+    scheduler = AsyncIOScheduler(timezone=SERVER_TIME_ZONE)
+    scheduler.add_job(
+        daily_crawl_at_5am_kst.run,
+        "cron",
+        hour=DAILY_CRAWL_HOUR_KST,
+        kwargs={"context": ScheduledActionContext(trigger="cron")},
+    )
+    scheduler.start()
+    yield
+    scheduler.shutdown(wait=False)
+
+
+app = FastAPI(title="SNU Pong Server", lifespan=_lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_ALLOWED_ORIGINS,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
+@app.get("/api/items")
+async def list_items(category: str | None = None):
+    query = BenefitItemQuery(categories=[category] if category else None)
+    items = await server_queries.list_benefit_items(query)
+    return [dataclasses.asdict(item) for item in items]
+
+
+@app.get("/api/items/{item_id}")
+async def get_item(item_id: str):
+    item = await server_queries.get_benefit_item_by_id(item_id)
+    if item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return dataclasses.asdict(item)
+
+
+@app.get("/api/sources")
+async def list_sources():
+    sources = await server_queries.list_crawl_sources()
+    return [dataclasses.asdict(s) for s in sources]
+
+
+@app.post("/api/crawl")
+async def trigger_crawl(background_tasks: BackgroundTasks):
+    async def _run():
+        await daily_crawl_at_5am_kst.run(ScheduledActionContext(trigger="manual"))
+
+    background_tasks.add_task(_run)
+    return {"status": "crawl_started"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
