@@ -17,7 +17,8 @@ SOURCE_NAME = "대학 및 학과"
 USER_AGENT = "snu-pong-crawler-prototype/0.1"
 DEFAULT_REQUEST_DELAY_SECONDS = 1.5
 DEFAULT_REQUEST_JITTER_SECONDS = 0.5
-PROGRESS_FILE = Path(__file__).resolve().parents[1] / "local" / "progress.md"
+SNU_SUBSITES_FILE = Path(__file__).resolve().parents[3] / "data" / "snu_subsites.ts"
+DEPARTMENT_ROW_OFFSET = 31
 
 
 class DepartmentSource(NamedTuple):
@@ -35,7 +36,7 @@ def crawl(
     request_jitter_seconds: float = DEFAULT_REQUEST_JITTER_SECONDS,
 ) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
-    sources = _department_sources_from_progress()
+    sources = _department_sources_from_snu_subsites()
     speed_limiter = SpeedLimiter(request_delay_seconds, request_jitter_seconds)
     request_index = 0
 
@@ -111,28 +112,36 @@ def _build_article_record(source: DepartmentSource, board_link: dict[str, str], 
     )
 
 
-def _department_sources_from_progress() -> list[DepartmentSource]:
-    text = PROGRESS_FILE.read_text(encoding="utf-8")
+def _department_sources_from_snu_subsites() -> list[DepartmentSource]:
+    text = SNU_SUBSITES_FILE.read_text(encoding="utf-8")
+    block = _department_group_block(text)
     sources: list[DepartmentSource] = []
-    for line in text.splitlines():
-        if "| 대학 및 학과 |" not in line:
-            continue
-        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
-        if len(cells) < 10:
-            continue
-        try:
-            row_number = int(cells[0])
-        except ValueError:
-            continue
+    for index, match in enumerate(
+        re.finditer(r'\{\s*label:\s*"([^"]+)",\s*url:\s*"([^"]+)"\s*\}', block),
+        start=DEPARTMENT_ROW_OFFSET,
+    ):
+        name, url = match.groups()
         sources.append(
             DepartmentSource(
-                row_number=row_number,
-                name=cells[3],
-                english_name=cells[4],
-                url=cells[5],
+                row_number=index,
+                name=name,
+                english_name="",
+                url=url,
             )
         )
     return sources
+
+
+def _department_group_block(text: str) -> str:
+    group_marker = 'section: "footer", title: "대학 및 학과"'
+    next_group_marker = 'section: "footer", title: "유관 기관"'
+    start = text.find(group_marker)
+    if start == -1:
+        raise RuntimeError(f"Could not find department group in {SNU_SUBSITES_FILE}")
+    end = text.find(next_group_marker, start)
+    if end == -1:
+        raise RuntimeError(f"Could not find end of department group in {SNU_SUBSITES_FILE}")
+    return text[start:end]
 
 
 def _fetch_html(url: str) -> tuple[str, str]:
