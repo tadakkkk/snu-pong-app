@@ -13,6 +13,12 @@ import random
 import sys
 
 
+_SERVER_DIR = str(Path(__file__).resolve().parent)
+if _SERVER_DIR not in sys.path:
+    sys.path.insert(0, _SERVER_DIR)
+
+from tag_pool import ACTIVITY_TAGS, DOMAIN_TAGS, TAG_POOL
+
 SERVER_TIME_ZONE = "Asia/Seoul"
 DAILY_CRAWL_HOUR_KST = 5
 DAILY_CRAWL_CRON_UTC = "0 20 * * *"
@@ -36,6 +42,12 @@ VALUE_GUIDE = """가치 환산 기준 (사설 시세 대비):
 - 무료 강연/행사: 외부 유료 강연 시세 1~3만원
 - 해외 프로그램: 항공+숙박+수업료 합산
 - 판단 불가: null"""
+
+TAG_GUIDE = f"""활동 태그 풀 ({len(ACTIVITY_TAGS)}개) — 이 풀에서만 골라라:
+{', '.join(ACTIVITY_TAGS)}
+
+분야 태그 풀 ({len(DOMAIN_TAGS)}개) — 이 풀에서만 골라라:
+{', '.join(DOMAIN_TAGS)}"""
 
 CrawlStatus = Literal[
     "ready",
@@ -456,12 +468,23 @@ def _enrichment_prompt(records: list[dict[str, Any]]) -> str:
   "deadline_date": "2026-05-29 형식 또는 null",
   "apply_url": "신청 링크 또는 null",
   "how_to_apply": ["단계1", "단계2", "단계3"],
-  "site_id": "career_center / writing_center 등 또는 null"
+  "site_id": "career_center / writing_center 등 또는 null",
+  "tags": ["풀에서 고른 활동태그 1~3개 + 분야태그 1~3개, 합쳐서 2~6개"]
 }}
+
+{TAG_GUIDE}
+
+tags 선택 규칙:
+- 반드시 위 풀에 있는 태그만 사용. 풀에 없는 태그 절대 금지.
+- 활동 태그 1~3개 + 분야 태그 1~3개 선택 (합쳐서 2~6개).
+- 항목이 특정 분야에 해당하지 않으면 분야 태그 0개도 가능.
 
 JSON 배열만 반환. 마크다운 코드블록이나 설명 텍스트 없이 [ 로 시작해서 ] 로 끝나게.
 
 {articles_text}"""
+
+
+_TAG_POOL_SET: frozenset[str] = frozenset(TAG_POOL)
 
 
 def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -485,6 +508,7 @@ def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str,
         ):
             if enrichment.get(key) is not None:
                 merged[key] = enrichment[key]
+        merged["tags"] = [t for t in (enrichment.get("tags") or []) if t in _TAG_POOL_SET]
         merged["value_status"] = "estimated" if enrichment.get("estimated_value") else "needs_estimation"
         merged["source"] = "server_crawled_enriched"
         merged_records.append(merged)
@@ -503,6 +527,7 @@ def _fallback_enrichment(record: dict[str, Any]) -> dict[str, Any]:
         "apply_url": None,
         "how_to_apply": [],
         "site_id": None,
+        "tags": [],
     }
 
 
