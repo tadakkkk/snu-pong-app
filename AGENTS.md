@@ -17,3 +17,4 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - If a command needs a one-off helper, place it in the appropriate `src/` subfolder or use an existing module instead of adding duplicate script folders.
 - Any other source code files must be under `src/` and its subfolders.
 - Do not delete anything from `.gitignore`.
+- Sample database must be only in `src/data/snuc_notice_sample_database.sql`. Do not replicate it at any other directory.
