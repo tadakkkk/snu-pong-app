@@ -9,11 +9,17 @@ import MagpieWithCoin from "@/components/magpie/MagpieWithCoin";
 import MagpieHappy from "@/components/magpie/MagpieHappy";
 import { colleges, type College, type Track } from "@/data/colleges";
 import { items, CATEGORY_META, type Category } from "@/data/items";
-import { useUserStore } from "@/store/user";
+import {
+  personalizationQuestions,
+  type PersonalizationAnswers,
+} from "@/data/personalization_questions";
+import { buildInterestVectorFromAnswers } from "@/lib/personalization/buildInterestVector";
+import { pushToCloud } from "@/lib/supabase/sync";
+import { useUserStore, type PersonalizationInputMethod } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { createClient } from "@/lib/supabase/client";
 
-type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 function formatKRW(n: number) {
   return n.toLocaleString("ko-KR") + "원";
@@ -460,13 +466,267 @@ function StepTuition({
   );
 }
 
-// ─── Step 5: 결과 화면 ─────────────────────────────────────────────
+// ─── Step 6: 개인화 동의 ───────────────────────────────────────────
+function StepPersonalizationConsent({
+  onAccept,
+  onSkip,
+}: {
+  onAccept: () => void;
+  onSkip: () => void;
+}) {
+  return (
+    <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 px-6 pt-8">
+        <p className="text-[12px] font-medium text-blue mb-3">맞춤 추천</p>
+        <h2 className="text-[22px] font-medium text-ink leading-snug mb-4">
+          놓치기 쉬운 혜택부터
+          <br />
+          너에게 맞춰 보여줄게
+        </h2>
+        <div className="bg-surface-sub rounded-xl px-5 py-5 mb-5">
+          <p className="text-[14px] text-ink leading-relaxed">
+            서울대에는 학생이 쓸 수 있는 장학, 프로그램, 상담, 교육, 행사 정보가 많지만
+            흩어져 있어서 놓치기 쉽습니다.
+          </p>
+          <p className="text-[14px] text-ink leading-relaxed mt-3">
+            관심 분야를 알려주면 지금 나에게 더 맞는 혜택부터 보여줄게요.
+            개인화는 언제든 끄거나 다시 설정할 수 있습니다.
+          </p>
+        </div>
+        <div className="flex flex-col gap-2">
+          {[
+            "질문 몇 개만 답하면 관심 태그를 만들어요",
+            "파일이나 채팅 입력은 나중에 추가할 예정이에요",
+            "지금은 이 기기와 로그인 동기화 데이터에 저장돼요",
+          ].map((line) => (
+            <div key={line} className="flex items-start gap-2 text-[13px] text-ink-3">
+              <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-blue shrink-0" />
+              <span>{line}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="shrink-0 px-5 pb-8 pt-4 bg-surface border-t border-hairline flex flex-col gap-3">
+        <PrimaryButton onClick={onAccept}>맞춤 추천 설정하기</PrimaryButton>
+        <button onClick={onSkip} className="text-center text-[13px] text-ink-3 py-1">
+          나중에 할게
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 7: 개인화 입력 방식 ─────────────────────────────────────
+function StepPersonalizationMethod({
+  selected,
+  onSelect,
+}: {
+  selected: PersonalizationInputMethod | null;
+  onSelect: (method: PersonalizationInputMethod) => void;
+}) {
+  const methods: Array<{
+    id: PersonalizationInputMethod;
+    label: string;
+    description: string;
+    enabled: boolean;
+  }> = [
+    {
+      id: "questions",
+      label: "질문으로 설정",
+      description: "30초 안에 관심사를 고를 수 있어",
+      enabled: true,
+    },
+    {
+      id: "file",
+      label: "파일로 시작",
+      description: "이력서나 자료 분석은 준비 중",
+      enabled: false,
+    },
+    {
+      id: "chat",
+      label: "채팅으로 설정",
+      description: "AI 대화형 입력은 준비 중",
+      enabled: false,
+    },
+  ];
+
+  return (
+    <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 px-6 pt-8">
+        <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
+          어떻게 알려줄래?
+        </h2>
+        <p className="text-[13px] text-ink-3 mb-6">
+          지금은 질문 방식부터 사용할 수 있어
+        </p>
+        <div className="flex flex-col gap-2">
+          {methods.map((method) => {
+            const isSelected = selected === method.id;
+            return (
+              <button
+                key={method.id}
+                onClick={() => onSelect(method.id)}
+                className={`w-full text-left rounded-xl px-4 py-4 border transition-colors ${
+                  isSelected
+                    ? "bg-ink text-white border-ink"
+                    : method.enabled
+                      ? "bg-surface text-ink border-hairline"
+                      : "bg-surface-sub text-ink-3 border-hairline"
+                }`}
+              >
+                <div className="flex justify-between gap-3">
+                  <div>
+                    <p className={`text-[15px] font-medium ${isSelected ? "text-white" : "text-ink"}`}>
+                      {method.label}
+                    </p>
+                    <p className={`text-[12px] mt-1 ${isSelected ? "text-white/70" : "text-ink-3"}`}>
+                      {method.description}
+                    </p>
+                  </div>
+                  {!method.enabled && (
+                    <span className="text-[11px] text-ink-3 shrink-0">준비 중</span>
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 8: 개인화 질문 ──────────────────────────────────────────
+function StepPersonalizationQuestions({
+  answers,
+  onChange,
+  onFinish,
+  onSkip,
+}: {
+  answers: PersonalizationAnswers;
+  onChange: (answers: PersonalizationAnswers) => void;
+  onFinish: () => void;
+  onSkip: () => void;
+}) {
+  const selectedCount = Object.values(answers).reduce((count, answer) => {
+    if (Array.isArray(answer)) return count + answer.length;
+    return answer ? count + 1 : count;
+  }, 0);
+
+  const toggleOption = (questionId: string, optionId: string, type: "multi_select" | "single_select") => {
+    const current = answers[questionId];
+    if (type === "single_select") {
+      onChange({ ...answers, [questionId]: optionId });
+      return;
+    }
+    const currentList = Array.isArray(current) ? current : [];
+    const nextList = currentList.includes(optionId)
+      ? currentList.filter((id) => id !== optionId)
+      : [...currentList, optionId];
+    onChange({ ...answers, [questionId]: nextList });
+  };
+
+  return (
+    <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 px-6 pt-8">
+        <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
+          관심사를 조금만 더 알려줘
+        </h2>
+        <p className="text-[13px] text-ink-3 mb-6">
+          답변은 추천 태그로 바뀌어 저장돼
+        </p>
+        <div className="flex flex-col gap-7 pb-4">
+          {personalizationQuestions.map((question) => (
+            <section key={question.id}>
+              <h3 className="text-[15px] font-medium text-ink mb-1">{question.title}</h3>
+              {question.subtitle && (
+                <p className="text-[12px] text-ink-3 mb-3">{question.subtitle}</p>
+              )}
+              <div className="grid grid-cols-2 gap-2">
+                {question.options.map((option) => {
+                  const answer = answers[question.id];
+                  const isSelected = Array.isArray(answer)
+                    ? answer.includes(option.id)
+                    : answer === option.id;
+                  return (
+                    <button
+                      key={option.id}
+                      onClick={() => toggleOption(question.id, option.id, question.type)}
+                      className={`text-left rounded-xl border px-3.5 py-3.5 transition-colors min-h-[86px] ${
+                        isSelected
+                          ? "bg-ink text-white border-ink"
+                          : "bg-surface text-ink border-hairline"
+                      }`}
+                    >
+                      <span className={`block text-[14px] font-medium leading-snug ${isSelected ? "text-white" : "text-ink"}`}>
+                        {option.label}
+                      </span>
+                      {option.description && (
+                        <span className={`block text-[11px] leading-snug mt-1.5 ${isSelected ? "text-white/65" : "text-ink-3"}`}>
+                          {option.description}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </div>
+      </div>
+      <div className="shrink-0 px-5 pb-8 pt-4 bg-surface border-t border-hairline flex flex-col gap-3">
+        <PrimaryButton onClick={onFinish} disabled={selectedCount === 0}>
+          {selectedCount > 0 ? `${selectedCount}개 선택 · 완료` : "완료"}
+        </PrimaryButton>
+        <button onClick={onSkip} className="text-center text-[13px] text-ink-3 py-1">
+          맞춤 추천 없이 계속
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 9: 준비 중 입력 방식 ────────────────────────────────────
+function StepPersonalizationPlaceholder({
+  method,
+  onQuestions,
+  onSkip,
+}: {
+  method: PersonalizationInputMethod | null;
+  onQuestions: () => void;
+  onSkip: () => void;
+}) {
+  const label = method === "file" ? "파일 분석" : "채팅 설정";
+  return (
+    <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 flex flex-col justify-center px-7">
+        <h2 className="text-[22px] font-medium text-ink leading-snug mb-3">
+          {label}은 아직 준비 중이에요
+        </h2>
+        <p className="text-[14px] text-ink-3 leading-relaxed">
+          업로드 파일과 대화 내용은 개인정보 처리가 정해진 뒤 연결할 예정입니다.
+          지금은 질문 방식으로 관심사를 설정할 수 있어요.
+        </p>
+      </div>
+      <div className="shrink-0 px-5 pb-8 pt-4 bg-surface border-t border-hairline flex flex-col gap-3">
+        <PrimaryButton onClick={onQuestions}>질문으로 설정하기</PrimaryButton>
+        <button onClick={onSkip} className="text-center text-[13px] text-ink-3 py-1">
+          맞춤 추천 없이 계속
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Step 10: 결과 화면 ───────────────────────────────────────────
 function StepResult({
   interests,
+  personalized,
   netBurden,
   onStart,
 }: {
   interests: Category[];
+  personalized: boolean;
   netBurden: number;
   onStart: () => void;
 }) {
@@ -495,6 +755,11 @@ function StepResult({
         {netBurden > 0 && (
           <p className="text-[13px] text-ink-3 mb-8">
             실 부담액의 {ratio}%를 뽑을 수 있어
+          </p>
+        )}
+        {personalized && (
+          <p className="text-[13px] text-blue mb-4">
+            맞춤 관심사를 저장했어. 서버 추천이 연결되면 이 정보를 반영할게.
           </p>
         )}
 
@@ -551,6 +816,11 @@ export default function OnboardingPage() {
   const [hasScholarship, setHasScholarship] = useState<boolean | null>(null);
   const [scholarshipAmount, setScholarshipAmount] = useState(0);
   const [customTuition, setCustomTuition] = useState<number | null>(null);
+  const [personalizationEnabled, setPersonalizationEnabled] = useState(false);
+  const [personalizationInputMethod, setPersonalizationInputMethod] =
+    useState<PersonalizationInputMethod | null>(null);
+  const [personalizationConsentAt, setPersonalizationConsentAt] = useState<string | null>(null);
+  const [personalizationAnswers, setPersonalizationAnswers] = useState<PersonalizationAnswers>({});
 
   const baseTuition =
     selectedTrack?.tuition_2025_1 ??
@@ -583,15 +853,27 @@ export default function OnboardingPage() {
   const goBack = useCallback(() => {
     setStep((s) => {
       if (s === 4 && selectedCollege && selectedCollege.tracks.length === 1) return 2;
+      if (s === 9) return 7;
       return Math.max(0, s - 1) as Step;
     });
   }, [selectedCollege]);
 
-  const handleSaveAndResult = useCallback(() => {
+  const completeOnboarding = useCallback((override?: {
+    personalizationEnabled?: boolean;
+    personalizationInputMethod?: PersonalizationInputMethod | null;
+    personalizationConsentAt?: string | null;
+    personalizationAnswers?: PersonalizationAnswers;
+  }) => {
     if (!selectedCollege || hasScholarship === null) return;
     const track = selectedTrack ?? selectedCollege.tracks[0];
     const scholarship = hasScholarship ? scholarshipAmount : 0;
     const net = Math.max(0, tuition - scholarship);
+    const enabled = override?.personalizationEnabled ?? personalizationEnabled;
+    const method = override?.personalizationInputMethod ?? personalizationInputMethod;
+    const consentAt = override?.personalizationConsentAt ?? personalizationConsentAt;
+    const answers = override?.personalizationAnswers ?? personalizationAnswers;
+    const interestTagVector = enabled ? buildInterestVectorFromAnswers(answers) : {};
+    const updatedAt = new Date().toISOString();
 
     const now = new Date();
     const year = now.getFullYear();
@@ -607,6 +889,15 @@ export default function OnboardingPage() {
       tuition,
       scholarship,
       netBurden: net,
+      personalizationEnabled: enabled,
+      personalizationInputMethod: method,
+      personalizationConsentAt: consentAt,
+      interestTagVector,
+      personalizationAnswers: answers,
+      personalizationSummary: enabled
+        ? `온보딩 질문으로 관심 태그 ${Object.keys(interestTagVector).length}개를 만들었습니다.`
+        : null,
+      personalizationUpdatedAt: enabled ? updatedAt : null,
       onboardingDone: true,
     });
 
@@ -620,7 +911,10 @@ export default function OnboardingPage() {
       isActive: true,
     });
 
-    setStep(6);
+    void pushToCloud().catch(() => {
+      // Local onboarding must not fail because optional cloud sync failed.
+    });
+    setStep(10);
   }, [
     selectedInterests,
     selectedCollege,
@@ -629,6 +923,10 @@ export default function OnboardingPage() {
     hasScholarship,
     scholarshipAmount,
     tuition,
+    personalizationEnabled,
+    personalizationInputMethod,
+    personalizationConsentAt,
+    personalizationAnswers,
     setProfile,
     addSemester,
   ]);
@@ -637,7 +935,7 @@ export default function OnboardingPage() {
     <MobileFrame>
       <StatusBar />
 
-      {step > 0 && step < 6 && (
+      {step > 0 && step < 10 && (
         <button
           onClick={goBack}
           className="shrink-0 px-5 py-4 text-[22px] text-ink-3 self-start"
@@ -700,13 +998,101 @@ export default function OnboardingPage() {
           onTuitionChange={setCustomTuition}
           onToggle={setHasScholarship}
           onChange={setScholarshipAmount}
-          onNext={handleSaveAndResult}
+          onNext={goNext}
         />
       )}
 
       {step === 6 && (
+        <StepPersonalizationConsent
+          onAccept={() => {
+            const consentAt = new Date().toISOString();
+            setPersonalizationEnabled(true);
+            setPersonalizationConsentAt(consentAt);
+            setPersonalizationInputMethod("questions");
+            setStep(7);
+          }}
+          onSkip={() => {
+            setPersonalizationEnabled(false);
+            setPersonalizationInputMethod("skip");
+            setPersonalizationConsentAt(null);
+            setPersonalizationAnswers({});
+            completeOnboarding({
+              personalizationEnabled: false,
+              personalizationInputMethod: "skip",
+              personalizationConsentAt: null,
+              personalizationAnswers: {},
+            });
+          }}
+        />
+      )}
+
+      {step === 7 && (
+        <StepPersonalizationMethod
+          selected={personalizationInputMethod}
+          onSelect={(method) => {
+            setPersonalizationInputMethod(method);
+            if (method === "questions") {
+              setStep(8);
+              return;
+            }
+            setStep(9);
+          }}
+        />
+      )}
+
+      {step === 8 && (
+        <StepPersonalizationQuestions
+          answers={personalizationAnswers}
+          onChange={setPersonalizationAnswers}
+          onFinish={() => {
+            setPersonalizationEnabled(true);
+            setPersonalizationInputMethod("questions");
+            completeOnboarding({
+              personalizationEnabled: true,
+              personalizationInputMethod: "questions",
+              personalizationConsentAt,
+              personalizationAnswers,
+            });
+          }}
+          onSkip={() => {
+            setPersonalizationEnabled(false);
+            setPersonalizationInputMethod("skip");
+            setPersonalizationAnswers({});
+            completeOnboarding({
+              personalizationEnabled: false,
+              personalizationInputMethod: "skip",
+              personalizationConsentAt,
+              personalizationAnswers: {},
+            });
+          }}
+        />
+      )}
+
+      {step === 9 && (
+        <StepPersonalizationPlaceholder
+          method={personalizationInputMethod}
+          onQuestions={() => {
+            setPersonalizationInputMethod("questions");
+            setStep(8);
+          }}
+          onSkip={() => {
+            setPersonalizationEnabled(false);
+            setPersonalizationInputMethod("skip");
+            setPersonalizationAnswers({});
+            completeOnboarding({
+              personalizationEnabled: false,
+              personalizationInputMethod: "skip",
+              personalizationConsentAt,
+              personalizationAnswers: {},
+            });
+          }}
+        />
+      )}
+
+      {step === 10 && (
         <StepResult
           interests={selectedInterests}
+          personalized={personalizationEnabled && Object.keys(personalizationAnswers).length > 0}
           netBurden={netBurden}
           onStart={() => router.replace("/home")}
         />
