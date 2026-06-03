@@ -49,6 +49,16 @@ TAG_GUIDE = f"""활동 태그 풀 ({len(ACTIVITY_TAGS)}개) — 이 풀에서만
 분야 태그 풀 ({len(DOMAIN_TAGS)}개) — 이 풀에서만 골라라:
 {', '.join(DOMAIN_TAGS)}"""
 
+CATEGORY_GUIDE = """카테고리 분류 기준 (8개 중 하나):
+- learning: 강의/세미나/특강/콜로키움, 글쓰기 첨삭, 학습코칭, 워크숍, 학술대회
+- career: 진로상담, 자소서/이력서, 면접, 인턴십, 현장실습, 채용, 커리어
+- sports: 헬스장, 수영, 테니스, 러닝, 체육활동
+- welfare: 심리상담, 건강검진, 집단상담, 비만클리닉, 법률상담
+- culture: 공연, 전시, 음악회, 영화제, 미술관, 콘서트
+- experience: 교환학생, 해외연수/실습, 해외봉사, 탐방, 단기연수, 글로벌프로그램
+- facility: 도서 대출, 열람실, 학술DB, 출판료 지원
+- scholarship: 장학금, 등록금 지원, 학자금대출, 근로장학"""
+
 CrawlStatus = Literal[
     "ready",
     "needs_config",
@@ -472,8 +482,15 @@ def _enrichment_prompt(records: list[dict[str, Any]]) -> str:
   "apply_url": "신청 링크 또는 null",
   "how_to_apply": ["단계1", "단계2", "단계3"],
   "site_id": "career_center / writing_center 등 또는 null",
+  "category": "learning/career/sports/welfare/culture/experience/facility/scholarship 중 하나",
   "tags": ["풀에서 고른 활동태그 2~4개 + 분야태그 1~3개, 합쳐서 3~7개"]
 }}
+
+{CATEGORY_GUIDE}
+
+category 선택 규칙:
+- 반드시 위 8개 값 중 하나만 사용.
+- 제목과 본문을 보고 항목의 실제 성격에 맞게 판단해.
 
 {TAG_GUIDE}
 
@@ -491,6 +508,10 @@ JSON 배열만 반환. 마크다운 코드블록이나 설명 텍스트 없이 [
 
 
 _TAG_POOL_SET: frozenset[str] = frozenset(TAG_POOL)
+_VALID_CATEGORIES: frozenset[str] = frozenset({
+    "learning", "career", "sports", "welfare",
+    "culture", "experience", "facility", "scholarship",
+})
 
 
 def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -515,6 +536,8 @@ def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str,
             if enrichment.get(key) is not None:
                 merged[key] = enrichment[key]
         merged["tags"] = [t for t in (enrichment.get("tags") or []) if t in _TAG_POOL_SET]
+        if enrichment.get("category") in _VALID_CATEGORIES:
+            merged["category"] = enrichment["category"]
         merged["value_status"] = "estimated" if enrichment.get("estimated_value") else "needs_estimation"
         merged["source"] = "server_crawled_enriched"
         merged_records.append(merged)
