@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import MobileFrame from "@/components/ui/MobileFrame";
 import StatusBar from "@/components/ui/StatusBar";
@@ -16,6 +17,8 @@ import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 import { items } from "@/data/items";
 import { getDaysUntilSemesterEnd } from "@/lib/semester";
+import { useAuthGate } from "@/lib/auth-gate";
+import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
 
 function getMood(percent: number): string {
   if (percent === 0) return "배고파";
@@ -35,11 +38,23 @@ function getDday(dateStr: string): number {
 }
 
 export default function HomePage() {
+  const router = useRouter();
   const [showSemesterModal, setShowSemesterModal] = useState(false);
   const [showAddSemester, setShowAddSemester] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
+  const { isAuthed, loading: authLoading } = useAuthGate();
   const user = useUserStore();
+
+  // 온보딩이 아직 안 끝났는데 직접 /home으로 들어온 경우 → 온보딩으로 보냄
+  // (로그인된 유저의 cloud pull이 끝나기를 잠시 기다림)
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user.onboardingDone && !isAuthed) {
+      router.replace("/onboarding");
+    }
+  }, [authLoading, isAuthed, user.onboardingDone, router]);
   const { semesters, activeSemesterId, setActive, addSemester, removeSemester } =
     useSemesterStore();
   const { getTotalBySemester, hasRecordForItem } = usePongStore();
@@ -145,6 +160,23 @@ export default function HomePage() {
 
       {/* ── 스크롤 콘텐츠 영역 ── */}
       <div className="flex-1 overflow-y-auto">
+
+        {/* ── 둘러보기 모드 안내 배너 ── */}
+        {!isAuthed && (
+          <div className="px-5 pt-3">
+            <button
+              onClick={() => setShowLogin(true)}
+              className="w-full bg-[#FFF7E6] border border-[#FFE2A8] rounded-xl px-4 py-3 text-left active:opacity-80"
+            >
+              <p className="text-[12px] font-medium text-[#8A5A00] mb-0.5">
+                지금은 둘러보기 모드야
+              </p>
+              <p className="text-[11px] text-[#8A5A00]/80 leading-snug">
+                새로고침하면 데이터가 사라져. 로그인하면 안전하게 저장돼 →
+              </p>
+            </button>
+          </div>
+        )}
 
         {/* ── 첫 뽕뽑기 유도 (빈 상태, 까치 위) ── */}
         {totalPonged === 0 && firstUnponged && (
@@ -295,10 +327,22 @@ export default function HomePage() {
           trackId={user.trackId}
           existingIds={semesters.map((s) => s.id)}
           onAdd={(sem) => {
+            if (!isAuthed) {
+              setShowAddSemester(false);
+              setShowLogin(true);
+              return;
+            }
             addSemester(sem);
             setActive(sem.id);
           }}
           onClose={() => setShowAddSemester(false)}
+        />
+      )}
+
+      {showLogin && (
+        <LoginRequiredModal
+          message="학기 정보를 저장하려면 로그인이 필요해. 로그인하면 클라우드에 안전하게 보관돼."
+          onClose={() => setShowLogin(false)}
         />
       )}
     </MobileFrame>

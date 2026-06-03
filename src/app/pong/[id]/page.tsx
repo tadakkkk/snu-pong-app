@@ -10,6 +10,8 @@ import { getItem } from "@/data/items";
 import { getSite } from "@/data/sites";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
+import { useAuthGate } from "@/lib/auth-gate";
+import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
 
 export default function PongDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +21,9 @@ export default function PongDetailPage() {
 
   const { addRecord, removeRecord, hasRecordForItem, getTotalBySemester, getRecordsBySemester } = usePongStore();
   const { activeSemesterId } = useSemesterStore();
+  const { isAuthed } = useAuthGate();
   const [showToast, setShowToast] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   if (!item) {
     return (
@@ -45,6 +49,10 @@ export default function PongDetailPage() {
 
   function handlePong() {
     if (!activeSemesterId || alreadyPonged) return;
+    if (!isAuthed) {
+      setShowLogin(true);
+      return;
+    }
     addRecord({
       id: `${item!.id}-${Date.now()}`,
       semesterId: activeSemesterId,
@@ -57,6 +65,10 @@ export default function PongDetailPage() {
 
   function handleUndo() {
     if (!currentRecord) return;
+    if (!isAuthed) {
+      setShowLogin(true);
+      return;
+    }
     removeRecord(currentRecord.id);
   }
 
@@ -272,6 +284,13 @@ export default function PongDetailPage() {
           </PrimaryButton>
         )}
       </div>
+
+      {showLogin && (
+        <LoginRequiredModal
+          message="뽕뽑은 기록을 저장하려면 로그인이 필요해. 로그인하면 다른 기기에서도 이어 쓸 수 있어."
+          onClose={() => setShowLogin(false)}
+        />
+      )}
 
       {/* ── 뽕뽑았어요 토스트 ── */}
       {showToast && (

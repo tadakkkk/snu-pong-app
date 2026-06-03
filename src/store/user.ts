@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 import type { Category } from "@/data/items";
 
 interface UserState {
@@ -28,13 +27,8 @@ const initial: Omit<UserState, "setProfile" | "reset"> = {
   onboardingDone: false,
 };
 
-export const useUserStore = create<UserState>()(
-  persist(
-    (set) => ({
-      ...initial,
-      setProfile: (data) => set((s) => ({ ...s, ...data })),
-      reset: () => set(initial),
-    }),
-    { name: "snu-pong-user" }
-  )
-);
+export const useUserStore = create<UserState>()((set) => ({
+  ...initial,
+  setProfile: (data) => set((s) => ({ ...s, ...data })),
+  reset: () => set(initial),
+}));
