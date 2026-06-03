@@ -1,60 +1,2944 @@
 [
   {
-    "id": "snuc_notice_718",
-    "name": "예비대학 과목별 Q&A 게시판 운영 안내(기프티콘 이벤트)",
-    "category": "learning",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=718",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "예비대학 과목별 페이지에이 운영됩니다.\r\n수강 중 궁금한 점은 언제든지 질문해 주세요! 담당 교수님과 조교님이 직접 답변해 드립니다.\r\n1. 질의응답 운영 기간: 상시 운영\r\n2. 운영 과목: 총 10개의 \r\n[이용 방법]\r\n1. 서울대학교 SNUON(https://etl.snu.ac.kr/snuon) 접속 → 희망하는 과목 신청하기\r\n2. 수강 중인 예비대학 과목 배너 클릭-신청-학습하러 가기\r\n3. https://myetl.snu.ac.kr 접속-과목-게시판-Q&A 게시판 클릭\r\n4. '글쓰기' 버튼으로 질문 등록 (비밀글 설정 가능)\r\n과목 콘텐츠에 나오는 개념, 이해가 안되는 부분부터 연습문제 풀이법까지 어떤 질문이든 환영합니다.\r\n개인적인 질문이나 기초적인 질문도 괜찮습니다. 보이고 싶지 않다면 '비밀글' 기능을 활용하세요.\r\n질문자는 과목별로 추첨을 통해 해드립니다. \r\n많은 참여 부탁드립니다. \r\n관련 문의사항: 02-880-1327(교수학습개발센터)\r\nQ&A 게시판\r\n예비대학 운영 교과목 기초 콘텐츠 (수학, 통계, 물리, 컴퓨팅 A/B, 논리적 사고, 글쓰기와 말하기, 영어, 화학, 생명과학, 예술적 및 디자인적 사고)\r\n기프티콘 지급",
-    "outbound_links": [],
-    "estimated_value": 50000,
-    "value_basis": "교수/조교 1:1 Q&A 상담 + 기프티콘 이벤트",
-    "subtitle": "예비대학 과목별 Q&A",
-    "unit": "상시",
-    "eligibility": "예비대학 수강생",
-    "apply_url": "https://etl.snu.ac.kr/snuon",
-    "how_to_apply": [
-      "SNUON 접속하여 과목 신청",
-      "myetl.snu.ac.kr에서 Q&A 게시판 접속",
-      "질문 등록"
-    ],
-    "site_id": "learning_center"
-  },
-  {
-    "id": "snuc_notice_714",
-    "name": "(2026 하계계절수업) 학부대학 개설 컴퓨팅 교과목 강의조교(대학원생), 튜터(학부생&대학원생) 모집(~5/29까지)",
-    "category": "learning",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=714",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [
-      "5/29까지",
-      "~5/29"
+    "id": "snusr_notice_snusr_notice_2a7b490ddce8",
+    "name": "2026 하계 글로벌 SNU공헌단 단원 모집",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3001",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#사회공헌",
+      "#해외봉사",
+      "#글로벌프로그램"
     ],
     "value_status": "needs_estimation",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "서울대학교 학부대학은 학생들이 전공에 상관없이 컴퓨터 소프트웨어와 인공지능 기술을 쉽게 습득할 수 있는 컴퓨팅 관련 교양교과목을 제공하고 있습니다. 이 교과목들은 「학문의 토대」<수학·과학·컴퓨팅> 영역에 개설되며 다루는 주제와 수준에 따라 기초-핵심-응용으로 구성됩니다. 지금까지 개설이 확정된 교과목은 다음과 같습니다.\r\n<컴퓨팅 기초: 처음 만나는 컴퓨팅>: 2020년 2학기부터 개설\r\n<컴퓨팅 기초: 처음 만나는 데이터>: 2025년 1학기부터 개설\r\n<컴퓨팅 핵심: 컴퓨터로 생각하기>: 2021년 1학기부터 개설\r\n<컴퓨팅 핵심: 데이터 중심의 인공지능>: 2025년 1학기부터 개설\r\n<컴퓨팅 탐색: 실생활에서 활용하기>: 2025년 2학기 개설\r\n<컴퓨팅 응용: 기계학습 개념 및 실습>: 2022년 1학기부터 개설\r\n<컴퓨팅 응용: 자연어처리의 기초>: 2022년 2학기부터 개설\r\n<컴퓨팅 응용: 데이터사이언스의 기초>: 2022년 2학기부터 개설\r\n각 교과목은 이론과 실습으로 이루어지며 실습은 강의조교와 튜터의 밀접한 상호작용 하에 진행됩니다. 학부대학에서 2026학년도 하계 계절학기 교양 <컴퓨팅 기초: 처음 만나는 컴퓨팅> 교과목의 ‘강의조교(대학원생)’와 ‘",
-    "outbound_links": [
-      "[object Object]"
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_public_lectures_snu_public_lectures_ab73570f9120",
+    "name": "미술관 현대예술문화강좌",
+    "category": "announcements",
+    "source_url": "http://www.snumoa.org",
+    "provider": "서울대학교",
+    "estimated_value": 15000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#온라인강의",
+      "#순수미술"
     ],
-    "value_basis": "강의조교/튜터 모집 공고로 학생 혜택 아님",
-    "subtitle": "컴퓨팅 교과목 조교 모집",
-    "unit": "하계계절수업",
-    "eligibility": "대학원생/학부생",
-    "deadline_date": "2026-05-29",
-    "how_to_apply": [
-      "공고 확인",
-      "신청"
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_public_lectures_snu_public_lectures_c625efe5a902",
+    "name": "융합문화콘서트",
+    "category": "announcements",
+    "source_url": "http://aict.snu.ac.kr",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#공연관람",
+      "#특강수강",
+      "#계산과학"
     ],
-    "site_id": "snuc"
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_public_lectures_snu_public_lectures_ebbe8d19d44e",
+    "name": "자연과학 공개강연",
+    "category": "announcements",
+    "source_url": "http://science.snu.ac.kr",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#수학",
+      "#물리학",
+      "#화학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_public_lectures_snu_public_lectures_fa6692f7b85a",
+    "name": "천문대 공개행사",
+    "category": "announcements",
+    "source_url": "https://astron.snu.ac.kr/%ea%b3%b5%ea%b0%9c%ed%96%89%ec%82%ac/",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#전시관람",
+      "#천문우주"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_e50b0ad28293",
+    "name": "[장애학생지원센터] 2026학년도 하계 방학 장애학생도우미 모집 안내 (교외시급 12,790원)_모집마감",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-4747",
+    "provider": "장애학생지원센터",
+    "estimated_value": 1279000,
+    "deadline_date": "2026-05-26",
+    "tags": [
+      "#멘토봉사",
+      "#사회공헌",
+      "#사회복지"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_5ec418ee63c6",
+    "name": "[모집완료] 장애학생지원센터 국가근로장학생(장애대학생봉사유형) 모집안내 (★교외근로 시급적용)",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-4073",
+    "provider": "장애학생지원센터",
+    "estimated_value": 1279000,
+    "deadline_date": "2026-02-14",
+    "tags": [
+      "#멘토봉사",
+      "#사회공헌",
+      "#사회복지"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_580e95cf48d2",
+    "name": "교육지원인력(식사활동지원 장애학생도우미) 활동 지원 안내판 설치(63동) 안내",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-2219",
+    "provider": "장애학생지원센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#사회복지"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_0b21c21840b0",
+    "name": "[모집종료] 2024학년도 동계 계절학기 장애학생도우미 모집 안내",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-2201",
+    "provider": "장애학생지원센터",
+    "estimated_value": 500000,
+    "deadline_date": null,
+    "tags": [
+      "#멘토봉사",
+      "#사회공헌",
+      "#사회복지"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_d7677271b238",
+    "name": "[모집] 2024학년도 2학기 장애학생 도우미 모집 안내",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-2091",
+    "provider": "장애학생지원센터",
+    "estimated_value": 1000000,
+    "deadline_date": null,
+    "tags": [
+      "#봉사활동",
+      "#멘토링",
+      "#사회공헌",
+      "#사회복지"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_60d55b06c708",
+    "name": "장애학생지원센터 전문교육지원인력(속기사) 채용 공고",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-2088",
+    "provider": "장애학생지원센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#취업준비"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_cf5100ecc78c",
+    "name": "장애학생지원센터 전문교육지원인력(속기사) 채용 공고",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-2085",
+    "provider": "장애학생지원센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#취업준비"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_d5f6e94a8819",
+    "name": "2024학년도 여름학기 장애학생 도우미 모집 안내(장애학생지원센터)3차 - 모집완료",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-2010",
+    "provider": "장애학생지원센터",
+    "estimated_value": 500000,
+    "deadline_date": null,
+    "tags": [
+      "#봉사활동",
+      "#멘토링",
+      "#사회공헌",
+      "#사회복지"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_f2f7138de606",
+    "name": "[모집완료]2024학년도 여름학기 장애학생 도우미 모집 안내(2차)",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-1983",
+    "provider": "장애학생지원센터",
+    "estimated_value": 500000,
+    "deadline_date": null,
+    "tags": [
+      "#봉사활동",
+      "#멘토링",
+      "#사회공헌",
+      "#사회복지"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_disability_support_staff_notices_affiliated_disability_support_staff_notices_63aa17306b33",
+    "name": "2023학년도 2학기 전문교육지원인력(속기사) 채용 공고",
+    "category": "affiliated",
+    "source_url": "https://snudanbi.snu.ac.kr/category/board-12-gn-trs7tfdm-20250123150550/#bid-1859",
+    "provider": "장애학생지원센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_4b2e055ba964",
+    "name": "[모집] 2026학년도 학생단체 활동지원사업(대학문화예술활동/지역사회봉사활동) 선정 결과 등 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=253",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#봉사활동",
+      "#공연참여",
+      "#사회공헌"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_07302e9859aa",
+    "name": "2026학년도 2학기 교내장학금 신청 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=251",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#자기계발"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_a94a91928bde",
+    "name": "2026학년도 미산(彌山) 러닝장학금 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=254",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#자기계발",
+      "#학습법코칭"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_770dd1144ad4",
+    "name": "2026학년도 2학기 국가근로장학사업 1차 학생 신청 기간 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=252",
+    "provider": "관리자",
+    "estimated_value": 1000000,
+    "deadline_date": null,
+    "tags": [
+      "#현장실습",
+      "#자기계발"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_9bd528b5e95d",
+    "name": "[IDH&DB김준기문화재단] 제3차 북한배경대학생 어학교육지원 장학사업 선발 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=248",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#어학학습",
+      "#교육학"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_7f2a50fe1971",
+    "name": "50기 WFK 청년봉사단 면접 대상자 안내",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3010",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_e3261c2cec4c",
+    "name": "2026년 2학기 농림축산식품부 대학장학금(청년창업농장학금) 장학생 선발 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=247",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#창업",
+      "#농업"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_298b6332d92b",
+    "name": "(재)아산시미래장학회 2026년 희망장학금 장학생 선발 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=246",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#사회공헌",
+      "#교육학"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_7f1f5d3fd333",
+    "name": "2026년도 상반기 강화군 대학생 등록금 지원사업 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=245",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#사회공헌",
+      "#공공정책"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_00035a67bc90",
+    "name": "2026년 2학기 삼성드림클래스 대학생멘토 선발공고",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=239",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#멘토링",
+      "#사회공헌",
+      "#교육학"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_755c7e8c0dd8",
+    "name": "(재)거창군장학회 2026년 1학기 거창군 지역출신 대학생 등록금 지원 신청 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=237",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_ed971b0d347b",
+    "name": "(~5.22.)2026년 화성시인재육성재단 「해외유학 장학금」 장학생 선발",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=236",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": "2026-05-22",
+    "tags": [
+      "~5.22."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "affiliated_student_center_notices_affiliated_student_center_notices_7e627b5357d8",
+    "name": "2026년도 세종이도인재장학금 장학생 선발 안내",
+    "category": "affiliated",
+    "source_url": "https://student.snu.ac.kr/%ec%86%8c%ec%8b%9d%c2%b7%ec%95%8c%eb%a6%bc/%ea%b3%b5%ec%a7%80%ec%82%ac%ed%95%ad/?mod=document&uid=234",
+    "provider": "관리자",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_b50d711f6834",
+    "name": "[Event] 2026 OGA Summer Trip Registration (2026 1학기 2차 유학생 문화체험행사 안내)",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general/6568",
+    "provider": "서울대학교 국제처",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_f53b339591dc",
+    "name": "[홍보] 외교부 주최·주관 \"제7차 차세대 한국 전문가 연구모임 모집 안내",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general/6566",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_91211c4471e8",
+    "name": "[홍보] Psychological Counseling for International Researchers",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general/6565",
+    "provider": "서울대학교 국제처",
+    "estimated_value": 100000,
+    "deadline_date": null,
+    "tags": [
+      "#심리상담",
+      "#외국인교류",
+      "#건강관리"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_df9b31568244",
+    "name": "[홍보] '제7회 국제 청년 섬 워크캠프' 유학생 참가자 모집",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general/6564",
+    "provider": "서울대학교 국제처",
+    "estimated_value": 200000,
+    "deadline_date": null,
+    "tags": [
+      "#워크숍",
+      "#국제교류",
+      "#봉사활동",
+      "#네트워킹"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_6198c6e83db0",
+    "name": "[홍보] LG 유플러스 말레이시아 유학생 대상 아르바이트 채용",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general/6563",
+    "provider": "서울대학교 국제처",
+    "estimated_value": 1000000,
+    "deadline_date": null,
+    "tags": [
+      "#인턴십",
+      "#취업준비",
+      "#외국인교류"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_88cd2099882d",
+    "name": "2026년도 한미 첨단분야 청년교류 지원사업 제5기 장학생 선발 공고",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general-scholarship-outgoing/6471",
+    "provider": "서울대학교 국제처",
+    "estimated_value": 5000000,
+    "deadline_date": null,
+    "tags": [
+      "#해외연수",
+      "#국제교류",
+      "#인공지능"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_be7f3b969464",
+    "name": "Notice on Application for the 2025 Global Subsidy Scholarship",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general-scholarship/6417",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#국제교류",
+      "#해외연수"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_ecc21ae3e729",
+    "name": "[Scholarship] Call for Global Hope Scholarship for Spring 2026 ※GKS NOT applicable",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general-scholarship/6394",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#국제교류",
+      "#글로벌프로그램"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_b6cd1ed58aa6",
+    "name": "[Scholarship] 『Daesang Asia scholarship for Spring 2026』 ※GKS Inapplicable",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general-scholarship/6393",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#국제교류"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_a6d5c8d1fa39",
+    "name": "Spring 2026 Application for SNU Visiting Student Program",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/incoming/6168",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#국제교류",
+      "#교환학생",
+      "#글로벌프로그램"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_9b85ca30882b",
+    "name": "Fall 2025 Call For SNU Visiting Student Program (2025학년도 2학기 국제방문학생 모집)",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/incoming-incoming-visiting-program/5928",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#국제교류",
+      "#교환학생",
+      "#글로벌프로그램"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_77ea10b07bd6",
+    "name": "[모집] 2026학년도 AUA 인도네시아 단기연수 참가자 모집",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general-outgoing/6561",
+    "provider": "서울대학교 국제처",
+    "estimated_value": 3000000,
+    "deadline_date": "2026-05-28",
+    "tags": [
+      "#해외연수",
+      "#국제교류",
+      "#글로벌프로그램"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_bef1aefc07db",
+    "name": "[모집] 2026년 하반기 WFP 및 IFAD 인턴십 프로그램 참가자 모집 공고(5. 31.(일)까지 연장)",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general-outgoing/6551",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": "2026-05-31",
+    "tags": [
+      "#인턴십",
+      "#해외인턴",
+      "#국제교류",
+      "#국제개발협력"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_05557f8dd8c5",
+    "name": "[모집] 2026년 하반기 UNICEF 인턴십 프로그램 참가자 모집 공고",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general-outgoing/6544",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#인턴십",
+      "#해외인턴",
+      "#국제교류",
+      "#국제개발협력"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_362d0e26f12d",
+    "name": "2026 OECD 상반기 인턴십 프로그램 참가자 모집",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general-outgoing/6543",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#인턴십",
+      "#해외인턴",
+      "#국제교류",
+      "#정책학"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_f0c653eb0c81",
+    "name": "[홍보] 2026년 서울대학교 교환학생 파견 준비를 위한 TOEFL 토플 시험 할인권 안내",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/outgoing/6536",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#어학학습",
+      "#시험대비",
+      "#교환학생",
+      "#영어영문"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_it_office_related_it_office_1ed26d3b23ea",
+    "name": "서울대학교 AI Summit 2026 개최",
+    "category": "related",
+    "source_url": "https://ist.snu.ac.kr/16248/",
+    "provider": "서울대학교 정보화본부",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#전문가특강",
+      "#세미나",
+      "#네트워킹",
+      "#인공지능"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_it_office_related_it_office_5df96b290151",
+    "name": "제1회 서울대학교 생성형 AI 경진대회 최종 수상작 발표",
+    "category": "related",
+    "source_url": "https://ist.snu.ac.kr/16126/",
+    "provider": "서울대학교 정보화본부",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#공모전",
+      "#인공지능"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_it_office_related_it_office_9a05845efed5",
+    "name": "제1회 서울대학교 생성형 AI 활용 경진대회(10.20.~10.24. 기획서 접수)",
+    "category": "related",
+    "source_url": "https://ist.snu.ac.kr/16088/",
+    "provider": "서울대학교 정보화본부",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#공모전",
+      "#아이디어공모",
+      "#인공지능"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_b2b04624fdf2",
+    "name": "서울대학교 중앙도서관 서양서 고문헌 가치평가 체계 구축 연구용역 공고",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369171",
+    "provider": "서울대학교 도서관",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#연구프로젝트",
+      "#역사학"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_e8ecb59f502a",
+    "name": "[학술DB] \"Project Syndicate\" 시범서비스 제공 안내 ( ~ 2026. 6. 30.)",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369166",
+    "provider": "서울대학교 도서관",
+    "estimated_value": 500000,
+    "deadline_date": "2026-06-30",
+    "tags": [
+      "#온라인강의",
+      "#문헌조사",
+      "#정치학",
+      "#경제학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_aa7fdc07aca9",
+    "name": "[학술DB] \"CAS BioFinder\" 시범서비스 제공 안내 ( ~ 2026. 12. 31.)",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369165",
+    "provider": "서울대학교 도서관",
+    "estimated_value": 800000,
+    "deadline_date": "2026-12-31",
+    "tags": [
+      "#문헌조사",
+      "#연구프로젝트",
+      "#생명공학",
+      "#바이오"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_8921c8a0a730",
+    "name": "Springer Hybrid Journals 오픈액세스 논문게재료(APC) 지원 50% 소진에 따른 지원 기준 안내 ('26.6.2.~)",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369184",
+    "provider": "서울대학교 도서관",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#논문작성",
+      "#학술대회",
+      "#연구프로젝트"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_9c39b1605f77",
+    "name": "[ 북 콘서트]제30회 저자와 함께하는 중앙도서관 북 콘서트 - 김수영 교수 편 개최",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369155",
+    "provider": "서울대학교 도서관",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#독서토론",
+      "#문예창작"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_future_strategy_related_future_strategy_3a94ec945ffe",
+    "name": "서울대학교 국가미래전략원 직원(초단시간근로자) 채용 공고",
+    "category": "related",
+    "source_url": "https://ifs.snu.ac.kr/news/notice?md=v&bbsidx=7022",
+    "provider": "서울대학교 국가미래전략원",
+    "estimated_value": 1500000,
+    "deadline_date": null,
+    "tags": [
+      "#인턴십",
+      "#취업준비",
+      "#행정학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_future_strategy_related_future_strategy_c216012646b8",
+    "name": "서울대학교 국가미래전략원 2026년 [ AI 공존 사회 ] 연구 과제 공모 Q & A",
+    "category": "related",
+    "source_url": "https://ifs.snu.ac.kr/news/notice?md=v&bbsidx=7021",
+    "provider": "서울대학교 국가미래전략원",
+    "estimated_value": null,
+    "deadline_date": "2026-01-30",
+    "tags": [
+      "#연구프로젝트",
+      "#연구공모",
+      "#인공지능"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_future_strategy_related_future_strategy_f430acd8b385",
+    "name": "서울대학교 국가미래전략원 2026년 [ AI 공존 사회 ] 연구 과제 공모 안내",
+    "category": "related",
+    "source_url": "https://ifs.snu.ac.kr/news/notice?md=v&bbsidx=7020",
+    "provider": "서울대학교 국가미래전략원",
+    "estimated_value": null,
+    "deadline_date": "2026-01-28",
+    "tags": [
+      "#연구프로젝트",
+      "#논문작성",
+      "#공모전",
+      "#인공지능",
+      "#공공정책"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_future_strategy_related_future_strategy_e19a22c34fd0",
+    "name": "서울대학교 국가미래전략원 SNU Strategic Studies Fellowship 연구원 채용공고 (수정)",
+    "category": "related",
+    "source_url": "https://ifs.snu.ac.kr/news/notice?md=v&bbsidx=7017",
+    "provider": "서울대학교 국가미래전략원",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#연구인턴",
+      "#취업준비",
+      "#커리어코칭",
+      "#정책학",
+      "#공공정책"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_future_strategy_related_future_strategy_ffaf9af0acd5",
+    "name": "2025년도 서울대학교 국가미래전략원 정책연구 클러스터 공모 결과 발표 안내",
+    "category": "related",
+    "source_url": "https://ifs.snu.ac.kr/news/notice?md=v&bbsidx=7016",
+    "provider": "서울대학교 국가미래전략원",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#연구프로젝트",
+      "#정책학",
+      "#공공정책"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_future_strategy_related_future_strategy_ee238af0a64a",
+    "name": "2025년도 서울대학교 국가미래전략원 정책연구 클러스터 공모 안내",
+    "category": "related",
+    "source_url": "https://ifs.snu.ac.kr/news/notice?md=v&bbsidx=6998",
+    "provider": "서울대학교 국가미래전략원",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#연구프로젝트",
+      "#공모전",
+      "#정책학",
+      "#공공정책"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_cf058a3317ef",
+    "name": "생활과학 창업캠프",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001838",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": 100000,
+    "deadline_date": "2026-07-03",
+    "tags": [
+      "#창업",
+      "#워크숍",
+      "#창업경진대회",
+      "#아이디어공모",
+      "#패션",
+      "#식품영양"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_9a10e36c7cbf",
+    "name": "제12회 CALS 창업경진대회 참가자 모집",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001837",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": null,
+    "deadline_date": "2026-09-11",
+    "tags": [
+      "#창업경진대회",
+      "#공모전",
+      "#농생명"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_891871dbd2a8",
+    "name": "불안조절 집단상담 프로그램 (목요일 집단)",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001836",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": 150000,
+    "deadline_date": "2026-06-12",
+    "tags": [
+      "#그룹스터디",
+      "#심리상담",
+      "#자기계발",
+      "#심리학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_efeea69320b4",
+    "name": "불안조절 집단상담 프로그램 (수요일 집단)",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001834",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": 150000,
+    "deadline_date": "2026-06-12",
+    "tags": [
+      "#그룹스터디",
+      "#심리상담",
+      "#자기계발",
+      "#심리학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_0918ec4402ef",
+    "name": "2026 동문과 함께하는 제주 SNUSR+LnL 서류전형 합격자 안내",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3009",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_8408b7e880a9",
+    "name": "[정원40명] 대학원생 메타인지 기반 자기이해 워크숍 \"진로, 더 STRONG하게!\"",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001833",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": 40000,
+    "deadline_date": "2026-06-10",
+    "tags": [
+      "#워크숍",
+      "#진로탐색",
+      "#자기계발",
+      "#심리학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_224a690dd9d4",
+    "name": "2026 탄소 데이터 활용 탄소중립 정책·전략아이디어 공모전",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001832",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": null,
+    "deadline_date": "2026-06-30",
+    "tags": [
+      "#공모전",
+      "#정책학",
+      "#환경공학"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_05e353921fcf",
+    "name": "2027학년도 예비대학 재학생 서포터즈 선발(학부생)",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001826",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": 300000,
+    "deadline_date": "2026-06-12",
+    "tags": [
+      "#멘토링",
+      "#리포트작성",
+      "#커뮤니티운영",
+      "#교육학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_e4fc3d772ca7",
+    "name": "2026 SNU IGNITE 딥테크 창업 캠프",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001824",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": 100000,
+    "deadline_date": "2026-06-22",
+    "tags": [
+      "#창업",
+      "#워크숍",
+      "#멘토링",
+      "#특강수강"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_74de342b3fef",
+    "name": "2026 동문과 함께하는 제주 SNUSR+LnL 면접전형 합격자 발표",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3013",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#동문교류",
+      "#네트워킹",
+      "#사회공헌"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_ed0c2febf568",
+    "name": "50기 WFK 청년봉사단 해외봉사단 1차 합격자 안내",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3012",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#해외봉사",
+      "#봉사활동",
+      "#국제개발협력"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_f2ade744fd95",
+    "name": "2026 하계 글로벌 SNU공헌단 추가 모집 최종 합격자 발표 안내",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3011",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#해외봉사",
+      "#봉사활동",
+      "#사회공헌",
+      "#국제개발협력"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_31f50264e9fe",
+    "name": "2026 하계 글로벌 SNU공헌단 학생 및 자문단원, 촬영스탭 추가 모집",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3007",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#해외봉사",
+      "#사회공헌",
+      "#국제개발협력"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_c5cfd52ca00b",
+    "name": "50기 WFK 청년봉사단 해외봉사 단원 모집",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3005",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#해외봉사",
+      "#사회공헌",
+      "#국제개발협력"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_3b352504846d",
+    "name": "2026 동문과 함께하는 제주 SNUSR+LnL 단원 모집 ~5/11",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3002",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": "2026-05-11",
+    "tags": [
+      "#사회공헌",
+      "#동문교류",
+      "#봉사활동"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_ff32f8073efa",
+    "name": "서울대학교 교육학과 창립 80주년 교육학 마스터클래스 강좌시리즈 2",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170933",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#세미나",
+      "#전문가특강",
+      "#교육학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_6447f7374eb5",
+    "name": "SNUDataScienceSeminar 6.3(수)9시: AI in Finance, Endowus의 공동창업자 Sam Rhee",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170927",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#세미나",
+      "#특강수강",
+      "#전문가특강",
+      "#데이터사이언스",
+      "#인공지능",
+      "#금융"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_3ba34d369dde",
+    "name": "2026년 해외학자 초청 학술회의「송·명대 심학(心學)의 연원과 발전 」개최",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170897",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#학술대회",
+      "#학회참여",
+      "#국제교류",
+      "#철학",
+      "#역사학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_f77ccfaac23d",
+    "name": "철학사상연구소 제258회 정례 콜로키 개최(사토 마사유키(佐藤將之)-국립대만대학교)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170894",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#세미나",
+      "#학술대회",
+      "#국제교류",
+      "#철학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_c11d1a636b97",
+    "name": "[SNU 그랜드퀘스트 포럼 & 위크]미래를 이끌 담대한 질문이 \"공개\" 됩니다",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170891",
+    "provider": "서울대학교",
+    "estimated_value": 60000,
+    "deadline_date": "2026-06-18",
+    "tags": [
+      "#세미나",
+      "#워크숍",
+      "#특강수강",
+      "#네트워킹"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_b76beae9a7cf",
+    "name": "6월 10일(수) 사회과학연구원 월례세미나 “원전 재난 속에서 여성들의 말하기\" 오은정 교수 (사회대 인류학과)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170888",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#세미나",
+      "#인류학",
+      "#사회학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_ab7a91a83c25",
+    "name": "[조치완료] JCR(Journal Citation Reports) 접속 오류 안내",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369086",
+    "provider": "서울대학교 도서관",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#연구프로젝트",
+      "#문헌조사"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_1d33e3887f71",
+    "name": "[국제문제연구소 집담회]핵무기의 국제질서와 한반도 함의: 핵전략과 확장억제의 미래(6/4(목) 15:00, 220동 513호)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170885",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#세미나",
+      "#외교국제관계",
+      "#정치학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_3aa89db03020",
+    "name": "〈창의적 사고와 표현: BTS와 철학하기〉 기말 공개 발표회에 여러분을 초대합니다.",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170882",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#발표",
+      "#공연관람",
+      "#철학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_eb9c5d1a8676",
+    "name": "🔩수정과 반복이 쌓여가는 창작의 현장, 《공(간)감각》",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170879",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": "2026-06-09",
+    "tags": [
+      "#전시관람",
+      "#작품제작",
+      "#순수미술"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_8b30398204c2",
+    "name": "시흥캠퍼스🔥2026 SNU IGNITE 딥테크 캠프🔥 모집",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170876",
+    "provider": "서울대학교",
+    "estimated_value": 300000,
+    "deadline_date": "2026-06-19",
+    "tags": [
+      "#워크숍",
+      "#창업",
+      "#소프트웨어개발",
+      "#인공지능"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_9f73315d2d7d",
+    "name": "제104회 서울대학교 국사학과-BK21 한국학 컬로퀴엄(제23회 BK21 국제한국학 컬로퀴엄)(6/5, 금)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170873",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#세미나",
+      "#학술대회",
+      "#학회참여",
+      "#역사학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_41efdcc6ba42",
+    "name": "SNU OGA_HAPPY HOUR(2026-06-04, Thu, 16:00 ~ 17:00) Invitation(2026 Spring)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170867",
+    "provider": "서울대학교",
+    "estimated_value": 15000,
+    "deadline_date": null,
+    "tags": [
+      "#네트워킹",
+      "#국제교류",
+      "#외국인교류"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_64336b787b17",
+    "name": "학부대학 명사 초청 특강 - 전중환 교수 강연 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170753",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#전문가특강",
+      "#특강수강"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_db534671304a",
+    "name": "\"알고리즘 사회와 '인지적 항복': 인간 지능의 역사에서 고유치를 찾아서\" 콜로키움(6.3.수, 19시, 온라인)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170657",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#온라인강의",
+      "#세미나",
+      "#인공지능",
+      "#사회학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_6447f7374eb5",
+    "name": "SNUDataScienceSeminar 6.3(수)9시: AI in Finance, Endowus의 공동창업자 Sam Rhee",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170927",
+    "provider": "서울대학교",
+    "estimated_value": 25000,
+    "deadline_date": null,
+    "tags": [
+      "#세미나",
+      "#전문가특강",
+      "#데이터사이언스",
+      "#인공지능",
+      "#금융"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_cf39e583ccb1",
+    "name": "IHMC 2026 Seoul 개최 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=168806",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": "2026-06-05",
+    "tags": [
+      "#학술대회",
+      "#국제교류",
+      "#의학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_eecbe6e2ff63",
+    "name": "2026 베리타스 강좌1 「공존 – 환경, 사회 그리고 소통」 학부생 포럼 (6/1, 6/8) 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170642",
+    "provider": "서울대학교",
+    "estimated_value": 40000,
+    "deadline_date": "2026-06-08",
+    "tags": [
+      "#토론",
+      "#세미나",
+      "#환경공학",
+      "#사회학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_de55bb505c02",
+    "name": "2026년 1학기 사회과학연구원 월례세미나 전체 일정",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=168809",
+    "provider": "서울대학교",
+    "estimated_value": 50000,
+    "deadline_date": "2026-06-10",
+    "tags": [
+      "#세미나",
+      "#학회참여",
+      "#사회학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_ad45b03199fc",
+    "name": "서울대기술지주 〈창업아이디어톤〉 모집(~6/14(일)까지)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170864",
+    "provider": "서울대학교",
+    "estimated_value": 100000,
+    "deadline_date": "2026-06-14",
+    "tags": [
+      "#창업",
+      "#아이디어공모",
+      "#해커톤",
+      "#창업경진대회"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_17d94ac9cb29",
+    "name": "[빅데이터 혁신융합대학사업단]2026학년도 첨단분야 혁신융합대학생 그린 이노베이터 – ESG 정책 캠프 모집 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170852",
+    "provider": "서울대학교",
+    "estimated_value": 150000,
+    "deadline_date": "2026-06-04",
+    "tags": [
+      "#워크숍",
+      "#정책학",
+      "#환경공학",
+      "#빅데이터"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_32590edcca2f",
+    "name": "[규장각]“한국대학의 역사적 형성” 제2차 학술대회 〈전쟁과 개발 사이의 '한국대학' - 한국 고등 교육, 전문직, 지식장의 전환〉 개최 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169769",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": "2026-06-05",
+    "tags": [
+      "#학술대회",
+      "#특강수강",
+      "#역사학",
+      "#교육학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_f1b64eb6f134",
+    "name": "2026 그린바이오 컨소시엄 Florida 해외 단기 실습 프로그램 안내(~6/12까지)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170564",
+    "provider": "서울대학교",
+    "estimated_value": 3000000,
+    "deadline_date": "2026-06-12",
+    "tags": [
+      "#해외연수",
+      "#현장실습",
+      "#그룹스터디",
+      "#생명공학",
+      "#농생명"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_5f7870f906e3",
+    "name": "SNU 커리어기자단 14기 모집(~6/5)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170111",
+    "provider": "서울대학교",
+    "estimated_value": 500000,
+    "deadline_date": "2026-06-05",
+    "tags": [
+      "#취업준비",
+      "#포트폴리오제작",
+      "#언론정보",
+      "#콘텐츠기획"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_c060559ed014",
+    "name": "서울대 평생교육원 초등 모빌리티 숙박캠프 운영조교 모집",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170240",
+    "provider": "서울대학교",
+    "estimated_value": 1000000,
+    "deadline_date": "2026-06-15",
+    "tags": [
+      "#멘토링",
+      "#교육서비스",
+      "#모빌리티"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_8b30398204c2",
+    "name": "시흥캠퍼스🔥2026 SNU IGNITE 딥테크 캠프🔥 모집",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170876",
+    "provider": "서울대학교",
+    "estimated_value": 200000,
+    "deadline_date": "2026-06-19",
+    "tags": [
+      "#창업",
+      "#워크숍",
+      "#아이디어공모",
+      "#소프트웨어개발",
+      "#스타트업인턴"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_d5fe48575676",
+    "name": "제8회 다양성 도서영화전 개최 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169703",
+    "provider": "서울대학교",
+    "estimated_value": 30000,
+    "deadline_date": "2026-06-19",
+    "tags": [
+      "#전시관람",
+      "#독서토론",
+      "#미디어커뮤니케이션"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_c8869dab3905",
+    "name": "ICOLSEI 2026 얼리버드 등록 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170846",
+    "provider": "서울대학교",
+    "estimated_value": 50000,
+    "deadline_date": "2026-06-12",
+    "tags": [
+      "#학회참여",
+      "#국제학회",
+      "#교육학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snusr_notice_snusr_notice_fefdfa32cc7e",
+    "name": "2026년 하계 글로벌 SNU공헌단 최종 합격자 발표 안내",
+    "category": "affiliated",
+    "source_url": "https://snusr.snu.ac.kr/community/notice?md=v&bbsidx=3008",
+    "provider": "서울대학교 글로벌사회공헌단",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_be859d7cd5d8",
+    "name": "2026 서울대학교 공과대학 청소년 공학 프런티어 캠프 모집(~6/22)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170039",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": "2026-06-22",
+    "tags": [
+      "~ 06.22."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_3865142ff037",
+    "name": "〈 첨단융합학부 - 2026년 SNUTI.ExP( ) 〉 5월, 6월 프로그램 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169625",
+    "provider": "서울대학교",
+    "estimated_value": 100000,
+    "deadline_date": "2026-06-30",
+    "tags": [
+      "#워크숍"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_7bcd15afeed8",
+    "name": "〈소닉 노마드 2026〉 사운드 작업 오픈콜",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170771",
+    "provider": "서울대학교",
+    "estimated_value": 100000,
+    "deadline_date": "2026-07-31",
+    "tags": [
+      "#공모전",
+      "#작품제작",
+      "#음악연주"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_2aa0c11073ab",
+    "name": "2026-1학기 사회과학연구원 방법론 세미나 일정",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=168803",
+    "provider": "서울대학교",
+    "estimated_value": 150000,
+    "deadline_date": "2026-06-09",
+    "tags": [
+      "#세미나",
+      "#학술동아리",
+      "#연구프로젝트",
+      "#사회학",
+      "#정치학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_eeafa9048d5f",
+    "name": "2026학년도 1학기 간호과학연구소 학술동향, 수요학술 및 간호플러스세미나 일정 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=166898",
+    "provider": "서울대학교",
+    "estimated_value": 120000,
+    "deadline_date": "2026-06-10",
+    "tags": [
+      "#세미나",
+      "#학술대회",
+      "#전문가특강",
+      "#간호보건"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_3e1a72a633f5",
+    "name": "미국 혁명 250주년: 식민주의와 그 유산이 미국에 미친 영향",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=166859",
+    "provider": "서울대학교",
+    "estimated_value": 25000,
+    "deadline_date": "2026-06-10",
+    "tags": [
+      "#특강수강",
+      "#전문가특강",
+      "#역사학",
+      "#정치학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_2748fc1ee732",
+    "name": "[미술관] 서울대학교미술관 20주년 기념 아카이브 전시 《안과 밖》",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=168302",
+    "provider": "서울대학교",
+    "estimated_value": 15000,
+    "deadline_date": "2026-06-28",
+    "tags": [
+      "#전시관람",
+      "#순수미술"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_b75265402a27",
+    "name": "지역·공간분석학 세미나 \"지속가능한 도시설계 및 필연 기술\"",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=167009",
+    "provider": "서울대학교",
+    "estimated_value": 120000,
+    "deadline_date": "2026-06-10",
+    "tags": [
+      "#세미나",
+      "#전문가특강",
+      "#연구프로젝트",
+      "#도시계획",
+      "#환경공학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_edcf727a6bbb",
+    "name": "[역사학부 역량강화사업단]\"식탁 위의 역사: 음식으로 읽는 인간과 사회\" 콜로키엄",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=166187",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": "2026-06-16",
+    "tags": [
+      "#세미나",
+      "#특강수강",
+      "#역사학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_5b2d7142a5c3",
+    "name": "[공익법률센터]서울대학교 구성원을 위한 법률상담 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=166061",
+    "provider": "서울대학교",
+    "estimated_value": 100000,
+    "deadline_date": "2026-06-30",
+    "tags": [
+      "#진로상담",
+      "#코칭",
+      "#법학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_da5ec2de695c",
+    "name": "〈진리는 나의 빛: 화양 신용하의 학문과 장서〉 기념전 개최",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169946",
+    "provider": "서울대학교",
+    "estimated_value": 0,
+    "deadline_date": "2026-09-20",
+    "tags": [
+      "#전시관람",
+      "#사회학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_839543777972",
+    "name": "2026 중앙도서관 Open Access 출판료 지원",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=165176",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": "2026-10-31",
+    "tags": [
+      "#논문작성",
+      "#논문발표",
+      "#학술대회"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_2ab094c63a82",
+    "name": "[보건진료소]2026 새해 다짐, 비만클리닉 전문가 3인이 함께합니다.",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=163855",
+    "provider": "서울대학교",
+    "estimated_value": 100000,
+    "deadline_date": "2026-12-31",
+    "tags": [
+      "#건강관리",
+      "#코칭",
+      "#간호보건"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_c943ad059f63",
+    "name": "2026년도 교내 구성원 대상 창업 멘토링 모집 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=165629",
+    "provider": "서울대학교",
+    "estimated_value": 100000,
+    "deadline_date": "2027-01-31",
+    "tags": [
+      "#멘토링",
+      "#창업",
+      "#창업"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_36deeaafc083",
+    "name": "글로벌 제품개발 DEMO DAY",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170834",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#시제품제작",
+      "#창업",
+      "#소프트웨어개발"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_aada5642f21c",
+    "name": "제12회 사회과학 포럼 \"AI 시대, 사회과학에 길을 묻다\"(6/4(목) 14:00)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170345",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#세미나",
+      "#전문가특강",
+      "#인공지능",
+      "#사회학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_41efdcc6ba42",
+    "name": "SNU OGA_HAPPY HOUR(2026-06-04, Thu, 16:00 ~ 17:00) Invitation(2026 Spring)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170867",
+    "provider": "서울대학교",
+    "estimated_value": 10000,
+    "deadline_date": null,
+    "tags": [
+      "#네트워킹",
+      "#외국인교류",
+      "#국제교류"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_b9fbc39d811a",
+    "name": "이커머스 확산과 상업용 부동산 임대료의 변화: 한국 상업용 부동산 시장의 증거 (6/4)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170660",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#학술대회",
+      "#경제학",
+      "#부동산금융"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_a523cc222a5d",
+    "name": "학부대학 명사 초청 특강 - 이종범 작가 강연 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170156",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#문예창작"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_f094a8a993a3",
+    "name": "서울대학교 보건대학원 보건환경연구소-경영대학 경영연구소 공동 세미나 2026",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169652",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#세미나",
+      "#경영",
+      "#간호보건"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_7990cfb62a8a",
+    "name": "서울대학교 보건대학원 보건환경연구소-경영대학 경영연구소 공동 세미나 2026",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170471",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#세미나",
+      "#경영",
+      "#간호보건"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_d58a8a92428a",
+    "name": "제 20회 동분서주 : \"탄화수소 데탕트: 냉전 속 시베리아 개발과 추출주의(Extractivism)의 국제정치\"",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170225",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#정치학",
+      "#역사학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_general_notices_snu_general_notices_a0e4848ef7ef",
+    "name": "2026학년도 서울공대 청소년 공학 프런티어 캠프 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/notice/genernal?md=v&bbsidx=170042",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#워크숍",
+      "#기계공학"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_general_notices_snu_general_notices_736bfae8c593",
+    "name": "KOSSDA 대학생 데이터 시각화 공모전 2026",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/notice/genernal?md=v&bbsidx=167870",
+    "provider": "서울대학교",
+    "estimated_value": 100000,
+    "deadline_date": null,
+    "tags": [
+      "#공모전",
+      "#포트폴리오제작",
+      "#데이터사이언스"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_general_notices_snu_general_notices_13d7dc35e422",
+    "name": "2026년 서울대 대학원생 후기 SSBT 장학생 모집(~ 2026.04.30.)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/notice/genernal?md=v&bbsidx=166682",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": "2026-04-30",
+    "tags": [
+      "#진로상담",
+      "#취업준비"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_general_notices_snu_general_notices_3639a52ba2bd",
+    "name": "[규장각한국학연구원] 2026년도 '21세기 신규장각 자료구축 사업' 지원과제 공모 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/notice/genernal?md=v&bbsidx=166238",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#연구프로젝트",
+      "#공모전",
+      "#역사학"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_general_notices_snu_general_notices_966d4cda74a2",
+    "name": "2026년도 미래선도형 박사후연구원 지원사업(Frontier Fellowship) 신규과제 신청 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/notice/genernal?md=v&bbsidx=165971",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "#연구프로젝트",
+      "#학부연구"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_public_lectures_snu_public_lectures_d62819e2b116",
+    "name": "규장각한국학연구원 전시",
+    "category": "announcements",
+    "source_url": "https://kyu.snu.ac.kr/exhibit/exhibit-current/",
+    "provider": "서울대학교",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [
+      "#전시관람",
+      "#역사학",
+      "#고전"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_public_lectures_snu_public_lectures_287176a77073",
+    "name": "규장각 금요시민강좌",
+    "category": "announcements",
+    "source_url": "https://kyu.snu.ac.kr/class/class-detail/",
+    "provider": "서울대학교",
+    "estimated_value": 10000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#역사학",
+      "#국어국문"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_public_lectures_snu_public_lectures_0cb6bda4df5d",
+    "name": "박물관 수요교양강좌",
+    "category": "announcements",
+    "source_url": "http://museum.snu.ac.kr",
+    "provider": "서울대학교",
+    "estimated_value": 15000,
+    "deadline_date": null,
+    "tags": [
+      "#특강수강",
+      "#고고학",
+      "#순수미술",
+      "#인류학"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_b4ae43da1445",
+    "name": "[첨단융합학부-SNUTI In Lounge #11] DIGEST+ 박승민 교수(nanyang Technological Iniverstiy)",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001812",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~2026.06.17",
+      "~2026.06.02",
+      "D-17",
+      "D-2"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_6c9887631c80",
+    "name": "SNU OGA_HAPPY HOUR(2026-05-28, Thu, 16:00 ~ 17:00) Invitation(2026 Spring)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170645",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_eecbe6e2ff63",
+    "name": "2026 베리타스 강좌1 「공존 – 환경, 사회 그리고 소통」 학부생 포럼 (6/1, 6/8) 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170642",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~ 2026.06.08"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_b2ba67c0122e",
+    "name": "제30회 저자와 함께 하는 중앙도서관 북 콘서트 - 김수영 교수 편 개최(6/1)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170579",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_c50d6edd357c",
+    "name": "🏀 아마추어 농구씬의 진짜 이야기, 「어쩌다 농구」",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170576",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_cc5b51a8c533",
+    "name": "2026년 6월 화요음악회:🎵메조 소프라노 베셀리나 카자로바 (🎤Mezzo-soprano Vesselina Kazarova)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170573",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_f2b0deebcaec",
+    "name": "2026년도 하계 인턴십 프로그램 참가자 모집 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170480",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~ 05.31."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_be14e61df44a",
+    "name": "LikeSNU 3분 온보딩 이벤트 참여하고 웰컴키트 받아가세요",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170102",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~ 05.31."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_764925e2afc3",
+    "name": "서울대학교 데이터사이언스대학원 2026년도 여름방학·하반기 Research Intern 모집 (~5/31)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169679",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~ 05.31."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_48f15febdc56",
+    "name": "'Energy Up! 에너지신산업 탐구생활 해외 9기 - 미국(휴스턴) 연수' 참가자 모집(~6/1(월))",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170309",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~ 06.01."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_db534671304a",
+    "name": "\"알고리즘 사회와 '인지적 항복': 인간 지능의 역사에서 고유치를 찾아서\" 콜로키움(6.3.수, 19시, 온라인)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170657",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_f775f7bf5ed7",
+    "name": "이승우 소설가와 함께 기억을 거니는 여름 〈서울대-민음사 라이터스쿨 4기〉 모집",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=168779",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~ 06.02."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_79fce0150ba0",
+    "name": "제14회 열린인권강좌: 젠더와 공존",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=167237",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~ 06.02."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_c152c6ccc218",
+    "name": "(6/12) \"한일 수교 60주년의 재조명과 새로운 조망\"",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170654",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_b2ba67c0122e",
+    "name": "제30회 저자와 함께 하는 중앙도서관 북 콘서트 - 김수영 교수 편 개최(6/1)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170579",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_33fdaebdd7af",
+    "name": "BCS Symposium by Dr. Jee Hyun Choi & Dr. Nikolai Axmacher 개최 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169586",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_65b207f3bfa2",
+    "name": "현대한국종합연구단 콜로키움 “공통된 것 없는 공동체: 한국 민주주의의 불가능성에 관하여” (6/1)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169928",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_0eb24463f376",
+    "name": "2026년 제1차 최신 인공지능 기술의 교육적 활용 워크숍 사전 참가 신청",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169952",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_f490200c7671",
+    "name": "6월 9일(화) 사회과학연구원 방법론 세미나 “How Social Media Creators Shape Mass Politics”(김은지 교수)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170651",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_d573ec304cc0",
+    "name": "제4회 중앙도서관 연구자 커리어 멘토링 특강(Eng.)",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001808",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~2026.06.08",
+      "~2026.06.09",
+      "D-9"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_3b5cb74319f4",
+    "name": "제4차 현대철학의 동향 제3회 콜로키움 개최 - 이찬웅(이화여자대학교)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170648",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_international_affairs_related_international_affairs_8192b4853a7d",
+    "name": "[홍보] 2026년 해외영업 외국인 수시채용(미국)",
+    "category": "related",
+    "source_url": "https://oia.snu.ac.kr/news/general/6562",
+    "provider": "서울대학교 국제처",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_189384303502",
+    "name": "SNU 커리어기자단 14기 모집",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001806",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~2026.06.05",
+      "~2026.10.16",
+      "D-6"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_4167e0a87e01",
+    "name": "강원택 교수님 정년기념 고별강연 - 한국 정치와 함께한 시간, 그리고 남겨진 질문들",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170693",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_60d0696c1c88",
+    "name": "사회복지연구소 제39회 월례세미나 개최 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170684",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_all_events_snu_calendar_all_events_b9fbc39d811a",
+    "name": "이커머스 확산과 상업용 부동산 임대료의 변화: 한국 상업용 부동산 시장의 증거 (6/4)",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170660",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_9876d751ff4e",
+    "name": "[기념엽서배포] 전시도 보고 기념엽서세트도 받자: 신용하 문고 기념전",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369091",
+    "provider": "서울대학교 도서관",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_3b7aaa6e7958",
+    "name": "[학술DB] ICE Current Collection(토목 및 환경공학, 재료과학 분야) 시범 서비스 안내(~8/14)",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369031",
+    "provider": "서울대학교 도서관",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_79dcd5dc5bca",
+    "name": "[긴급공지] 제6회 도서관 별빛 영화제 행사로 인한 소음 발생 안내 (5/27~5/28)",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369072",
+    "provider": "서울대학교 도서관",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_57a2c46c6b83",
+    "name": "2026년도 중앙도서관 Open Access 논문 출판료 지원 및 면제/할인 지원 현황 안내",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=369066",
+    "provider": "서울대학교 도서관",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "related_library_related_library_3c41492c284a",
+    "name": "(5/21) 중앙도서관 영상 촬영 안내",
+    "category": "related",
+    "source_url": "https://lib.snu.ac.kr/about/notice-news/notice/?mod=document&uid=368947",
+    "provider": "서울대학교 도서관",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_0de94ccd51f6",
+    "name": "[연구공모] 제9회 대학원생 인권 논문상",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001803",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~2026.06.23",
+      "~2026.10.31",
+      "D-24"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_7693fdf92a2b",
+    "name": "2026학년도 학부대학 명사 초청 특강(1학기 2차) - 경희대학교 후마니타스칼리지 전중환 교수",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001820",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~2026.06.10",
+      "D-10"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_extra_programs_snu_extra_programs_e4d0a6f8c913",
+    "name": "제29기 CALS Research Fellowship Program(학부연구생)(6.14.(일) 마감)",
+    "category": "affiliated",
+    "source_url": "https://extra.snu.ac.kr/ptfol/pgm/view.do?pgmSeq=PGM012001818",
+    "provider": "서울대학교 비교과관리센터",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~2026.06.14",
+      "~2026.08.31",
+      "D-15"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_f2225a460212",
+    "name": "[제62차 IPUS 평화학세미나]국제질서의 변환과 국가전략",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=170315",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_3d5a9db3de6b",
+    "name": "2026년 대한성학회 춘계학술대회 \"성(性), 기술과 인간의 경계에서\" 개최 안내",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169934",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_ceccc047813c",
+    "name": "[스누런 3기 모집]러닝 리더와 함께하는 조별 러닝에 참여해보세요!",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=165557",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [
+      "~ 05.30."
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snu_calendar_today_events_snu_calendar_today_events_bb271ac05556",
+    "name": "[워크숍 모집]감정 이후의 조형 : 고령자 정서적 삶의 장면 로봇 상상하기",
+    "category": "announcements",
+    "source_url": "https://www.snu.ac.kr/snunow/events?md=v&bbsidx=169913",
+    "provider": "서울대학교",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_713",
@@ -62,27 +2946,13 @@
     "category": "learning",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=713",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "안녕하세요, 학부대학 학습상담실입니다.\r\n서울대학교 학생들의 자기이해 및 학습역량 향상을 지원하기 위하여\r\n를 아래와 같이 실시하오니 많은 참여 바랍니다.\r\nSNU 핵심역량진단 및 SNU 학습유형검사 참여 이벤트\r\n📌 참여 방법\r\n1. SNU 비교과 홈페이지(https://extra.snu.ac.kr/) 접속 및 로그인\r\n2. 상단 메뉴 중 [역량·학습유형진단]에서 SNU 핵심역량진단/SNU 학습유형검사 모두 실시\r\n3. 결과 화면(본인 이름 확인 가능한 화면) 캡처\r\n4. 구글폼 제출 및 후기 작성(https://forms.gle/XZgk64oiCqJkU7qNA)\r\n📌 참여 대상\r\n서울대학교 학부생 및 대학원생\r\n📌 운영 기간\r\n2026년 5월 18일(월) ~ 6월 30일(화)\r\n※ 모집 인원 마감 시 조기 종료될 수 있음\r\n📌 참여 혜택\r\n진단검사 참여자(선착순 500명): 메가커피 기프티콘 지급\r\n우수 후기 작성자(선정 50명): 커피 기프티콘(1만원) 지급\r\n※ 우수 후기는 향후 홍보 자료로 활용될 수 있음\r\n📞 문의\r\n학부대학 학습상담실\r\n02-880-4027 / yein1029@snu.ac.kr",
-    "outbound_links": [],
     "estimated_value": 40000,
-    "value_basis": "핵심역량진단 + 학습유형검사 + 기프티콘",
-    "subtitle": "진단검사 이벤트",
-    "unit": "1회",
-    "eligibility": "학부생 및 대학원생",
     "deadline_date": "2026-06-30",
-    "apply_url": "https://forms.gle/XZgk64oiCqJkU7qNA",
-    "how_to_apply": [
-      "SNU 비교과 홈페이지 접속",
-      "역량·학습유형진단 실시",
-      "결과 화면 캡처 후 구글폼 제출"
-    ],
-    "site_id": "learning_center"
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_710",
@@ -90,28 +2960,13 @@
     "category": "scholarship",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=710",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "일정을 아래와 같이 안내합니다.\r\n2026\r\n학년도\r\n2\r\n학기 국가장학금\r\n1\r\n차 신청\r\n※ 국가장학금 학자금 지원구간이 교내·외장학금(선한인재·해외수학·맞춤형·근로장학금 등) 장학생 선발에 활용되므로, 필요한 학생은 반드시 신청하시기 바랍니다.\r\n가. 2026. 5. 22.(금) 09:00 ~ 6. 22.(월) 18:00\r\n신청기간\r\n:\r\n나. 2026. 5. 22.(금) 09:00 ~ 2026. 6. 29.(월) 18:00\r\n서류제출 및 가구원 정보제공 동의 기간\r\n:\r\n다. 신청대상: 재학생/신입생(입학예정자 등)/복학생/편입생/재입학생 등\r\n학사과정 학생\r\n※ 이며, 신청기간 미준수 시 재학 중 2회에 한하여 구제 적용됨\r\n재학생은 국가장학금\r\n1\r\n차 신청이 원칙\r\n라. 신청방법: 한국장학재단 홈페이지() 또는 모바일 앱에서 신청 가능\r\nwww.kosaf.go.kr\r\n마. 관련문의: 한국장학재단 상담센터 1599-2000\r\n바. 참고사항\r\n- 학자금지원구간 9구간 추천자 및 초과학기생은 학기말(12월 중) 장학금 일괄 지급 예정.\r\n- 학자금지원구간 9구간 추천자 및 초과학기생은 국가장학금 Ⅱ유형 심사 대상이 아님.",
-    "outbound_links": [
-      "[object Object]"
-    ],
-    "value_basis": "국가장학금 신청 안내로 금액 명시되지 않음",
-    "subtitle": "국가장학금 1차 신청",
-    "unit": "학기",
-    "eligibility": "학부과정 학생",
+    "estimated_value": null,
     "deadline_date": "2026-06-22",
-    "apply_url": "http://www.kosaf.go.kr",
-    "how_to_apply": [
-      "한국장학재단 홈페이지 접속",
-      "온라인 신청",
-      "서류 제출"
-    ],
-    "site_id": "scholarship"
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_709",
@@ -119,30 +2974,16 @@
     "category": "scholarship",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=709",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [
+    "estimated_value": 800000,
+    "deadline_date": "2026-06-22",
+    "tags": [
       "2026. 6. 22.(월) 오후 6시까지",
       "2026. 6. 29.(월) 오후 6시까지"
     ],
     "value_status": "estimated",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "2026학년도 2학기 1차 주거안정장학금 학생 신청이 아래와 같이 진행됩니다.\r\n가. 선발대상:\r\n원거리 대학에 진학한 학자금지원구간 기초생활수급 또는 차상위 학부 재학생\r\n※ 본교 기준 부모님 주소지가 수도권 외 권역에 있는 경우\r\n나. 신청기간:\r\n2026. 5. 22.(금) 오전 9시 ~ 2026. 6. 22.(월) 오후 6시까지\r\n※ 서류제출 및 가구원동의: 2026. 5. 22.(금) 오전 9시 ~ 2026. 6. 29.(월) 오후 6시까지\r\n다. 신청방법:\r\n한국장학재단 홈페이지(http://www.kosaf.go.kr) 등에서\r\n학생 개별 신청\r\n라. 지원금액:\r\n2026학년도 2학기 정규학기 중 최대 월 20만 원 한도 내 주거관련 실비 지원(9~12월)\r\n마. 결과발표:\r\n2026년 10월 말 한국장학재단 발표 예정\r\n바. 관련문의:\r\n한국장학재단 상담센터 1599-2000",
-    "outbound_links": [],
-    "estimated_value": 800000,
-    "value_basis": "월 20만원 × 4개월(9-12월) = 80만원",
-    "subtitle": "주거안정장학금",
-    "unit": "학기",
-    "eligibility": "기초생활수급/차상위 수도권외 학부생",
-    "deadline_date": "2026-06-22",
-    "apply_url": "http://www.kosaf.go.kr",
-    "how_to_apply": [
-      "한국장학재단 홈페이지 접속",
-      "개별 신청",
-      "서류 제출"
-    ],
-    "site_id": "scholarship"
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_708",
@@ -150,22 +2991,15 @@
     "category": "experience",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=708",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [
+    "estimated_value": null,
+    "deadline_date": "2026-05-27",
+    "tags": [
       "~5/27"
     ],
     "value_status": "needs_estimation",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "※ 자세한 사항은 붙임의 공고문을 참고하시기 바랍니다.\r\nㅁ 채용분야 및 인원\r\n- 학부대학 전공설계지원센터 객원교원(전공상담-인문사회계열) 3명\r\n- 학부대학 전공설계지원센터 객원교원(전공상담-이공계열) 2명\r\nㅁ 지원자격\r\n- 박사학위 소지자. 다만,「대학교원 자격기준 등에 관한 규정」제2조에 따른 조교수 이상 자격기준을 갖춘 사람 또는 이에 준하는 해당 분야 경력을 보유한 사람으로서 특수한 교과를 강의하게 하기 위하여 임용하는 사람으로 다음 각 호의 어느 하나에 해당하는 경우에는 예외로 할 수 있음\r\n- 임용예정일 기준 만 65세 이하인 자\r\n- 「서울대학교 교원 인사 규정」 제19조에 해당하는 결격사유가 없는 자\r\nㅁ 임용(예정)일: 2026. 8. 1. (임용기간: 심사결과에 따라 임용일로부터 1년 이상 3년 이내)\r\nㅁ 접수기간: 2026. 5. 20.(수) 14:00 ~ 5. 27.(수) 14:00  (한국시간기준)\r\nㅁ 접수방법: 서울대학교 채용사이트 접속 후 지원서 작성 및 제출 (서류 온라인 업로드)\r\nhttps://facultyrecruitment.snu.ac.kr",
-    "outbound_links": [
-      "[object Object]"
-    ],
-    "value_basis": "교원 채용 공고로 학생 대상 혜택 없음",
-    "subtitle": "교원 채용 공고",
-    "deadline_date": "2026-05-27",
-    "how_to_apply": []
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_705",
@@ -173,23 +3007,13 @@
     "category": "culture",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=705",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "안녕하세요, 서울대학교 학부대학 강연 기획단입니다. 저희는 정답을 맞히는 '해결사'를 넘어 나만의 질문을 던지는 '개척자'의 삶을 탐구하는 프로젝트 < 세상에 질문을 던지는 자들 >을 진행하고 있습니다. 이번 강연에서는 스토리텔링 전문가 이종범 작가님과 함께, 이야기의 주인공이 가진 속성을 통해 우리 삶의 주체성을 회복하고 자신만의 고유한 서사를 직조하는 방법론을 나누고자 합니다.\r\n[강연 안내]\r\n-(전) 청강문화산업대학 만화콘텐츠스쿨 교수\r\n-(현) SWA(서울웹툰아카데미) 전임멘토\r\n-(현) 연세대학교 이윤재현대문화예술연구원 겸임교수\r\n-(현) JQ코믹스 크리에이티브 총괄디렉터\r\n-네이버 웹툰 <오늘만 사는 기사>, <역대급 영지 설계사>, <닥터, 조선 가다> 등 작품 프로듀싱\r\n○ 강연 주제: 심리학과 스토리텔링으로 보는 주인공성\r\n○ 강연 장소: 서울대학교 220동 203호\r\n자신만의 세계를 깊이 있게 파고들어 이를 타인과 소통하는 이야기로 확장해 오신 작가님의 경험은, 앞으로 각자의 삶에서 주체적인 서사를 써 내려가야 할 학생들에게 매우 현실적이고 명확한 이정표가 될 것입니다. 학생들은 본 강연을 통해 '나'라는 인물이 삶의 주인공으로서 가져야 할 속성을 이해하",
-    "outbound_links": [],
     "estimated_value": 20000,
-    "value_basis": "명사 초청 특강 2시간, 외부 유료 강연 시세",
-    "subtitle": "이종범 작가 특강",
-    "unit": "1회",
-    "eligibility": "학부생 누구나",
-    "how_to_apply": [
-      "강연장소 방문"
-    ],
-    "site_id": "snuc"
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_704",
@@ -197,513 +3021,13 @@
     "category": "scholarship",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=704",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "서울대학교 학부대학과 유네스코 한국위원회는 업무 협약을 맺고 하계/동계 인턴십을 진행하고 있습니다.\r\n국제기구 활동에 관심을 갖고 있는 학생들의 많은 참여 바랍니다.\r\n✅ 지원 대상 : 학부대학 자유전공학부 및 광역 재학생 (학년/전공 무관, 2026-1학기 등록생)\r\n✅ 지원 기간 : \r\n     ※ 지원자가 많을 경우 조기마감될 수 있음\r\n✅ 인턴 파견 기관 : 유네스코한국위원회(서울 중구 명동길 26, 유네스코회관)\r\n✅ 실습 기간 : 2026년 7월 1일(수) ~ 8월 28일(금), 주 5일 하루 8시간 풀타임 근무\r\n✅ 선발 인원 : 총 5명 (지원 가능 부서/인턴 업무/요구 역량에 관한 내용은 첨부 파일-하계 연수 인턴- 운영안 파일 참조)\r\n    ※ 본 인턴십은 무급으로 진행되지만, 학부에서 장학금을 지급할 예정(총 300만원/월 150만원)\r\n    ※ 장학금은 인턴십 시작 시점과 인턴십 종료 후 2회에 걸쳐서 지급 예정\r\n    ※ 인턴십을 성실하게 수료했음을 유네스코 측으로부터 확인받지 못한 경우 최초 지급한 장학금 또한 환수됨\r\n    ※ 선발된 학생은 사전교육(1회)에 참여해야하며, 상해 보험(학생 본인부담)에 가입해야 함\r\n✅ 지원 방법 : 자기소개서(첨",
-    "outbound_links": [],
     "estimated_value": 3000000,
-    "value_basis": "유네스코 인턴십 장학금 총 300만원",
-    "subtitle": "유네스코 인턴십",
-    "unit": "2개월",
-    "eligibility": "자유전공학부 및 광역 재학생",
-    "how_to_apply": [
-      "지원서 제출"
-    ],
-    "site_id": "snuc"
-  },
-  {
-    "id": "snuc_notice_699",
-    "name": "2026학년도 하계 현장실습(스타트업 인턴십) 안내 및 모집 공고",
-    "category": "scholarship",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=699",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [
-      "~ 6/12",
-      "~ 6/19",
-      "~5/25",
-      "~  9/7",
-      "~    6/5"
-    ],
+    "deadline_date": null,
+    "tags": [],
     "value_status": "estimated",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "스타트업에 관심이 있지만 어떻게 시작해야 될지 모르는 학부대학 학생들을 위해 학부대학에서는 하계/동계 방학 인턴십 프로그램을 지원하고 있습니다. \r\n1) 관심있는 직무를 현장에서 직접 배우면서 창업가의 멘토링을 가장 가까운 곳에서 받아볼 수 있는 기회를 제공합니다. \r\n2) 현장실습 인턴십 참가자 중 자유전공학부 학생의 경우에는 자유전공학부 [현장학습] 학점 인정을 받을 수 있습니다. \r\n※ 현장학습 교과목은 인턴 시기와 수강 시기에 대한 제한도 있고, 사전 수강 승인을 받아야 수강할 수 있는 과목입니다. 공지사항의 현장학습 교과목 관련 공지글을 숙지하시고, 수강신청한 학생만 현장학습 교과목 수강을 통해 학점 인정이 가능합니다. 현장실습 인턴십에 참여했다고 자동으로 현장학습 교과목 수강이 가능한 것이 아님에 주의해주세요.\r\n3) 현장실습 참여 학생들은 근로계약서 상의 최저임금 수준 임금외에, 월 60만원 / 총 120만원의 장학금을 지원 받습니다.\r\n배움의 가장 빠른 길은 현장에 있습니다. 수업에서 이론을 배우고 끝내는 것이 아니라, 현장에서 소중한 경험을 체득하세요. \r\n⇒ 인턴십을 진행했던 스타트업과 향후 지속적인 관계를 이어나가는 참여자들이 많습니다. \r\n1) 지원",
-    "outbound_links": [
-      "[object Object]",
-      "[object Object]",
-      "[object Object]",
-      "[object Object]",
-      "[object Object]",
-      "[object Object]",
-      "[object Object]",
-      "[object Object]"
-    ],
-    "estimated_value": 1200000,
-    "value_basis": "스타트업 인턴십 장학금 총 120만원",
-    "subtitle": "스타트업 인턴십",
-    "unit": "2개월",
-    "eligibility": "학부대학 학생",
-    "how_to_apply": [
-      "인턴십 신청",
-      "근로계약서 체결"
-    ],
-    "site_id": "snuc"
-  },
-  {
-    "id": "snuc_notice_698",
-    "name": "2026 CAMPUS Asia The ACE Summer Intensive Program 선발 결과",
-    "category": "experience",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=698",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
     "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "2026 CAMPUS Asia The ACE Summer Intensive Program 참가학생 선발 결과는 다음과 같습니다.\r\n20 우*영\r\n21 현*환\r\n22 김*우\r\n24 모*연\r\n24 박*연\r\n25 민*영\r\n26 전*규\r\n26 박*형\r\n이상입니다.",
-    "outbound_links": [],
-    "value_basis": "선발 결과 발표로 학생 대상 혜택 없음",
-    "subtitle": "선발 결과 발표",
-    "how_to_apply": []
-  },
-  {
-    "id": "snuc_notice_693",
-    "name": "📚 26-1 < 학부대학 전공박람회(5/18~5/19)> 개최 및 사전 신청안내 📌",
-    "category": "experience",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=693",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [
-      "~5/19"
-    ],
-    "value_status": "estimated",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "📚 26-1 <전공박람회> 개최 및 사전 신청 안내 📌\r\n안녕하세요, 자유전공학부 학생회 <이상> 전공교육국입니다.\r\n다가오는 5/18(월)~5/19(화)에 🎓전공박람회🎓가 개최됩니다! 이에 전공 탐색을 희망하는 학부대학 학생 여러분을 모집합니다.\r\n🗓행사 안내\r\n- 일시 : 2026년 5월 18일 (월) ~ 5월 19일 (화) 18:00~19:40\r\n- 진행 방식 : 총 3타임(각 30분)으로, 타임별 자유롭게 이동 가능\r\n- 장소 : 서울대학교 220동 (대면)\r\n📌전공박람회란?\r\n멘토와 멘티가 220동에서 박람회 형식으로 만나, 전공 진입과 이수에 필요한 정보를 공유하고 교류하는 행사입니다. 타임별로 다양한 전공의 멘토님들과 자유롭게 이야기를 나눌 수 있습니다.\r\n📌어떤 멘토님이 계신가요?\r\n아래 링크를 통해 다양한 전공의 멘토님들을 확인하실 수 있습니다.\r\n🔗멘토 소개 스프레드시트 : \r\n📌멘티로 어떻게 참여하나요?\r\n구글폼을 통한 사전 예약이 진행되며, 행사 당일 현장 신청 또한 가능합니다! 다만 사전 예약으로 마감되어 현장 신청이 불가능할 수 있으니, 원활한 참여를 위해 사전 신청을 권장드립니다.\r\n✅사전 예약 신청 : 5월 15일 (금) 19:00부터 선착순 진행\r\n🔗사전",
-    "outbound_links": [
-      "[object Object]",
-      "[object Object]",
-      "[object Object]"
-    ],
-    "estimated_value": 30000,
-    "value_basis": "전공 선택 상담 및 멘토링, 집단 상담 형태로 3만원 산정",
-    "subtitle": "전공박람회 멘토링",
-    "unit": "2일간 행사",
-    "eligibility": "학부대학 학생",
-    "deadline_date": "2026-05-19",
-    "how_to_apply": [
-      "구글폼 사전 예약",
-      "행사 당일 현장 신청 가능"
-    ],
-    "site_id": "undergraduate_college"
-  },
-  {
-    "id": "snuc_notice_686",
-    "name": "2026학년도 학부대학 국내·해외 현장체험 비교과 프로그램 학생 공모 안내 (유형III, 상반기)(~5/24 접수)",
-    "category": "experience",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=686",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [
-      "5/24 접수",
-      "~5/24"
-    ],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "2026학년도 학부대학 국내·해외 현장체험 비교과 프로그램 학생 공모 안내 (유형III, 상반기)\r\n○ 서울대학교 학부생 및 석사과정 학생으로 구성된 팀(4인 이상 8인 이내)\r\n※ (주의) 석사과정 학생만으로 구성된 팀은 신청 불가\r\n※ 팀 전원이 재학생 또는 연구생 신분일 것(현장학습 시까지)\r\n※ 팀원의 소속이 3개 단과대학 이상으로 구성된 경우 가점을 부여함\r\n○ 학부대학 핵심역량(도전혁신, 의사소통, 사회공헌, 문제해결) 함양을 목적으로 각 팀은 희망 지역과 주제를 선정하고, 그에 따른 현장체험을 계획 및 실행\r\n※ 지역 선정: 국내/해외 중 희망 지역(외교부 여행경보 2단계 이상 지역은 신청 불가)\r\n※ 주제 예시: AI, 중공업, 패션, 농업, 문화, 예술, 문명 등 자유 주제\r\n※ 단순 취미 활동, 정치·종교 활동, 자격증 취득 목적 활동 등은 선발 제외\r\n※ 팀은 자체적으로 지도교수(교내 전임/비전임 교원) 초빙 가능(선택 사항)\r\n○ 심사 기준: 현장체험 주제 및 계획의 타당성 및 창의성, 현장학습 계획의 구체성 및 실현가능성, 학부대학 핵심역량과의 부합도, 예산 활용 계획의 적절성\r\n○ 지원금액: 최종 선발된 팀 구성원 1인당 최대 4백만원 이내(팀당 최대 ",
-    "outbound_links": [
-      "[object Object]"
-    ],
-    "estimated_value": 2000000,
-    "value_basis": "국내외 현장체험 프로그램 지원금, 팀당 평균 200만원 추정",
-    "subtitle": "현장체험 프로그램 지원",
-    "unit": "팀당 1회",
-    "eligibility": "학부생+석사생 4-8인 팀",
-    "deadline_date": "2026-05-24",
-    "how_to_apply": [
-      "팀 구성",
-      "주제 선정",
-      "현장체험 계획서 제출"
-    ],
-    "site_id": "undergraduate_college"
-  },
-  {
-    "id": "snuc_notice_684",
-    "name": "2026. 9. 1.자 학부대학 비전임(강의)교원 신규채용 공고(~5/20)",
-    "category": "experience",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=684",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [
-      "~5/20"
-    ],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "※ 자세한 사항은 붙임의 공고문을 참고하시기 바랍니다.\r\n- 학부대학 교육운영개발센터 강의교원(대학글쓰기 2) 1명\r\n- 박사학위 소지자. 다만,「대학교원 자격기준 등에 관한 규정」제2조에 따른 조교수 이상 자격기준을 갖춘 사람 또는 이에 준하는 해당 분야 경력을 보유한 사람으로서 특수한 교과를 강의하게 하기 위하여 임용하는 사람으로 다음 각 호의 어느 하나에 해당하는 경우에는 예외로 할 수 있음\r\n- 임용예정일 기준 만 65세 이하인 자\r\n- 「서울대학교 교원 인사 규정」 제19조에 해당하는 결격사유가 없는 자\r\nㅁ 접수기간: 2026. 5. 4.(월) 14:00 ~ 5. 20.(수) 14:00  (한국시간기준)\r\nㅁ 접수방법: 서울대학교 채용사이트 접속 후 지원서 작성 및 제출 (서류 온라인 업로드)\r\nㅁ 채용분야 및 인원\r\nㅁ 지원자격\r\nㅁ 임용(예정)일: 2026. 9. 1. (임용기간: 심사결과에 따라 임용일로부터 1년 이상 3년 이내)\r\nhttps://facultyrecruitment.snu.ac.kr",
-    "outbound_links": [
-      "[object Object]"
-    ],
-    "value_basis": "교원 채용 공고로 학생 혜택 없음",
-    "subtitle": "교원 채용 공고",
-    "unit": "채용 공고",
-    "eligibility": "해당없음",
-    "deadline_date": "2026-05-20",
-    "apply_url": "https://facultyrecr",
-    "how_to_apply": [
-      "채용사이트 접속",
-      "지원서 작성",
-      "서류 온라인 업로드"
-    ],
-    "site_id": "undergraduate_college"
-  },
-  {
-    "id": "snuc_notice_670",
-    "name": "2026학년도 국가근로장학금 하계방학 집중근로 선발 일정 안내(신청기한: 5/29 18시까지)",
-    "category": "scholarship",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=670",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [
-      "5/29 18시까지"
-    ],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "가. 하계방학 집중근로 프로그램 개요\r\n• (지원대상)  2026학년도 1학기 국가근로장학금 일반유형을 신청한 학부 재학생\r\n• (근로기간)  2026. 7. 1.(수) ~ 8. 31.(월) ※ 교외근로기관에 따라 상이\r\n• (근로기관)  희망근로지 신청기간에 선택한 교외 근로기관(최대 5개) 중 자동 매칭\r\n• (선발인원)  20명 내외\r\n• (근로시간)  1일 최대 8시간, 주당 최대 40시간 이내\r\n• (장 학 금)  시간당 12,790원\r\n나. 참여방법\r\n1) 국가근로장학금 일반유형 추가신청: 2026. 4. 24.(금) 9시 ~ 5. 13.(수) 18시 ※ 기 신청자는 본 단계 생략\r\n- [붙임 1] 매뉴얼을 참고하여 한국장학재단 홈페이지 또는 모바일로 학생이 직접 신청\r\n※ 2026학년도 1학기 학자금 지원구간은 산정되었으나, 국가근로장학금을 아직 신청하지 않은 학생에 한하여 위 기간에 신청 가능\r\n2) 희망근로지 신청: 2026. 5. 20.(수) 9시 ~ 5. 29.(금) 18시\r\n- 한국장학재단 홈페이지 또는 모바일로 학생이 직접 신청\r\n• [메뉴] > [장학금] > [국가근로장학금] > [근로장학관리] > [희망근로지 신청]\r\n다. 선발일정\r\n1) (재    단) 근",
-    "outbound_links": [],
-    "estimated_value": 1024000,
-    "value_basis": "시간당 12,790원 × 주40시간 × 8주 = 약 400만원, 월 128만원",
-    "subtitle": "하계 집중근로 장학금",
-    "unit": "2개월",
-    "eligibility": "국가근로장학금 신청 학부생",
-    "deadline_date": "2026-05-29",
-    "how_to_apply": [
-      "국가근로장학금 신청",
-      "희망근로지 신청",
-      "매칭 대기"
-    ],
-    "site_id": "undergraduate_college"
-  },
-  {
-    "id": "snuc_notice_648",
-    "name": "2026학년도 학교 경영자 배상책임 보험 안내",
-    "category": "welfare",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=648",
-    "provider": "서울대학교 학부대학",
     "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains welfare/access/risk-support signal; should be reviewed for student benefit value.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "ㅁ 서울대학교 학생처(장학복지과)에서는 2026학년도 '학교 경영자 배상책임 보험'을 가입하였기에 붙임과 같이 알려드립니다. 사고 발생 시 보험 청구를 희망하는 경우 붙임 문서를 확인하여 청구하시기 바랍니다.\r\n가. 보험사: 학교안전공제중앙회\r\n나. 계약기간: 2026. 4. 1.(화) 00:00 ~ 2027. 4. 1.(수) 00:00 (1년)\r\n다. 담보내역 및 보상 한도액\r\n라. 보상범위: [붙임 1] 참고\r\nㅁ 아울러, 교내·외 치료비 신청 시스템 메뉴가 다음과 같이 오픈되어 기존의 방문 접수 신청 절차가 시스템 신청으로 변경되었음을 안내드립니다.\r\n가. 청구방법: [붙임 2] 안내문에 명시된 제출서류를 모두 구비하여 mySNU 포털로 시스템 신청(방문 접수·대리인 접수·우편접수 불가)\r\n나. 시스템 오픈일: 2026. 4. 1.(수)\r\n다. 접속 경로\r\n○ PC 접속경로: mySNU > 학사정보 > 대학생활 > 교내외치료비 > 신청/확인\r\n○ 모바일(어플) 접속경로: 학사·행정 > 교내외치료비 신청/확인\r\n※ 그 밖에 담보(경영자 배상책임 등) 보험금 청구는 소관 부서(기관) 등에서 장학복지과로 문의\r\n담보위험\r\n구분\r\n대상\r\n인원(명)\r\n보상 한도액(단위:천원)\r\n1인당\r\n1사고",
-    "outbound_links": [],
-    "estimated_value": 500000,
-    "value_basis": "학교 배상책임보험 가입, 사고시 치료비 지원 평균 50만원 추정",
-    "subtitle": "배상책임보험 혜택",
-    "unit": "1년간",
-    "eligibility": "전체 학생",
-    "how_to_apply": [
-      "사고 발생시",
-      "mySNU 포털 접속",
-      "치료비 신청"
-    ],
-    "site_id": "undergraduate_college"
-  },
-  {
-    "id": "snuc_notice_636",
-    "name": "[교수학습개발센터] SNUON 예비대학 기초 콘텐츠 상시 수강 가능",
-    "category": "learning",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=636",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "서울대학교 2026학년도 신입생 및 재학생 여러분,\r\n입학 후 대학 공부와 연계하여 수강할 수 있는 예비대학 기초 콘텐츠를 안내드립니다.\r\n🎓 예비대학이란?\r\n대학 수업에 필요한 기초 학습 역량을 미리 다질 수 있도록\r\n온라인 콘텐츠(SNUON)와 인트로 특강을 제공하는 프로그램입니다.\r\n📚 개설 과목 (총 10과목)\r\n수학, 통계, 물리, 화학, 생명과학, 컴퓨팅(A/B), 영어, 논리적 사고, 글쓰기와 말하기, 예술적 및 디자인 사고\r\n* 컴퓨팅A: 파이썬 기초 / 컴퓨팅B: 데이터 분석 기초\r\n⏰ 지금 신청하면 이런 점이 좋습니다\r\n✔ 합격 후부터 여름방학까지 상시 학습 가능\r\n✔ 시간·장소 제약 없이 원하는 과목 자유롭게 수강\r\n✔ 대학 수업을 미리 경험하며 학습 부담 완화\r\n🎁 참여 이벤트\r\n수강 후기 이벤트 (선착순 기념품 제공)\r\n📝 신청 방법\r\nSNUON (etl.snu.ac.kr) 접속 후 과목별 신청\r\n💡 수업 막히는 순간, 바로 찾는 기초 강의\r\n여유 있는 지금, 예비대학으로 한발 먼저 시작해보세요.\r\n신입생 여러분의 많은 관심과 참여를 바랍니다.\r\n감사합니다.\r\n⇒\r\n예비대학 기초 콘텐츠 수강 바로 가기\r\n(QR 코드를 스캔하세요!)\r\n문의: 02-880-1327 / jsy95",
-    "outbound_links": [],
-    "estimated_value": 400000,
-    "value_basis": "10과목 온라인 강좌 상시 수강 (외부 온라인 강좌 시세 기준)",
-    "subtitle": "기초과목 온라인 강좌",
-    "unit": "상시",
-    "eligibility": "신입생 및 재학생",
-    "apply_url": "http://etl.snu.ac.kr",
-    "how_to_apply": [
-      "SNUON 접속",
-      "과목별 신청"
-    ],
-    "site_id": "learning_center"
-  },
-  {
-    "id": "snuc_notice_633",
-    "name": "[학부대학 소속 학생 대상] 2026학년도 언어교육원 외국어 교육비 지원 계획 안내",
-    "category": "scholarship",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=633",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "❍ 외국어 역량 강화를 통한 국제적인 인재 양성\r\n❍ 외국어 의사소통 능력 향상\r\n❍ 학부대학 소속 학생(자유전공학부, 학부대학 광역) 대상 서울대학교 언어교육원 수강료 지원\r\n 수강료의 80% (연간 개인별 2회 이내)\r\n※ 수강료 할인 내역이 있는 경우 실제 결제된 금액을 기준으로 지원\r\n※ 지원 횟수 제한: 2026학년도(2026. 3월 ~ 2027. 2월) 중 개인별 2회 이내\r\n- 서울대학교 언어교육원 개설강좌 중 에 한해 지원\r\n※ 언어클리닉 등 기타 강좌는 제외\r\n- 출석률 80% 이상\r\n- 타인이 응시‧수강한 내역을 근거로 지원받거나 기타 부정한 방법으로 지원받은 경우, 해당 금액 환수 및 향후 지원 불가\r\n- 여러 학기에 걸쳐 수강하는 경우 이수 완료 시점을 기준으로 해당 학기 신청기간에 신청하며 신청기간 이후 제출 건은 지원하지 아니함\r\n※ 8월에 시작한 강좌가 9월 중에 끝났을 경우, 9월 이후에 80% 출석률을 확인할 수 있으므로 2학기 수강분 신청기간에 신청\r\n- 한 강좌만 지원 대상 [예외적으로 강좌 이수 중간에 학적이 변동되는 경우(‘재학→휴학’ 혹은 ‘휴학→복학’)에는 지원 가능]\r\n※ 수강 후 해당 학기에 졸업한 경우에도 지원 가능\r\n- 타 기관에서 동",
-    "outbound_links": [],
-    "value_basis": "언어교육원 수강료의 80% 지원, 구체적 금액 미명시",
-    "subtitle": "외국어 교육비 지원",
-    "unit": "연 2회",
-    "eligibility": "학부대학 소속학생",
-    "how_to_apply": [
-      "언어교육원 수강",
-      "출석률 80% 달성",
-      "신청기간에 신청"
-    ],
-    "site_id": "undergraduate_college"
-  },
-  {
-    "id": "snuc_notice_621",
-    "name": "2026학년도 2학기 전공선택·결정, 다전공, 학생설계전공 및 심화전공 신청 공고(다전공 신청 일정 수정)",
-    "category": "welfare",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=621",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "을 아래와 같이 공고하니 하여 주시기 바랍니다.\r\n2026학년도 2학기 전공 선택, 결정, 다전공, 학생설계전공 및 심화전공 신청\r\n전공설계지원센터 상담교원 면담 이후 전공 선택, 결정 및 취소를 신청\r\n구 분\r\n일 정\r\n연합전공 신청 기간(학생)\r\n2026. 3. 30.(월) 09:00 ~ 4. 3.(금) 18:00\r\n심화전공 신청 및 취소 신청 기간(학생)\r\n2026. 4. 13.(월) ~ 4. 24.(금) 18:00\r\n주전공 선택 및 취소 신청 기간(학생)\r\n2026. 4. 27.(월) ~ 5. 8.(금) 18:00\r\n부·연계·학생설계전공 신청 기간(학생)\r\n2026. 4. 20.(월) ~ 4. 24.(금) 18:00\r\n전공결정 신청기간(광역 학생)\r\n2026. 5. 11.(월) ~ 5. 22.(금) 18:00\r\n관련 위원회 심의\r\n2026. 6월 말 ~ 7월 초 개최\r\n전공선택·취소, 전공결정, 연합·연계전공 선발, 학생설계전공 및 심화전공 신청 결과 안내\r\n2026. 7. 15(수)\r\n◊ 신청방법: 마이스누 포털 학사행정에서 해당 서류 업로드 및 신청 (붙임 안내문 확인)\r\n붙임 문서를 정독한 뒤 신청할 것.\r\n첨부파일을 제대로 확인하지 않아서 발생하는 문제의 책임은 학생 본인에게 있음",
-    "outbound_links": [],
-    "value_basis": "전공 선택/변경 절차 안내로 금전적 가치 산정 불가",
-    "subtitle": "전공선택 신청 안내",
-    "unit": "학기별",
-    "eligibility": "학부대학생",
-    "deadline_date": "2026-05-22",
-    "how_to_apply": [
-      "전공설계지원센터 상담",
-      "기간 내 신청"
-    ],
-    "site_id": "undergraduate_college"
-  },
-  {
-    "id": "snuc_notice_584",
-    "name": "[교수학습개발센터] ★1:1 학습상담☆ 상시 운영 안내",
-    "category": "learning",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=584",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "학부대학 교수학습개발센터 학습상담실에서는\r\n학부생 및 대학원생을 대상으로 1:1 맞춤형 학습상담을 상시 운영하고 있습니다.\r\n✔ 공부가 막막할 때\r\n✔ 시간관리가 잘 되지 않을 때\r\n✔ 성적 향상을 위해 점검이 필요할 때\r\n전문 상담자와 함께 현재의 학습 상태를 정리하고 실행 가능한 학습 전략을 구체적으로 설계합니다.\r\n🍀상담 주요 내용\r\n- 학습역량·학습유형·학습전략 검사 및 결과 해석\r\n- 학습 습관 분석 및 맞춤 전략 수립\r\n- 학업 동기 및 학업 불안 관리\r\n- 전공·진로 연계 학습 설계\r\n🍀안내 사항\r\n- 대상: 학부생 및 대학원생\r\n- 운영: 1회기 50분 내외(최대 12회기)\r\n- 신청: 아래 링크 또는 포스터 내 QR 접속 후 신청서 작성 → 상담사 개별 연락을 통해 일정 조율\r\n✨ 학부생: https://forms.gle/zB7fYPzKoAZoSuE98\r\n✨ 대학원생: https://forms.gle/qxiW3wsKT7Zr5t3i9\r\n지금의 공부를 한 번 점검해보고 싶다면 누구나 신청할 수 있습니다.\r\n관심있는 분들의 많은 참여 부탁드립니다.",
-    "outbound_links": [],
-    "estimated_value": 1200000,
-    "value_basis": "1:1 학습상담 최대 12회기, 회당 10만원 기준",
-    "subtitle": "1:1 학습상담",
-    "unit": "최대 12회",
-    "eligibility": "학부생 및 대학원생",
-    "apply_url": "https://forms.gle/zB7fYPzKoAZoSuE98",
-    "how_to_apply": [
-      "온라인 신청서 작성",
-      "상담사와 일정 조율"
-    ],
-    "site_id": "learning_center"
-  },
-  {
-    "id": "snuc_notice_488",
-    "name": "2026학년도 1학기 한국장학재단 학자금대출 안내[재학생]",
-    "category": "scholarship",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=488",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "에서 실시하는계획을 알려드리니, 희망하는 학생들이 이용할 수 있도록 적극 안내하여 주시기 바랍니다.\r\n가. 한국장학재단 학자금대출 개요\r\n나. 2026학년도 1학기 주요 개선 사항\r\n다. 대출금액 및 일정\r\n한국장학재단\r\n2026\r\n학년도\r\n1\r\n학기 학자금대출\r\n▪일반 상환 학자금대출, 취업 후 상환 학자금대출\r\n▪로서 2026학년도 1학기 또는 인 대학(원)생\r\n※ 학자금 지원구간(소득수준) 산정이 필요한 대출로 \r\n▪한국장학재단 또는 ※ [붙임 2] 참고\r\n▪\r\n▪성적 및 학자금 지원구간 등\r\n(\r\n대출종류\r\n)\r\n(\r\n신청대상\r\n)\r\n대한민국 국적자\r\n본교 재학\r\n입학 예정\r\n조기 신청 필요\r\n(\r\n심사기간 최대\r\n8\r\n주 소요\r\n)\r\n(\r\n신청방법\r\n)\r\n홈페이지\r\n모바일 직접신청\r\n(\r\n대출금리\r\n)\r\n연\r\n1.7%\r\n(\r\n대출자격\r\n)\r\n[\r\n붙임\r\n1]\r\n안내문 등 반드시 확인\r\n■ \r\n■ \r\n-(기존) 대출신청자 유형별 최장거치기간 상이 →\r\n취업 후 상환 학자금대출 지원대상 확대 개편\r\n<2026\r\n년 취업 후 상환 학자금대출 지원대상 확대 추진\r\n(\r\n안\r\n)>\r\n구분\r\n학부생\r\n대학원생\r\n’25-2\r\n학기\r\n’26-1\r\n학기\r\n~\r\n’25-2\r\n학기\r\n’26-1\r\n학기\r\n~\r\n등록금(전면확대)\r\n9구간 이하\r\n10구간 이하\r\n4구간 이하\r\n10구간 이하\r\n생활비(선별",
-    "outbound_links": [],
-    "value_basis": "학자금대출 안내로 직접적인 혜택 금액 산정 불가",
-    "subtitle": "학자금대출 안내",
-    "unit": "학기별",
-    "eligibility": "재학생",
-    "how_to_apply": [
-      "한국장학재단 홈페이지 접속",
-      "직접 신청"
-    ],
-    "site_id": "scholarship_foundation"
-  },
-  {
-    "id": "snuc_notice_463",
-    "name": "★ 2026학년도 1학기 등록, 복학, 재입학 및 휴학 일정 안내",
-    "category": "experience",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=463",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [
-      "2026. 3. 26.(목)까지"
-    ],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "❍ 등록기간 : \r\n❍ 장소 : 농협은행, 신한은행 및 우리은행 전국 소재 지점\r\n❍ 신청기간 :\r\n❍ 신청방법\r\n- 서울대학교 포털 → 학사정보 → 학적변동(신청) → 휴학·복학\r\n- 수강신청이 복학 신청을 대신하지 않음. 따라서 수강신청을 하였어도 반드시 복학 신청해야 함\r\n❍ 신청기간: \r\n※ 군 휴학생이 \r\n❍ 군 복학(복귀)생 구비서류 및 검토사항\r\n- 수업일수 4분의 1선 2026. 3. 26.(목)까지 전역자: 병적증명서 또는 전역증 사본 등\r\n- 수업일수 4분의 1선 2026. 3. 26.(목)이후 전역자: 아래표 참고\r\n❍ 신청방법: 학과 사무실에 신청서 \r\n❍ 신청기간: (1차) \r\n❍ 허가일: 2026. 1. 23.(금)\r\n※ 복적 및 재입학을 허가받은 자는 등록기간 중 반드시 등록을 하여야 하며, 미등록시 복적 및 재입학 포기원서를 제출하여야 함\r\n❍ 신청기간\r\n※ 등록금 분납 중인 자는 완납해야 휴학 가능\r\n※ 등록 후 휴학하고자 하는 학생은 반드시 등록기간에 등록금을 납부한 후 휴학 신청을 해야 함\r\n     (휴학신청 후에는 등록금 고지서 출력 불가)\r\n❍ 신청방법: 서울대학교 포털 → 학사정보 → 학적변동(신청) → 휴학·복학\r\n- 가사휴학 외의 휴학은 증빙서류를 ",
-    "outbound_links": [],
-    "value_basis": "등록·복학·휴학 절차 안내로 직접적인 학생 혜택 없음",
-    "subtitle": "학기 등록·휴학 절차 안내",
-    "unit": "상시",
-    "eligibility": "학부생 누구나",
-    "deadline_date": "2026-03-26",
-    "how_to_apply": [
-      "서울대 포털 접속",
-      "학사정보 메뉴",
-      "학적변동 신청"
-    ]
-  },
-  {
-    "id": "snuc_notice_249",
-    "name": "★ 학부대학(자유전공학부, 광역) 국외수학 학점인정제도 변경 안내",
-    "category": "experience",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=249",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "교무처에서 국외수학 학점인정 업무 효율성 증대와 학생의 학점인정 신청 편의를 위하여 협정 대학 *을 각 대학에 배포(2025. 6. 16.)\r\n* 서울대학교 대학혁신센터에서 데이터 분석을 진행, 본교와 학점교류 협정을 맺고 있는 223개 외국대학의 졸업학점, 연간 표준 이수학점 등을 비교하여 기준 마련\r\n현 국외수학 학점인정은 15시간의 실 수업시간을 1학점으로, 30시간의 실험·실습 등을 1학점으로 환산하고 있으나(학칙 제74조) 국가 · 대학별 상이한 교육제도 및 학점체계를 온전히 반영하기 어려워, 을 검토하고 적용하기로 심의함\r\n ※ 2025학년도 제5차 학부대학 학사운영위원회 심의결과(2025. 7. 4.)\r\n○ 적용기준: 교무처 국외수학 학점인정 변환표 가이드라인 ([붙임 1] 참고)\r\n○ 적용대상: 학부대학(자유전공학부, 광역), 자유전공학부 소속 학생\r\n○ 적용시기: \r\n* 이전 파견학생은 기존 자유전공학부 국외수학 학점인정 기준 적용(실 수업시간을 기준으로 학점 계산)\r\n○ 비학위 과정에서 이수한 교과목의 학점 인정은 불가함\r\n(2023.5. 학사과 안내문 참고 (링크: ))\r\n○ (전공 인정여부) 주전공에서 발급한 ‘전공 인정 확인서’를 제출하는 경우, 주전공",
-    "outbound_links": [
-      "[object Object]"
-    ],
-    "value_basis": "학점인정 제도 변경 안내로 직접적인 금전 혜택 없음",
-    "subtitle": "국외수학 학점인정 제도",
-    "unit": "상시",
-    "eligibility": "자유전공학부 학생",
-    "how_to_apply": [
-      "교무처 가이드라인 확인",
-      "국외수학 신청"
-    ]
-  },
-  {
-    "id": "snuc_notice_99",
-    "name": "[중요] 대학영어 수강자격 확인용 텝스 성적 업로드 및 확인 방법 안내 (2021. 11. 10.부터 변경)",
-    "category": "other",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=99",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "*\r\n작성 및 저장 완료 후 반드시 \"신청\"을 클릭해야 합니다. \"신청\" 미클릭시 \"작성중\"으로 분류되어 시스템에서 승인 자체가 되지 않습니다.\r\n* 컴퓨터 (PC)를 사용해야 오류가 나지 않습니다. (핸드폰, 태블릿 등에서는 메뉴가 안 보이거나 오류 발생)\r\n* 아래 내용과 매뉴얼을 자세히 읽어보고 신청해 주세요. 신청이 안 되는 이유는 대체로 매뉴얼대로 하지 않은 경우입니다.\r\n* 텝스 등록 신청한 후 대학영어 사무실에 연락하지 않아도 됩니다. 수시로 신청 내역을 확인하여 승인하며, 잘못 신청한 건은 반려 처리하고 있습니다.\r\n* 신입생의 경우 입학일 (보통 전기: 3월 2일, 후기: 9월 1일) 이후 마이스누 사이트에서 텝스 성적 등록이 가능합니다. 입학일 전에 텝스 성적 등록 메뉴가 안 보이거나 등록이 안 되는 것은 오류가 아니라 입학 전이라서 권한이 부여되지 않았기 때문입니다.\r\n1. 대학영어 수강자격 확인용 텝스 성적 업로드 방법 변경 안내 (2021. 11. 10.부터)\r\n변경 전: 텝스 성적표 스캔본 대학영어 이메일로 제출→대학영어 사무실에서 업로드\r\n변경 후: 마이스누에서 직접 텝스 성적표 스캔본 업로드→대학영어 사무실에서 승인\r\n2. 텝스 성적 업로드 방법",
-    "outbound_links": [],
-    "value_basis": "텝스 성적 업로드 방법 안내로 직접적인 혜택 없음",
-    "subtitle": "텝스 성적 업로드 방법",
-    "unit": "상시",
-    "eligibility": "대학영어 수강 희망자",
-    "how_to_apply": [
-      "마이스누 접속",
-      "텝스 성적 등록",
-      "신청 버튼 클릭"
-    ]
-  },
-  {
-    "id": "snuc_notice_98",
-    "name": "[중요] 기초영어, 대학영어1, 대학영어2, 고급영어 수강신청 FAQ (2026. 4. 14. 업데이트)",
-    "category": "welfare",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=98",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "<대학영어 1>의 경우 신입생 수강신청기간까지 재학생은 신청할 수 없습니다. (예비수강신청도 불가능)\r\n수강신청 변경기간에는 전체 학생 수강신청 가능하므로 재학생들은 수강신청 변경기간에 신청하기 바랍니다.\r\n<대학영어 1>의 경우 예비수강신청기간 및 수강신청 4일차까지는 1학년만 신청 가능합니다.\r\n수강신청 5, 6일차 및 수강신청 변경기간에는 전체 학생 수강신청 가능하므로 2학년 이상 학생들은 수강신청 5일차부터 수강신청을 하기 바랍니다.\r\n수강신청 제한이 없으므로 예비 수강신청기간, 수강신청기간, 수강신청 변경기간에 전체 학생 신청 가능\r\n1. <\r\n대학영어 1> 수강신청 (예비수강신청)이 왜 안 되나요?\r\n* 1학기:\r\n* 2학기:\r\n* 여름/겨울계절학기:\r\n2. 텝스 성적이 없어도 수강신청이 되나요?\r\n수강신청 시스템과 텝스 성적 정보가 연동되어 있지 않으므로 텝스 성적이 없어도 수강신청은 가능하나, 수강신청에 성공했더라도 신청한 과목의 수강 기준에 맞는 텝스 성적이 마이스누에 등록되어 있지 않으면 해당 과목을 수강할 수 없습니다.\r\n* 2014학번 이후 학생들은 마이스누에 등록된 텝스 성적이 없으면 대학영어 교과목 (기초영어, 대학영어 1, 대학영어 2, 고급영어) 중 ",
-    "outbound_links": [
-      "[object Object]",
-      "[object Object]",
-      "[object Object]"
-    ],
-    "estimated_value": 400000,
-    "value_basis": "대학영어 강좌 수강 기회 (어학 강좌 학기당 30-50만원)",
-    "subtitle": "대학영어 수강신청 안내",
-    "unit": "학기",
-    "eligibility": "학부생 누구나",
-    "how_to_apply": [
-      "수강신청 기간 확인",
-      "텝스 성적 등록",
-      "수강신청 시스템 접속"
-    ]
-  },
-  {
-    "id": "snuc_notice_722",
-    "name": "장애학생 지원 길라잡이 안내",
-    "category": "welfare",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=722",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Contains welfare/access/risk-support signal; should be reviewed for student benefit value.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "서울대학교 장애학생지원센터 발간 - 장애학생 지원 길라잡이(학생용): 첨부파일 확인하시기 바랍니다.",
-    "outbound_links": [],
-    "value_basis": "안내 자료 제공으로 정확한 금전 가치 산출 불가",
-    "subtitle": "장애학생 지원 안내서",
-    "unit": "상시",
-    "eligibility": "장애학생",
-    "how_to_apply": [
-      "첨부파일 다운로드",
-      "장애학생지원센터 문의"
-    ]
-  },
-  {
-    "id": "snuc_notice_721",
-    "name": "AI 시대, 인간을 그리다. GRAY : 불확실성 앞에서",
-    "category": "other",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=721",
-    "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "#서울대 빅데이터혁신융합대학사업단, #비교과프로그램, #즉흥공감극장\r\nAI가 점점 더 많은 것을 잘하게 되는 지금,\r\n우리는 이런 질문을 마주 합니다.\r\n\"앞으로 나는 무엇을 해야 할까?\"\r\n\"내 역할은 어떻게 바뀔까?\"\r\n기대와 동시에 막연한 불안도 커지는 시기,\r\n잠시 멈추고\r\n사람을 돌아보는 시간에 초대합니다.\r\n즉흥공감극장은\r\n관객의 이야기를 바탕으로\r\n그 순간, 연극으로 다시 펼쳐보는 참여형 예술 프로그램입니다.\r\nAI 시대, 불확실성 앞에 놓인\r\n나의 이야기가 무대가 되고,\r\n우리의 이야기를 통해 새로운 시선을 만날 수 있는 자리가 될 것입니다.\r\n- 대상 : 서울대학교 구성원 누구나(학부생, 대학원생, 교직원, 교수 등)\r\n- 인원 : 회차당 선착순 80명(선정자 개별 문자 안내)\r\n- 신청 링크 :\r\n- 장소 : 서울대학교 인문소극장\r\n- 일정 : 2026.05.27(수) 14:00 , 2026.05.28(목) 14:00 / 19:00\r\n- 문의 : adrtree@snu.ac.kr / 송현성 / 빅데이터혁신융합대학사업단\r\nhttps://docs.google.com/forms/d/e/1FAIpQLSdu23NkP04XwPXWQxlFM21WxxErdDChlfiuMBj9Qjn5SC6v6",
-    "outbound_links": [
-      "[object Object]"
-    ],
-    "estimated_value": 20000,
-    "value_basis": "참여형 예술 프로그램 무료 체험, 외부 유료 강연 시세 적용",
-    "subtitle": "AI시대 즉흥공감극장",
-    "unit": "1회",
-    "eligibility": "서울대 구성원 누구나",
-    "how_to_apply": [
-      "신청링크 접속",
-      "선착순 신청",
-      "개별 문자 안내 대기"
-    ],
-    "site_id": "snuc"
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_720",
@@ -711,26 +3035,154 @@
     "category": "culture",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=720",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "needs_estimation",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "2026년 서울대학교 개교 80주년을 맞이하여 아래와 같이 '서울대학교 개교 80주년 축하영상 공모전'을 개최합니다.\r\n가. 주제: 서울대학교 개교 80주년 축하 메시지\r\n나. 참여 대상: 서울대학교 전 구성원 및 동문\r\n다. 출품 규격: 5~20초 분량의 가로형(16:9) 영상\r\n라. 일정: (접수) 2026. 5. 20.(수) ~ 2026. 6. 30.(화)\r\n(결과 발표) 2026. 7월 중\r\n마. 시상: 최우수상(1명/팀) 100만원, 우수상-아이디어 부문(10명/팀) 각 20만원, 우수상-팀워크 부문(10팀) 각 20만원, 장려상(80명/팀) 각 1만원\r\n바. 문의: 기획처 소통팀(02-880-2555)\r\n사. 참여 링크: https://www.snu.ac.kr/80th-anniversary/contest",
-    "outbound_links": [],
-    "value_basis": "공모전 상금은 당첨시에만 수령 가능한 불확실한 혜택",
-    "subtitle": "개교 80주년 영상공모전",
-    "unit": "1회",
-    "eligibility": "서울대 구성원 및 동문",
+    "estimated_value": null,
     "deadline_date": "2026-06-30",
-    "apply_url": "https://www.snu.ac.kr/80th-anniversary/contest",
-    "how_to_apply": [
-      "참여 링크 접속",
-      "5-20초 영상 제작",
-      "온라인 제출"
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_699",
+    "name": "2026학년도 하계 현장실습(스타트업 인턴십) 안내 및 모집 공고",
+    "category": "scholarship",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=699",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 1200000,
+    "deadline_date": null,
+    "tags": [
+      "~ 6/12",
+      "~ 6/19",
+      "~5/25",
+      "~  9/7",
+      "~    6/5"
     ],
-    "site_id": "snuc"
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_698",
+    "name": "2026 CAMPUS Asia The ACE Summer Intensive Program 선발 결과",
+    "category": "experience",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=698",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_693",
+    "name": "📚 26-1 < 학부대학 전공박람회(5/18~5/19)> 개최 및 사전 신청안내 📌",
+    "category": "experience",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=693",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 30000,
+    "deadline_date": "2026-05-19",
+    "tags": [
+      "~5/19"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_686",
+    "name": "2026학년도 학부대학 국내·해외 현장체험 비교과 프로그램 학생 공모 안내 (유형III, 상반기)(~5/24 접수)",
+    "category": "experience",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=686",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 2000000,
+    "deadline_date": "2026-05-24",
+    "tags": [
+      "5/24 접수",
+      "~5/24"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_684",
+    "name": "2026. 9. 1.자 학부대학 비전임(강의)교원 신규채용 공고(~5/20)",
+    "category": "experience",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=684",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": "2026-05-20",
+    "tags": [
+      "~5/20"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_670",
+    "name": "2026학년도 국가근로장학금 하계방학 집중근로 선발 일정 안내(신청기한: 5/29 18시까지)",
+    "category": "scholarship",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=670",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 1024000,
+    "deadline_date": "2026-05-29",
+    "tags": [
+      "5/29 18시까지"
+    ],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_648",
+    "name": "2026학년도 학교 경영자 배상책임 보험 안내",
+    "category": "welfare",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=648",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 500000,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_636",
+    "name": "[교수학습개발센터] SNUON 예비대학 기초 콘텐츠 상시 수강 가능",
+    "category": "learning",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=636",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 400000,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_633",
+    "name": "[학부대학 소속 학생 대상] 2026학년도 언어교육원 외국어 교육비 지원 계획 안내",
+    "category": "scholarship",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=633",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_719",
@@ -738,23 +3190,158 @@
     "category": "culture",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=719",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Low-confidence project fit; keep as raw article only unless manual review finds a benefit.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "",
-    "outbound_links": [],
     "estimated_value": 10000,
-    "value_basis": "AI 관련 전문 발표회, 외부 유료 강연 시세 하한 적용",
-    "subtitle": "AI 공존사회 발표회",
-    "unit": "1회",
-    "eligibility": "서울대 구성원 누구나",
-    "how_to_apply": [
-      "발표회 참석"
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_621",
+    "name": "2026학년도 2학기 전공선택·결정, 다전공, 학생설계전공 및 심화전공 신청 공고(다전공 신청 일정 수정)",
+    "category": "welfare",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=621",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": "2026-05-22",
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_584",
+    "name": "[교수학습개발센터] ★1:1 학습상담☆ 상시 운영 안내",
+    "category": "learning",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=584",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 1200000,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_488",
+    "name": "2026학년도 1학기 한국장학재단 학자금대출 안내[재학생]",
+    "category": "scholarship",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=488",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_463",
+    "name": "★ 2026학년도 1학기 등록, 복학, 재입학 및 휴학 일정 안내",
+    "category": "experience",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=463",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": "2026-03-26",
+    "tags": [
+      "2026. 3. 26.(목)까지"
     ],
-    "site_id": "snuc"
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_714",
+    "name": "(2026 하계계절수업) 학부대학 개설 컴퓨팅 교과목 강의조교(대학원생), 튜터(학부생&대학원생) 모집(~5/29까지)",
+    "category": "learning",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=714",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": "2026-05-29",
+    "tags": [
+      "5/29까지",
+      "~5/29"
+    ],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_249",
+    "name": "★ 학부대학(자유전공학부, 광역) 국외수학 학점인정제도 변경 안내",
+    "category": "experience",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=249",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_99",
+    "name": "[중요] 대학영어 수강자격 확인용 텝스 성적 업로드 및 확인 방법 안내 (2021. 11. 10.부터 변경)",
+    "category": "other",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=99",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_98",
+    "name": "[중요] 기초영어, 대학영어1, 대학영어2, 고급영어 수강신청 FAQ (2026. 4. 14. 업데이트)",
+    "category": "welfare",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=98",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 400000,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_722",
+    "name": "장애학생 지원 길라잡이 안내",
+    "category": "welfare",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=722",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": null,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "needs_estimation",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_721",
+    "name": "AI 시대, 인간을 그리다. GRAY : 불확실성 앞에서",
+    "category": "other",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=721",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 20000,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_715",
@@ -762,26 +3349,13 @@
     "category": "experience",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=715",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "융합과학기술대학원에서는 학부생들에게 다양한 융합연구의 기회를 제공하기 위해 방학 기간 중 「융합연구프로그램」을 운영하고 있습니다.\r\n관련 분야 진학이나 취업, 연구 등에 관심 있는 우수한 학생들의 많은 지원 바랍니다.\r\n가. 자격요건: 학부 4학기 이상 재학생 또는 학부 수료·졸업(예정)자\r\n나. 모집분야: 응용바이오공학과, 지능정보융합학과, 분자의학및바이오제약학과 소속 19개 연구실\r\n▶ 참여 연구실 상세 모집공고 https://docs.google.com/spreadsheets/d/1Ip0gFpmjjQ35_YdH2Ngptjj96VxJR7bPMEkvePcpWk4/edit?usp=sharing\r\n다. 접수기간: 2026. 5. 18.(월) ~ 5. 25.(월) * 기한 엄수\r\n라. 합격발표: 2026년 6월 중순 예정\r\n마. 참여기간: 2026. 7. 1.(수) ~ 8. 28.(금) * 공휴일 및 주말 제외\r\n바. 문 의: 융합과학기술대학원 교학행정실(☎031-888-9153) 및 각 연구실 담당자\r\n사. 기 타: 융합연구프로그램 참여학생 모집 공고(https://convergence.snu.ac.kr/21669/)",
-    "outbound_links": [],
     "estimated_value": 1500000,
-    "value_basis": "2개월 융합연구 프로그램, 외부 연구체험 프로그램 시세 적용",
-    "subtitle": "하계 융합연구프로그램",
-    "unit": "2개월 코스",
-    "eligibility": "학부 4학기 이상 재학생",
     "deadline_date": "2026-05-25",
-    "how_to_apply": [
-      "연구실 상세공고 확인",
-      "지원서 제출",
-      "선발 결과 대기"
-    ],
-    "site_id": "snuc"
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_712",
@@ -789,59 +3363,15 @@
     "category": "experience",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=712",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [
+    "estimated_value": 2000000,
+    "deadline_date": "2026-08-16",
+    "tags": [
       "~8/16"
     ],
     "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "자아-진로 발견 해외 현장체험 프로그램\r\n서울대학교 학부대학과 아시아연구소는 미래의 아시아전문가를 양성하는 교육프로그램의 일환으로 과정을 개설합니다. 이 과정은 다양한 교육과 훈련을 통해 프로그램 참가자가 아시아를 이해하는 우수한 인재로 성장할 수 있도록 하는 것을 목표로 합니다. 프로그램에서는 아시아의 다양한 지역에 대한 개괄적인 이해와 아시아의 환경, 기술, 문화/한류, 보건의료 등에 관한 전문가의 강의가 제공됩니다. 이와 함께 아시아 지역으로의 해외 현지조사를 지원하여 사고력과 실천력을 겸비한 문제해결형 인재를 양성하고자 합니다.\r\n○ 주관 기관: 서울대학교 학부대학, 서울대학교 아시아연구소\r\n: 2026년 6월 19일 ~ 2026년 12월 4일(약 6개월)\r\n: 15명 내외\r\n가. 아시아지역과 현안에 관심이 있는 서울대학교 학부 재학생 (전공 무관)\r\n나. 매주 금요일 오후 서울대 아시아연구소에서 진행하는 오프라인 수업 참여 가능한 자\r\n다. 매주 금요일 오전 현지조사 팀별 오프라인 모임 참여 가능한 자\r\n가. 아시아 지역 해외현지조사 참가비용 전액 지원\r\n나. 희망자에 한하여 아시아연구소 각 지역 센터 및 프로그램 활동 참여 가능\r\n다 수료증 발급 및 활동 우수자 선",
-    "outbound_links": [
-      "[object Object]"
-    ],
-    "estimated_value": 2000000,
-    "value_basis": "6개월 아시아 현지조사 포함 해외프로그램, 항공+숙박+교육비 추산",
-    "subtitle": "아시아지역 탐구과정",
-    "unit": "6개월 코스",
-    "eligibility": "학부생 전공무관",
-    "deadline_date": "2026-08-16",
-    "how_to_apply": [
-      "지원서 작성",
-      "서류 제출",
-      "선발 과정 참여"
-    ],
-    "site_id": "snuc"
-  },
-  {
-    "id": "snuc_notice_711",
-    "name": "2026년도 일본 정부(문부과학성) 장학금 연구유학생 및 일한공동고등교육 유학생 교류사업(석사·박사학위 과정) 선발 안내",
-    "category": "scholarship",
-    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=711",
-    "provider": "서울대학교 학부대학",
+    "review_priority": "medium",
     "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "2027년도 일본 정부(문부과학성) 장학금 연구유학생 및 일한공동고등교육 유학생 교류사업 (석사·박사학위 과정) 선발을 주한일본대사관 공보문화원의 요청에 따라 안내드립니다.\r\n1. 지원자격 및 선발규모\r\n가) 연령: 1992년 4월 2일 이후 출생한 대한민국 국적 소지자\r\n나) 학력: 일본의 대학 졸업 또는 졸업예정자와 동등한 자격을 가진 자 등\r\n다) 인원: 미정(2025년도 : 이공계 분야 14명, 그 외 분야 21명 선발)\r\n2.\r\n장학내용\r\n가) 기간: 원칙적으로 2027년 4월부터 2년간이며, 10월(또는 9월)부터는 1년 6개월간(※단, 상위과정 진학 시 연장 가능)\r\n나) 장학금: 학비 및 항공요금 지급 외에 매월 약 143,000엔(모집요강 참조) 지급 등\r\n온라인으로 접수 번호 신청(2026.5.25. 16:00까지) 후 필기시험 등록\r\n3. 지원방법:\r\n등 지원관련 세부사항은 반드시 별첨 모집요강 및 참조\r\n4. 제출서류 및 선발절차\r\n주한일본대사관 홈페이지 공지사항\r\n주한일본대사관 공보문화원\r\n5. 문의처:\r\n(전화 02-765-3011/3 <내선 145>, 이메일: yuhak@so.mofa.go.jp)",
-    "outbound_links": [
-      "[object Object]"
-    ],
-    "estimated_value": 45000000,
-    "value_basis": "월 143,000엔×18개월 + 항공료 + 학비 (약 4,500만원)",
-    "subtitle": "일본정부 장학금 대학원",
-    "unit": "18개월 과정",
-    "eligibility": "1992년생 이후 대학원생",
-    "deadline_date": "2026-05-25",
-    "how_to_apply": [
-      "온라인 접수번호 신청",
-      "필기시험 등록",
-      "서류 제출"
-    ],
-    "site_id": "snuc"
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_707",
@@ -849,23 +3379,41 @@
     "category": "learning",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=707",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "글쓰기 피어튜터링 프로그램에서는 학생들과 튜터들의 글쓰기 역량 강화를 위해 명사 초청 특강을 준비하였습니다. 대학 글쓰기의 경계를 넘어 스토리텔링 기법과 공공 분야의 연구 제안서 실무 전략에 대해 배워가는 시간을 갖고자 합니다.\r\n◯ 강연 주제: 경계를 넘는 글쓰기 - 스토리텔링 기법과 공공 연구 제안서 실무 전략\r\n◯ 강연 일시: 2026년 5월 22일 금요일 ｜ 18:00 ~ 20:00\r\n◯ 강연 장소: 서울대학교 61동 320호\r\n◯ 강연 안내\r\n1. 고호관 작가, 글쓰기와 스토리텔링: 정보 전달에서 대중적 서사로\r\n인문, 사회, 이공계를 망라하는 학술적 소재를 발굴하여 독자가 깊이 공감할 수 있는 서사로 재구성하는 스토리텔링의 프로세스를 다룰 예쩡. 학문적 엄밀성과 대중적 흥미를 균형 있게 결합하는 융합적 작법에 관해 설명할 예정\r\n2. 안형준 박사, 글 잘 쓰는 과학기술자: 설득력 있는 연구 제안서 쓰기\r\n정부·공공기관 대상 제안서와 국가 사업 계획서에서 심사위원 및 평가자를 설득할 수 있는 정교한 논리 구조를 설명할 예쩡. 거시적 국가 과학기술 정책의 맥락을 가독성 높은 공적 문서로 구현해 내는 학술적 필치와 정교한 서술 방법론을 제시할 예정\r\n◯ 강연자 소개\r\n●",
-    "outbound_links": [],
     "estimated_value": 20000,
-    "value_basis": "2시간 명사 초청 특강, 외부 유료 강연 시세 기준",
-    "subtitle": "글쓰기 명사 초청 특강",
-    "unit": "1회",
-    "eligibility": "학부대학 학생",
-    "how_to_apply": [
-      "참석 신청"
-    ],
-    "site_id": "snuc"
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_711",
+    "name": "2026년도 일본 정부(문부과학성) 장학금 연구유학생 및 일한공동고등교육 유학생 교류사업(석사·박사학위 과정) 선발 안내",
+    "category": "scholarship",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=711",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 45000000,
+    "deadline_date": "2026-05-25",
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
+  },
+  {
+    "id": "snuc_notice_718",
+    "name": "예비대학 과목별 Q&A 게시판 운영 안내(기프티콘 이벤트)",
+    "category": "learning",
+    "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=718",
+    "provider": "서울대학교 학부대학",
+    "estimated_value": 50000,
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_706",
@@ -873,28 +3421,13 @@
     "category": "experience",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=706",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains program/service/event/experience signal; should be reviewed for private-market value estimate.",
-    "review_priority": "medium",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "[연구실 탐방 프로그램 안내]\r\nㅇ 학부대학 학생을 대상으로 한 전공 및 진로 탐색 지원 프로그램\r\nㅇ 학부대학 황지수 교수님\r\n- 연구분야: 응용미시경제학(노동경제학, 인구경제학)\r\n-\r\nhttps://cls.snu.ac.kr/snu__professor/%ed%99%a9%ec%a7%80%ec%88%98/\r\nㅇ 프로그램 구성: 연구 분야 소개 및 경제학 전공 진로 질의응답\r\nㅇ 일시: 2026. 6. 4.(목) 12:30~1:30 (1시간)\r\nㅇ 장소: 220동 201호\r\n참여 신청 링크:\r\nhttps://forms.gle/zZG96PL2mAWYkWny5\r\n* 강의실 수용 인원 상 선착순 마감될 수 있음\r\n(5월 6일~5월 11일에 진행된 사전 모집에 황지수 교수님 연구실 희망한 학생들 우선 접수함)\r\n* 사전 모집 신청하였으나 구글 폼 마감된 경우 별도 문의 forest3308@snu.ac.kr\r\n* 참고: , 통보 없이 불참 시 이후 학부대학 비교과 프로그램 참여에 불이익이 있을 수 있으며 불참하게 되는 경우\r\n참석자에게 햄버거&콜라 제공 예정\r\n프로그램 진행 전까지 구글 폼으로 불참 여부 제출 또는 담당자 연락 forest3308@snu.ac.kr\r\n* 6월 1일 이후 신청자는 식사",
-    "outbound_links": [
-      "[object Object]",
-      "[object Object]"
-    ],
     "estimated_value": 15000,
-    "value_basis": "1:1 진로상담 및 전공소개, 상담 시세 기준",
-    "subtitle": "연구실 탐방 프로그램",
-    "unit": "1회",
-    "eligibility": "학부대학 학생",
-    "apply_url": "https://forms.gle/zZG96PL2mAWYkWny5",
-    "how_to_apply": [
-      "구글폼 신청",
-      "선착순 마감"
-    ],
-    "site_id": "snuc"
+    "deadline_date": null,
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   },
   {
     "id": "snuc_notice_703",
@@ -902,25 +3435,12 @@
     "category": "scholarship",
     "source_url": "https://snuc.snu.ac.kr/공지사항/?mod=document&uid=703",
     "provider": "서울대학교 학부대학",
-    "deadline_hints": [],
-    "value_status": "estimated",
-    "value_basis_hint": "Contains money/scholarship/work/education-fee support signal; should be reviewed for direct KRW value.",
-    "review_priority": "high",
-    "status": "needs_review",
-    "source": "crawled_enriched",
-    "body_excerpt": "2027년도 일본 정부(문부과학성) 장학금 연구유학생 및 일한공동고등교육 유학생 교류사업 (석사·박사학위 과정) 선발을 아래와 같이 안내드립니다.\r\nㅇ 지원자격 및 선발규모\r\n가) 연령: 1992년 4월 2일 이후 출생한 대한민국 국적 소지자\r\n나) 학력: 일본의 대학 졸업 또는 졸업예정자와 동등한 자격을 가진 자 등\r\n다) 인원: 미정(2025년도 : 이공계 분야 14명, 그 외 분야 21명 선발)\r\nㅇ 장학내용\r\n가) 기간: 원칙적으로 2027년 4월부터 2년간이며, 10월(또는 9월)부터는 1년 6개월간\r\n(※단, 상위과정 진학 시 연장 가능)\r\n나) 장학금: 학비 및 항공요금 지급 외에 매월 약 143,000엔(모집요강 참조) 지급 등\r\nㅇ 지원방법: 온라인으로 접수 번호 신청(2026.5.25. 16:00까지) 후 필기시험 등록\r\nㅇ 제출서류 및 선발절차 등 지원관련 세부사항은 반드시 별첨 모집요강 및 주한일본대사관 홈페이지 공지사항( https://www.kr.emb-japan.go.jp/itprtop_ko/index.html ) 참조\r\nㅇ 문의처: 주한일본대사관 공보문화원 (전화 02-765-3011/3 <내선 145>, 이메일: yuhak@so.mofa.go.jp",
-    "outbound_links": [],
     "estimated_value": 45000000,
-    "value_basis": "월 143,000엔×18개월 + 항공료 + 학비 (약 4,500만원)",
-    "subtitle": "일본정부 장학금 대학원",
-    "unit": "18개월 과정",
-    "eligibility": "1992년생 이후 대학원생",
     "deadline_date": "2026-05-25",
-    "how_to_apply": [
-      "온라인 접수번호 신청",
-      "필기시험 등록",
-      "서류 제출"
-    ],
-    "site_id": "snuc"
+    "tags": [],
+    "value_status": "estimated",
+    "review_priority": "medium",
+    "deadline_hints": [],
+    "source": "crawled_enriched"
   }
 ]

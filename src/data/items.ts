@@ -48,6 +48,7 @@ export interface PongItem {
   subtitle?: string;
   apply_url?: string | null;
   deadline_date?: string | null;
+  tags?: string[];
 }
 
 const _verifiedItems: PongItem[] = [
@@ -752,6 +753,7 @@ interface _CrawledRawItem {
   how_to_apply?: string[];
   apply_url?: string | null;
   deadline_date?: string | null;
+  tags?: string[];
 }
 
 const _CRAWLED_CATEGORY_MAP: Record<string, Category> = {
@@ -794,6 +796,7 @@ function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
     subtitle: raw.subtitle,
     apply_url: raw.apply_url,
     deadline_date: raw.deadline_date,
+    tags: raw.tags ?? [],
   };
 }
 
