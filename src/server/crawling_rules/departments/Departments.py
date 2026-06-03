@@ -31,6 +31,7 @@ class DepartmentSource(NamedTuple):
 def crawl(
     max_records: int | None = None,
     max_departments: int | None = None,
+    max_records_per_department: int | None = None,
     max_board_pages_per_department: int = 3,
     request_delay_seconds: float = DEFAULT_REQUEST_DELAY_SECONDS,
     request_jitter_seconds: float = DEFAULT_REQUEST_JITTER_SECONDS,
@@ -43,6 +44,8 @@ def crawl(
     for department_index, source in enumerate(sources):
         if max_departments is not None and department_index >= max_departments:
             break
+
+        dept_record_count = 0
 
         speed_limiter.wait_before_request(request_index)
         request_index += 1
@@ -57,6 +60,9 @@ def crawl(
             continue
 
         for board_link in board_links:
+            if max_records_per_department is not None and dept_record_count >= max_records_per_department:
+                break
+
             speed_limiter.wait_before_request(request_index)
             request_index += 1
 
@@ -67,9 +73,13 @@ def crawl(
 
             for article in _parse_board_articles(board_html, board_final_url):
                 records.append(_build_article_record(source, board_link, article))
+                dept_record_count += 1
 
                 if max_records is not None and len(records) >= max_records:
                     return records[:max_records]
+
+                if max_records_per_department is not None and dept_record_count >= max_records_per_department:
+                    break
 
     return records
 
