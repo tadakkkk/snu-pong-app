@@ -394,6 +394,21 @@ async def _enrich_crawled_records(
         )
 
     try:
+        import db as _db
+        existing_ids = await asyncio.to_thread(_db.get_existing_ids)
+        def _rec_id(r: dict[str, Any]) -> str:
+            return r.get("id") or r.get("draft_id") or str(r.get("source_url") or "")
+        new_records = [r for r in records if _rec_id(r) not in existing_ids]
+        print(f"증분 필터: 전체 {len(records)}개 중 신규 {len(new_records)}개만 정제 (기존 {len(records)-len(new_records)}개 스킵)")
+        if not new_records:
+            return EnrichmentResult(
+                status="success",
+                input_records_count=len(records),
+                enriched_records_count=0,
+                estimated_value_count=0,
+                error=None,
+            )
+        records = new_records
         enriched_records = await asyncio.to_thread(enrich_records, records)
         await _store_enriched_records(enriched_records)
         return EnrichmentResult(

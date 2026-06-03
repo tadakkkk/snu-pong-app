@@ -152,6 +152,10 @@ def get_item_by_id(item_id: str) -> dict[str, Any] | None:
         ).fetchone()
     return dict(row) if row else None
 
+def get_existing_ids() -> set[str]:
+    with _connect() as conn:
+        rows = conn.execute("SELECT id FROM benefit_items").fetchall()
+    return {row["id"] for row in rows}
 
 def get_sources() -> list[dict[str, Any]]:
     with _connect() as conn:
