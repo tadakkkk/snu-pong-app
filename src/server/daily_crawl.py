@@ -60,6 +60,10 @@ def export_json():
         json.dump(out, f, ensure_ascii=False, indent=2)
     b = sum(1 for x in out if x["is_benefit"])
     print(f"JSON export: {len(out)}개 (혜택 {b} / 비혜택 {len(out)-b}) -> {path}")
+    from datetime import datetime, timezone, timedelta
+    kst_today = (datetime.now(timezone.utc) + timedelta(hours=9)).strftime("%Y-%m-%d")
+    expired = sum(1 for x in out if x["deadline_date"] and x["deadline_date"] < kst_today)
+    return len(out), b, expired
 
 async def main():
     print(f"=== daily crawl 시작 (departments={INCLUDE_DEPT}) ===")
@@ -70,6 +74,7 @@ async def main():
     new_records = [r for r in records if _rec_id(r) not in existing]
     print(f"증분 필터: 신규 {len(new_records)}개 / 기존 {len(records)-len(new_records)}개 스킵")
 
+    new_count = len(new_records)
     if new_records:
         print("신규 정제 중...")
         enriched = await asyncio.to_thread(enrich_records, new_records)
@@ -80,7 +85,11 @@ async def main():
     else:
         print("신규 항목 없음 - 정제 스킵")
 
-    export_json()
+    total, benefit, expired = export_json()
+    summary = f"new {new_count}, total {total}, expired {expired}"
+    with open("crawl_summary.txt", "w", encoding="utf-8") as f:
+        f.write(summary)
+    print(f"SUMMARY: {summary}")
     print("=== 완료 ===")
 
 asyncio.run(main())
