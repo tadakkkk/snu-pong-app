@@ -82,6 +82,7 @@ class BenefitItemQuery:
     categories: list[str] | None = None
     source_ids: list[str] | None = None
     include_expired: bool = False
+    only_benefits: bool = False
     limit: int | None = None
     offset: int | None = None
 
@@ -210,7 +211,7 @@ class ServerQueries:
     ) -> list[BenefitItemSummary]:
         import db as _db
         category = query.categories[0] if query.categories else None
-        rows = await asyncio.to_thread(_db.get_items, category)
+        rows = await asyncio.to_thread(_db.get_items, category, query.only_benefits)
         results: list[BenefitItemSummary] = []
         for row in rows:
             updated_at = row.get("updated_at")
@@ -483,6 +484,7 @@ def _enrichment_prompt(records: list[dict[str, Any]]) -> str:
   "how_to_apply": ["단계1", "단계2", "단계3"],
   "site_id": "career_center / writing_center 등 또는 null",
   "category": "learning/career/sports/welfare/culture/experience/facility/scholarship 중 하나",
+  "is_benefit": true 또는 false,
   "tags": ["풀에서 고른 활동태그 2~4개 + 분야태그 1~3개, 합쳐서 3~7개"]
 }}
 
@@ -491,6 +493,15 @@ def _enrichment_prompt(records: list[dict[str, Any]]) -> str:
 category 선택 규칙:
 - 반드시 위 8개 값 중 하나만 사용.
 - 제목과 본문을 보고 항목의 실제 성격에 맞게 판단해.
+
+is_benefit 판단 규칙:
+- 서울대 학부생이 신청·참여·이용할 수 있는 혜택/기회/지원/프로그램이면 true.
+  (장학금, 1:1상담(진로/심리/법률), 특강·세미나·워크숍, 인턴십, 공모전,
+   해외연수, 봉사, 멘토링, 시설이용, 학자금/등록금 지원, 교육프로그램 등
+   → 가치 금액이 없어도 학생이 활용 가능하면 true)
+- 학생이 직접 누리는 혜택이 아닌 행정/내부/안내성 정보면 false.
+  (전공이수규정/교과과정, 교수진 소개, 학과 비전/소개, 시스템 오류 안내,
+   합격자/선발결과 발표, 단순 일정변경 공지, 교직원 채용공고, 게시판 운영 안내 등)
 
 {TAG_GUIDE}
 
@@ -538,6 +549,7 @@ def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str,
         merged["tags"] = [t for t in (enrichment.get("tags") or []) if t in _TAG_POOL_SET]
         if enrichment.get("category") in _VALID_CATEGORIES:
             merged["category"] = enrichment["category"]
+        merged["is_benefit"] = bool(enrichment.get("is_benefit", True))
         merged["value_status"] = "estimated" if enrichment.get("estimated_value") else "needs_estimation"
         merged["source"] = "server_crawled_enriched"
         merged_records.append(merged)
@@ -556,6 +568,7 @@ def _fallback_enrichment(record: dict[str, Any]) -> dict[str, Any]:
         "apply_url": None,
         "how_to_apply": [],
         "site_id": None,
+        "is_benefit": True,
         "tags": [],
     }
 
@@ -642,8 +655,11 @@ async def health():
 
 
 @app.get("/api/items")
-async def list_items(category: str | None = None):
-    query = BenefitItemQuery(categories=[category] if category else None)
+async def list_items(category: str | None = None, only_benefits: bool = False):
+    query = BenefitItemQuery(
+        categories=[category] if category else None,
+        only_benefits=only_benefits,
+    )
     items = await server_queries.list_benefit_items(query)
     return [dataclasses.asdict(item) for item in items]
 

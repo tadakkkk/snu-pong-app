@@ -42,6 +42,10 @@ def init_db() -> None:
             )
         """)
         conn.execute("""
+            ALTER TABLE benefit_items
+            ADD COLUMN IF NOT EXISTS is_benefit BOOLEAN DEFAULT true
+        """)
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS crawl_sources (
                 id TEXT PRIMARY KEY,
                 name TEXT,
@@ -69,12 +73,12 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     id, name, category, provider, source_url,
                     estimated_value, value_basis, subtitle, unit,
                     eligibility, deadline_date, apply_url, how_to_apply,
-                    site_id, tags, value_status, body_excerpt, updated_at
+                    site_id, tags, value_status, is_benefit, body_excerpt, updated_at
                 ) VALUES (
                     %(id)s, %(name)s, %(category)s, %(provider)s, %(source_url)s,
                     %(estimated_value)s, %(value_basis)s, %(subtitle)s, %(unit)s,
                     %(eligibility)s, %(deadline_date)s, %(apply_url)s, %(how_to_apply)s,
-                    %(site_id)s, %(tags)s, %(value_status)s, %(body_excerpt)s, now()
+                    %(site_id)s, %(tags)s, %(value_status)s, %(is_benefit)s, %(body_excerpt)s, now()
                 )
                 ON CONFLICT (id) DO UPDATE SET
                     name = EXCLUDED.name,
@@ -92,6 +96,7 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     site_id = EXCLUDED.site_id,
                     tags = EXCLUDED.tags,
                     value_status = EXCLUDED.value_status,
+                    is_benefit = EXCLUDED.is_benefit,
                     body_excerpt = EXCLUDED.body_excerpt,
                     updated_at = now()
                 """,
@@ -116,22 +121,26 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                         or []
                     ),
                     "value_status": record.get("value_status"),
+                    "is_benefit": record.get("is_benefit", True),
                     "body_excerpt": record.get("body_excerpt"),
                 },
             )
 
 
-def get_items(category: str | None = None) -> list[dict[str, Any]]:
+def get_items(category: str | None = None, only_benefits: bool = False) -> list[dict[str, Any]]:
+    conditions: list[str] = []
+    params: list[Any] = []
+    if category:
+        conditions.append("category = %s")
+        params.append(category)
+    if only_benefits:
+        conditions.append("is_benefit = true")
+    where = f"WHERE {' AND '.join(conditions)}" if conditions else ""
     with _connect() as conn:
-        if category:
-            rows = conn.execute(
-                "SELECT * FROM benefit_items WHERE category = %s ORDER BY updated_at DESC",
-                (category,),
-            ).fetchall()
-        else:
-            rows = conn.execute(
-                "SELECT * FROM benefit_items ORDER BY updated_at DESC"
-            ).fetchall()
+        rows = conn.execute(
+            f"SELECT * FROM benefit_items {where} ORDER BY updated_at DESC",
+            params,
+        ).fetchall()
     return [dict(row) for row in rows]
 
 
