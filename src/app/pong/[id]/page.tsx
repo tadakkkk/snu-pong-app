@@ -214,6 +214,23 @@ export default function PongDetailPage() {
           </div>
         )}
 
+        {/* 태그 */}
+        {item.tags && item.tags.length > 0 && (
+          <div className="px-6 py-4 border-t border-hairline">
+            <p className="text-[13px] text-ink-3 font-medium mb-2.5">태그</p>
+            <div className="flex flex-wrap gap-2">
+              {item.tags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="inline-block bg-surface-muted text-ink-2 text-[12px] px-2.5 py-1 rounded-md"
+                >
+                  {tag.startsWith("#") ? tag : `#${tag}`}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* 이미 뽑았을 때 안내 */}
         {alreadyPonged && (
           <div className="px-6 py-4 border-t border-hairline">

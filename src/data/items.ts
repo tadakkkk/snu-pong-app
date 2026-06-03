@@ -810,8 +810,21 @@ function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
 const _verifiedUrls = new Set(
   _verifiedItems.map((i) => i.url).filter(Boolean)
 );
+function _todayISO(): string {
+  const now = new Date();
+  const kst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+  return kst.toISOString().slice(0, 10);
+}
+
+function _isExpired(deadlineDate?: string | null): boolean {
+  if (!deadlineDate) return false;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(deadlineDate)) return false;
+  return deadlineDate < _todayISO();
+}
+
 const _crawledConverted = (_sourceData as _CrawledRawItem[])
   .filter((raw) => raw.is_benefit !== false)
+  .filter((raw) => !_isExpired(raw.deadline_date))
   .map(_crawledToPongItem)
   .filter((c) => !_verifiedUrls.has(c.url));
 
