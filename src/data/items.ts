@@ -754,6 +754,7 @@ interface _CrawledRawItem {
   apply_url?: string | null;
   deadline_date?: string | null;
   tags?: string[];
+  is_benefit?: boolean;
 }
 
 const _CRAWLED_CATEGORY_MAP: Record<string, Category> = {
@@ -762,6 +763,12 @@ const _CRAWLED_CATEGORY_MAP: Record<string, Category> = {
   experience: "experience",
   culture: "culture",
   welfare: "welfare",
+  career: "career",
+  facility: "facility",
+  sports: "sports",
+  announcements: "culture",
+  related: "learning",
+  affiliated: "experience",
   other: "learning",
 };
 
@@ -804,6 +811,7 @@ const _verifiedUrls = new Set(
   _verifiedItems.map((i) => i.url).filter(Boolean)
 );
 const _crawledConverted = (_sourceData as _CrawledRawItem[])
+  .filter((raw) => raw.is_benefit !== false)
   .map(_crawledToPongItem)
   .filter((c) => !_verifiedUrls.has(c.url));
 
