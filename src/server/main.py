@@ -86,6 +86,7 @@ class BenefitItemSummary:
     estimated_value_krw: int | None
     deadline_at: str | None
     updated_at: str
+    tags: list[str]
 
 
 @dataclass(frozen=True)
@@ -214,6 +215,7 @@ class ServerQueries:
                 estimated_value_krw=row.get("estimated_value"),
                 deadline_at=row.get("deadline_date"),
                 updated_at=str(updated_at or ""),
+                tags=row.get("tags") or [],
             ))
         return results
 
@@ -238,6 +240,7 @@ class ServerQueries:
             estimated_value_krw=row.get("estimated_value"),
             deadline_at=row.get("deadline_date"),
             updated_at=str(updated_at or ""),
+            tags=row.get("tags") or [],
             description=row.get("body_excerpt") or "",
             eligibility_text=row.get("eligibility"),
             application_url=row.get("apply_url"),
