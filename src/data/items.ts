@@ -74,6 +74,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "글쓰기교실",
     site_id: "writing_center",
+    tags: ["#글쓰기첨삭", "#1대1튜터링", "#무료첨삭"],
   },
   {
     id: "item_002",
@@ -96,6 +97,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "기초교육원",
     site_id: "writer_basic",
+    tags: ["#리포트작성", "#글쓰기멘토링", "#집중지도"],
   },
   {
     id: "item_003",
@@ -118,6 +120,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "기초교육원",
     site_id: "writer_basic",
+    tags: ["#유학생지원", "#한국어글쓰기", "#외국인"],
   },
   {
     id: "item_004",
@@ -140,6 +143,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "기초교육원",
     site_id: "writer_basic",
+    tags: ["#글쓰기워크숍", "#발표자료", "#실용글쓰기"],
   },
   {
     id: "item_005",
@@ -162,6 +166,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "글쓰기교실",
     site_id: "writing_center",
+    tags: ["#저자특강", "#독서", "#글쓰기"],
   },
   {
     id: "item_006",
@@ -184,6 +189,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "기초교육원",
     site_id: "writer_basic",
+    tags: ["#학습법", "#시간관리", "#집중력"],
   },
   {
     id: "item_007",
@@ -206,6 +212,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "교수학습센터",
     site_id: "cdcc_lifecenter",
+    tags: ["#학습유형검사", "#무료검사", "#자기이해"],
   },
   {
     id: "item_008",
@@ -228,6 +235,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "교수학습센터",
     site_id: "cdcc_lifecenter",
+    tags: ["#학습상담", "#학습코칭", "#소그룹"],
   },
   {
     id: "item_012",
@@ -251,6 +259,7 @@ const _verifiedItems: PongItem[] = [
     url: "https://career.snu.ac.kr",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#진로상담", "#1대1상담", "#대학원진학"],
   },
   {
     id: "item_013",
@@ -273,6 +282,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#취업컨설팅", "#취업전략", "#1대1상담"],
   },
   {
     id: "item_014",
@@ -295,6 +305,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#직업흥미검사", "#STRONG", "#무료검사"],
   },
   {
     id: "item_015",
@@ -317,6 +328,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#MBTI", "#성격검사", "#무료검사"],
   },
   {
     id: "item_016",
@@ -339,6 +351,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#자소서첨삭", "#이력서", "#국문"],
   },
   {
     id: "item_017",
@@ -361,6 +374,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#영문첨삭", "#해외취업", "#CV"],
   },
   {
     id: "item_018",
@@ -383,6 +397,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#모의면접", "#면접준비", "#피드백"],
   },
   {
     id: "item_019",
@@ -405,6 +420,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#인적성", "#모의고사", "#대기업"],
   },
   {
     id: "item_020",
@@ -427,6 +443,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#진로설계", "#집단상담", "#방학프로그램"],
   },
   {
     id: "item_021",
@@ -449,6 +466,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#공직진출", "#멘토링", "#졸업생멘토"],
   },
   {
     id: "item_022",
@@ -471,6 +489,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#맞춤상담", "#유학생", "#복학생"],
   },
   {
     id: "item_023",
@@ -493,6 +512,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#온라인강의", "#취업솔루션", "#무료콘텐츠"],
   },
   {
     id: "item_024",
@@ -515,6 +535,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "경력개발센터",
     site_id: "career_center",
+    tags: ["#채용박람회", "#기업미팅", "#취업"],
   },
   {
     id: "item_027",
@@ -538,6 +559,7 @@ const _verifiedItems: PongItem[] = [
     url: "https://snucounsel.snu.ac.kr",
     provider: "대학생활문화원",
     site_id: "snucounsel",
+    tags: ["#심리상담", "#개인상담", "#무료상담"],
   },
   {
     id: "item_028",
@@ -560,6 +582,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "대학생활문화원",
     site_id: "snucounsel",
+    tags: ["#심리검사", "#해석상담", "#자기이해"],
   },
   {
     id: "item_029",
@@ -582,6 +605,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "대학생활문화원",
     site_id: "snucounsel",
+    tags: ["#집단상담", "#소그룹", "#심리지원"],
   },
   {
     id: "item_030",
@@ -603,6 +627,7 @@ const _verifiedItems: PongItem[] = [
     deadline_label: "상시",
     url: "",
     provider: "단과대별 상담센터",
+    tags: ["#단과대상담", "#학생상담센터", "#맞춤상담"],
   },
   {
     id: "item_031",
@@ -625,6 +650,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "상담센터",
     site_id: "snucounsel",
+    tags: ["#신입생", "#심리검사", "#학업상담"],
   },
   {
     id: "item_036",
@@ -647,6 +673,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "관악학생생활관",
     site_id: "snudorm",
+    tags: ["#헬스장", "#무료이용", "#관악사"],
   },
   {
     id: "item_037",
@@ -669,6 +696,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "관악학생생활관",
     site_id: "snudorm",
+    tags: ["#테니스", "#무료이용", "#관악사"],
   },
   {
     id: "item_049",
@@ -691,6 +719,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "중앙도서관",
     site_id: "library",
+    tags: ["#도서대출", "#중앙도서관", "#무료"],
   },
   {
     id: "item_050",
@@ -713,6 +742,7 @@ const _verifiedItems: PongItem[] = [
     url: "",
     provider: "중앙도서관",
     site_id: "library",
+    tags: ["#전자책", "#논문DB", "#학술자료"],
   },
 ];
 
