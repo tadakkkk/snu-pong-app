@@ -1,0 +1,46 @@
+name: Daily Crawl
+
+on:
+  schedule:
+    # Daily 5AM KST = UTC 20:00 (previous day)
+    - cron: '0 20 * * *'
+  workflow_dispatch:  # manual run
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        working-directory: src/server
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run daily crawl + enrich + export
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          INCLUDE_DEPARTMENTS: 'true'
+          MAX_PER_DEPT: '3'
+        working-directory: src/server
+        run: python daily_crawl.py
+
+      - name: Commit updated JSON
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/enriched-items.json
+          if git diff --staged --quiet; then
+            echo "No changes - skip commit"
+          else
+            git commit -m "chore: daily crawl data update [skip ci]"
+            git push
+          fi

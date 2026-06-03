@@ -1,0 +1,86 @@
+import os, sys, asyncio, json
+from collections import Counter
+import db as _db
+from main import (
+    ScheduledActionContext, SCHEDULED_CRAWLERS,
+    _run_scheduled_crawler, enrich_records, _store_enriched_records,
+)
+from crawling_rules.departments.Departments import crawl as crawl_departments
+
+INCLUDE_DEPT = os.environ.get("INCLUDE_DEPARTMENTS", "false").lower() == "true"
+MAX_PER_DEPT = int(os.environ.get("MAX_PER_DEPT", "3"))
+OUT_JSON = os.environ.get(
+    "OUT_JSON",
+    os.path.join(os.path.dirname(__file__), "..", "data", "enriched-items.json"),
+)
+
+def _rec_id(r):
+    return r.get("id") or r.get("draft_id") or str(r.get("source_url") or "")
+
+async def crawl_all():
+    ctx = ScheduledActionContext(trigger="manual")
+    records = []
+    for entry in SCHEDULED_CRAWLERS:
+        if entry.crawler_id == "departments":
+            if not INCLUDE_DEPT:
+                print(f"  {entry.crawler_id}: 건너뜀 (이번 실행 제외)")
+                continue
+            print(f"  {entry.crawler_id}: 단과대당 {MAX_PER_DEPT}개...")
+            dept = await asyncio.to_thread(crawl_departments, max_records_per_department=MAX_PER_DEPT)
+            print(f"  {entry.crawler_id}: success ({len(dept)}개)")
+            records.extend(dept)
+        else:
+            outcome = await _run_scheduled_crawler(entry, ctx)
+            r = outcome.result
+            print(f"  {r.crawler_id}: {r.status} ({r.records_count}개)")
+            records.extend(outcome.records)
+    return records
+
+def export_json():
+    from psycopg.rows import dict_row
+    import psycopg
+    url = os.environ["DATABASE_URL"]
+    with psycopg.connect(url, row_factory=dict_row) as conn:
+        rows = conn.execute("""
+            SELECT id, name, category, source_url, provider,
+                   estimated_value, deadline_date, tags, value_status, is_benefit
+            FROM benefit_items
+            ORDER BY is_benefit DESC, estimated_value DESC NULLS LAST
+        """).fetchall()
+    out = [{
+        "id": r["id"], "name": r["name"], "category": r["category"],
+        "source_url": r["source_url"] or "", "provider": r["provider"] or "",
+        "estimated_value": r["estimated_value"], "deadline_date": r["deadline_date"],
+        "tags": r["tags"] or [], "value_status": r["value_status"] or "needs_estimation",
+        "review_priority": "medium", "deadline_hints": [],
+        "is_benefit": bool(r["is_benefit"]), "source": "crawled_enriched",
+    } for r in rows]
+    path = os.path.abspath(OUT_JSON)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=2)
+    b = sum(1 for x in out if x["is_benefit"])
+    print(f"JSON export: {len(out)}개 (혜택 {b} / 비혜택 {len(out)-b}) -> {path}")
+
+async def main():
+    print(f"=== daily crawl 시작 (departments={INCLUDE_DEPT}) ===")
+    records = await crawl_all()
+    print(f"\n크롤 {len(records)}개 수집")
+
+    existing = await asyncio.to_thread(_db.get_existing_ids)
+    new_records = [r for r in records if _rec_id(r) not in existing]
+    print(f"증분 필터: 신규 {len(new_records)}개 / 기존 {len(records)-len(new_records)}개 스킵")
+
+    if new_records:
+        print("신규 정제 중...")
+        enriched = await asyncio.to_thread(enrich_records, new_records)
+        b = sum(1 for e in enriched if e.get("is_benefit"))
+        print(f"정제 완료: {len(enriched)}개 (혜택 {b} / 비혜택 {len(enriched)-b})")
+        await _store_enriched_records(enriched)
+        print("DB 저장 완료")
+    else:
+        print("신규 항목 없음 - 정제 스킵")
+
+    export_json()
+    print("=== 완료 ===")
+
+asyncio.run(main())
