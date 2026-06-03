@@ -27,19 +27,19 @@ export const personalizationQuestions: PersonalizationQuestion[] = [
         id: "career",
         label: "진로/취업",
         description: "인턴, 상담, 직무 경험",
-        tags: ["#진로탐색", "#취업준비", "#인턴십", "#커리어코칭"],
+        tags: ["#진로탐색", "#취업준비", "#인턴십"],
       },
       {
         id: "research",
         label: "연구 경험",
         description: "학부연구, 랩인턴, 학술활동",
-        tags: ["#학부연구", "#연구프로젝트", "#랩인턴", "#학술대회"],
+        tags: ["#학부연구", "#연구프로젝트", "#랩인턴"],
       },
       {
         id: "global",
         label: "해외/교류",
         description: "교환, 해외연수, 국제 프로그램",
-        tags: ["#국제교류", "#해외연수", "#글로벌프로그램", "#교환학생"],
+        tags: ["#국제교류", "#해외연수", "#글로벌프로그램"],
       },
       {
         id: "wellbeing",
@@ -76,7 +76,7 @@ export const personalizationQuestions: PersonalizationQuestion[] = [
         id: "study",
         label: "학습 지원",
         description: "스터디, 어학, 글쓰기, 학습법",
-        tags: ["#스터디", "#어학학습", "#글쓰기", "#학습법코칭"],
+        tags: ["#스터디", "#어학학습", "#글쓰기"],
       },
     ],
   },
@@ -94,12 +94,12 @@ export const personalizationQuestions: PersonalizationQuestion[] = [
       {
         id: "business",
         label: "경영/경제",
-        tags: ["#경영", "#경제학", "#마케팅", "#금융"],
+        tags: ["#경영", "#경제학", "#마케팅"],
       },
       {
         id: "public",
         label: "공공/사회",
-        tags: ["#공공정책", "#사회복지", "#NGO활동", "#국제개발협력"],
+        tags: ["#공공정책", "#사회복지", "#NGO활동"],
       },
       {
         id: "media_art",
@@ -109,12 +109,12 @@ export const personalizationQuestions: PersonalizationQuestion[] = [
       {
         id: "bio_health",
         label: "바이오/보건",
-        tags: ["#바이오", "#의학", "#헬스케어", "#간호보건"],
+        tags: ["#바이오", "#의학", "#헬스케어"],
       },
       {
         id: "engineering",
         label: "공학/제조",
-        tags: ["#전자공학", "#기계공학", "#반도체", "#로봇공학"],
+        tags: ["#전자공학", "#기계공학", "#반도체"],
       },
     ],
   },

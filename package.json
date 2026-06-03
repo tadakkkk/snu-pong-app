@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "convert-data": "tsx src/data/tools/convert-crawled-data.ts",
+    "validate-personalization-tags": "tsx src/data/tools/validate-personalization-tags.ts",
     "dev": "npm run convert-data && next dev",
     "build": "node src/data/tools/fetch-from-server.mjs && next build",
     "start": "next start"
