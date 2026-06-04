@@ -43,7 +43,7 @@ def export_json():
     with psycopg.connect(url, row_factory=dict_row) as conn:
         rows = conn.execute("""
             SELECT id, name, category, source_url, provider,
-                   estimated_value, deadline_date, tags, value_status, is_benefit
+                   estimated_value, deadline_date, tags, value_status, is_benefit, first_seen
             FROM benefit_items
             ORDER BY is_benefit DESC, estimated_value DESC NULLS LAST
         """).fetchall()
@@ -53,7 +53,9 @@ def export_json():
         "estimated_value": r["estimated_value"], "deadline_date": r["deadline_date"],
         "tags": r["tags"] or [], "value_status": r["value_status"] or "needs_estimation",
         "review_priority": "medium", "deadline_hints": [],
-        "is_benefit": bool(r["is_benefit"]), "source": "crawled_enriched",
+        "is_benefit": bool(r["is_benefit"]),
+        "first_seen": r["first_seen"].isoformat() if r["first_seen"] else None,
+        "source": "crawled_enriched",
     } for r in rows]
     path = os.path.abspath(OUT_JSON)
     with open(path, "w", encoding="utf-8") as f:

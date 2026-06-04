@@ -15,7 +15,7 @@ import SettingsSheet from "@/components/home/SettingsSheet";
 import { useUserStore } from "@/store/user";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
-import { items } from "@/data/items";
+import { items, getTodayNewCount } from "@/data/items";
 import { getDaysUntilSemesterEnd } from "@/lib/semester";
 import { useAuthGate } from "@/lib/auth-gate";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
@@ -128,6 +128,7 @@ export default function HomePage() {
   ].filter(Boolean) as { item: typeof items[0]; label: string; labelColor: string; dday: number | null }[];
 
   const firstUnponged = unponged[0] ?? null;
+  const todayNewCount = getTodayNewCount();
 
   return (
     <MobileFrame>
@@ -175,6 +176,29 @@ export default function HomePage() {
                 새로고침하면 데이터가 사라져. 로그인하면 안전하게 저장돼 →
               </p>
             </button>
+          </div>
+        )}
+
+        {/* ── 오늘 새로 들어온 혜택 (토스 스타일) ── */}
+        {todayNewCount > 0 && (
+          <div className="px-5 pt-3">
+            <Link
+              href="/pong?sort=recent"
+              className="flex items-center gap-3 w-full bg-[#F2F4F6] rounded-2xl px-4 py-3.5 active:bg-[#E8EBED] transition-colors"
+            >
+              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0 text-[18px]">
+                🐦
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[15px] font-semibold text-ink leading-tight">
+                  오늘 물까치가 {todayNewCount}개 물어왔어
+                </p>
+                <p className="text-[12px] text-ink-3 mt-0.5">
+                  방금 들어온 새 혜택 보러 가기
+                </p>
+              </div>
+              <span className="text-ink-3 text-[18px] shrink-0">›</span>
+            </Link>
           </div>
         )}
 

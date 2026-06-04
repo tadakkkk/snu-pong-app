@@ -73,12 +73,12 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     id, name, category, provider, source_url,
                     estimated_value, value_basis, subtitle, unit,
                     eligibility, deadline_date, apply_url, how_to_apply,
-                    site_id, tags, value_status, is_benefit, body_excerpt, updated_at
+                    site_id, tags, value_status, is_benefit, body_excerpt, first_seen, updated_at
                 ) VALUES (
                     %(id)s, %(name)s, %(category)s, %(provider)s, %(source_url)s,
                     %(estimated_value)s, %(value_basis)s, %(subtitle)s, %(unit)s,
                     %(eligibility)s, %(deadline_date)s, %(apply_url)s, %(how_to_apply)s,
-                    %(site_id)s, %(tags)s, %(value_status)s, %(is_benefit)s, %(body_excerpt)s, now()
+                    %(site_id)s, %(tags)s, %(value_status)s, %(is_benefit)s, %(body_excerpt)s, now(), now()
                 )
                 ON CONFLICT (id) DO UPDATE SET
                     name = EXCLUDED.name,

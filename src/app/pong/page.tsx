@@ -129,6 +129,7 @@ export default function PongPage() {
   const [search, setSearch] = useState("");
   const [mode, setMode] = useState<ToggleMode>("items");
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
+  const [sortMode, setSortMode] = useState<"value" | "recent" | "deadline">("value");
   const [activeSiteCategory, setActiveSiteCategory] = useState<
     SiteCategory | "colleges" | null
   >(null);
@@ -149,6 +150,20 @@ export default function PongPage() {
   const filteredItems = activeCategory
     ? items.filter((i) => i.category === activeCategory)
     : items;
+
+  const sortedCategoryItems = [...filteredItems].sort((a, b) => {
+    if (sortMode === "recent") {
+      const fa = a.first_seen ?? "";
+      const fb = b.first_seen ?? "";
+      return fb.localeCompare(fa);
+    }
+    if (sortMode === "deadline") {
+      const da = a.deadline_date ? getDday(a.deadline_date) : 9999;
+      const db = b.deadline_date ? getDday(b.deadline_date) : 9999;
+      return da - db;
+    }
+    return b.value - a.value;
+  });
 
   const filteredSites = activeSiteCategory && activeSiteCategory !== "colleges"
     ? sites.filter((s) => s.category === activeSiteCategory)
@@ -261,7 +276,26 @@ export default function PongPage() {
                     돌아가기
                   </button>
                 </div>
-                {filteredItems.map((item) => (
+                <div className="flex gap-1.5 pb-2">
+                  {([
+                    ["value", "가치순"],
+                    ["recent", "최신순"],
+                    ["deadline", "마감임박순"],
+                  ] as const).map(([m, label]) => (
+                    <button
+                      key={m}
+                      onClick={() => setSortMode(m)}
+                      className={`text-[11px] px-2.5 py-1 rounded-full transition-colors ${
+                        sortMode === m
+                          ? "bg-ink text-white"
+                          : "bg-surface-sub text-ink-3"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+                {sortedCategoryItems.map((item) => (
                   <ItemRow
                     key={item.id}
                     item={item}

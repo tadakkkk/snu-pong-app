@@ -49,6 +49,7 @@ export interface PongItem {
   apply_url?: string | null;
   deadline_date?: string | null;
   tags?: string[];
+  first_seen?: string | null;
 }
 
 const _verifiedItems: PongItem[] = [
@@ -785,6 +786,7 @@ interface _CrawledRawItem {
   deadline_date?: string | null;
   tags?: string[];
   is_benefit?: boolean;
+  first_seen?: string | null;
 }
 
 const _CRAWLED_CATEGORY_MAP: Record<string, Category> = {
@@ -834,6 +836,7 @@ function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
     apply_url: raw.apply_url,
     deadline_date: raw.deadline_date,
     tags: raw.tags ?? [],
+    first_seen: raw.first_seen ?? null,
   };
 }
 
@@ -875,4 +878,9 @@ export function getItemsByCategory(category: Category): PongItem[] {
 
 export function getItem(id: string): PongItem | undefined {
   return items.find((i) => i.id === id);
+}
+
+export function getTodayNewCount(): number {
+  const kstToday = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  return items.filter((i) => i.first_seen && i.first_seen.slice(0, 10) === kstToday).length;
 }
