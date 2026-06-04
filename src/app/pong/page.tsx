@@ -10,7 +10,8 @@ import SearchBar from "@/components/pong/SearchBar";
 import ItemSiteToggle, { type ToggleMode } from "@/components/pong/ItemSiteToggle";
 import SiteCard from "@/components/pong/SiteCard";
 import SearchResults from "@/components/pong/SearchResults";
-import { items, CATEGORY_META, type Category } from "@/data/items";
+import { items, CATEGORY_META, type Category, getTagsForCategory, filterByTags } from "@/data/items";
+import TagFilterSheet from "@/components/pong/TagFilterSheet";
 import {
   sites,
   SITE_CATEGORY_LABELS,
@@ -130,6 +131,8 @@ export default function PongPage() {
   const [mode, setMode] = useState<ToggleMode>("items");
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [sortMode, setSortMode] = useState<"value" | "recent" | "deadline">("value");
+  const [tagSheetOpen, setTagSheetOpen] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [activeSiteCategory, setActiveSiteCategory] = useState<
     SiteCategory | "colleges" | null
   >(null);
@@ -164,6 +167,9 @@ export default function PongPage() {
     }
     return b.value - a.value;
   });
+
+  const categoryTags = activeCategory ? getTagsForCategory(activeCategory) : [];
+  const tagFilteredItems = filterByTags(sortedCategoryItems, selectedTags);
 
   const filteredSites = activeSiteCategory && activeSiteCategory !== "colleges"
     ? sites.filter((s) => s.category === activeSiteCategory)
@@ -227,9 +233,11 @@ export default function PongPage() {
                   return (
                     <button
                       key={cat}
-                      onClick={() =>
-                        setActiveCategory(isActive ? null : cat)
-                      }
+                      onClick={() => {
+                        setActiveCategory(isActive ? null : cat);
+                        setSelectedTags([]);
+                        setSortMode("value");
+                      }}
                       className={`rounded-[10px] py-2.5 px-1 text-center transition-colors ${
                         isActive
                           ? "bg-ink"
@@ -276,7 +284,7 @@ export default function PongPage() {
                     돌아가기
                   </button>
                 </div>
-                <div className="flex gap-1.5 pb-2">
+                <div className="flex items-center gap-1.5 pb-2">
                   {([
                     ["value", "가치순"],
                     ["recent", "최신순"],
@@ -294,17 +302,43 @@ export default function PongPage() {
                       {label}
                     </button>
                   ))}
+                  <button
+                    onClick={() => setTagSheetOpen(true)}
+                    className={`ml-auto text-[11px] px-2.5 py-1 rounded-full transition-colors ${
+                      selectedTags.length > 0 ? "bg-blue/10 text-blue font-medium" : "bg-surface-sub text-ink-3"
+                    }`}
+                  >
+                    🏷 태그{selectedTags.length > 0 ? ` ${selectedTags.length}` : ""}
+                  </button>
                 </div>
-                {sortedCategoryItems.map((item) => (
-                  <ItemRow
-                    key={item.id}
-                    item={item}
-                    ponged={isPonged(item.id)}
-                  />
-                ))}
+                {selectedTags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pb-2">
+                    {selectedTags.map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setSelectedTags(selectedTags.filter((x) => x !== t))}
+                        className="text-[11px] px-2 py-1 rounded-full bg-ink text-white"
+                      >
+                        {t} ✕
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {tagFilteredItems.length === 0 ? (
+                  <p className="text-[13px] text-ink-3 py-6 text-center">조건에 맞는 항목이 없어요</p>
+                ) : (
+                  tagFilteredItems.map((item) => (
+                    <ItemRow
+                      key={item.id}
+                      item={item}
+                      ponged={isPonged(item.id)}
+                    />
+                  ))
+                )}
               </div>
             ) : (
               /* 기본 섹션 뷰: 카테고리 미선택 상태 */
+
               <>
                 {/* 마감 임박 */}
                 {urgentItems.length > 0 && (
@@ -522,6 +556,15 @@ export default function PongPage() {
           </>
         )}
       </div>
+
+      <TagFilterSheet
+        open={tagSheetOpen}
+        onClose={() => setTagSheetOpen(false)}
+        tags={categoryTags}
+        selected={selectedTags}
+        onChange={setSelectedTags}
+        resultCount={tagFilteredItems.length}
+      />
 
       <BottomTabBar />
     </MobileFrame>

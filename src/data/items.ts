@@ -884,3 +884,24 @@ export function getTodayNewCount(): number {
   const kstToday = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
   return items.filter((i) => i.first_seen && i.first_seen.slice(0, 10) === kstToday).length;
 }
+
+export function getTagsForCategory(category: Category): { tag: string; count: number }[] {
+  const counter = new Map<string, number>();
+  for (const item of items) {
+    if (item.category !== category) continue;
+    for (const t of item.tags ?? []) {
+      counter.set(t, (counter.get(t) ?? 0) + 1);
+    }
+  }
+  return Array.from(counter.entries())
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+export function filterByTags(list: PongItem[], selectedTags: string[]): PongItem[] {
+  if (selectedTags.length === 0) return list;
+  return list.filter((item) => {
+    const itemTags = item.tags ?? [];
+    return selectedTags.every((t) => itemTags.includes(t));
+  });
+}
