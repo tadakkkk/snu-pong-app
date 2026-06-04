@@ -1,5 +1,9 @@
 import os, sys, asyncio, json
 from collections import Counter
+import psycopg
+from psycopg.rows import dict_row
+from psycopg.types.json import Jsonb
+import anthropic
 import db as _db
 from main import (
     ScheduledActionContext, SCHEDULED_CRAWLERS,
@@ -67,6 +71,77 @@ def export_json():
     expired = sum(1 for x in out if x["deadline_date"] and x["deadline_date"] < kst_today)
     return len(out), b, expired
 
+_WEAK_TAGS = {"#학습","#진로","#복지","#문화","#경험","#시설","#운동","#기타","#모집","#프로그램"}
+
+def _build_tag_pool(conn):
+    rows = conn.execute("SELECT tags FROM benefit_items WHERE is_benefit = true").fetchall()
+    c = Counter()
+    for r in rows:
+        for t in (r["tags"] or []):
+            c[t] += 1
+    return sorted([t for t, n in c.items() if n >= 2 and len(t) <= 12 and t not in _WEAK_TAGS])
+
+def _retag_batch(client, tag_pool, batch):
+    items_desc = "\n".join(f"{i+1}. {name}" for i, (_, name) in enumerate(batch))
+    prompt = f"""다음은 서울대 학생 혜택/공지 제목 목록이야. 각 항목에 어울리는 태그를 아래 '태그 목록'에서만 골라줘.
+
+규칙:
+- 반드시 아래 태그 목록에 있는 것만 사용 (새로 만들지 마)
+- 각 항목당 2~4개
+- 제목 내용에 가장 잘 맞는 구체적인 걸로
+
+태그 목록:
+{', '.join(tag_pool)}
+
+항목:
+{items_desc}
+
+출력: JSON 배열만. 각 원소는 태그 문자열 배열. 항목 순서대로. 설명 없이 JSON만."""
+    resp = client.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=2000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    text = resp.content[0].text.strip().replace("```json", "").replace("```", "").strip()
+    return json.loads(text)
+
+def retag_new_items(new_ids):
+    if not new_ids:
+        return 0
+    url = os.environ["DATABASE_URL"]
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    with psycopg.connect(url, row_factory=dict_row) as conn:
+        tag_pool = _build_tag_pool(conn)
+        rows = conn.execute(
+            "SELECT id, name, tags FROM benefit_items WHERE id = ANY(%s) AND is_benefit = true",
+            (list(new_ids),),
+        ).fetchall()
+        targets = [
+            (r["id"], r["name"])
+            for r in rows
+            if len(r["tags"] or []) <= 1 or all(t in _WEAK_TAGS for t in (r["tags"] or []))
+        ]
+        if not targets:
+            print("재태깅 대상 없음 (신규 태그 양호)")
+            return 0
+        print(f"신규 재태깅 대상: {len(targets)}개")
+        fixed = 0
+        for i in range(0, len(targets), 10):
+            batch = targets[i:i+10]
+            try:
+                result = _retag_batch(client, tag_pool, batch)
+                for (item_id, _), new_tags in zip(batch, result):
+                    valid = [t for t in new_tags if t in tag_pool]
+                    if valid:
+                        conn.execute("UPDATE benefit_items SET tags = %s WHERE id = %s", (Jsonb(valid), item_id))
+                        fixed += 1
+                conn.commit()
+            except Exception as e:
+                print(f"  재태깅 배치 실패: {e}")
+        print(f"신규 재태깅 완료: {fixed}개")
+        return fixed
+
+
 async def main():
     print(f"=== daily crawl 시작 (departments={INCLUDE_DEPT}) ===")
     records = await crawl_all()
@@ -84,6 +159,8 @@ async def main():
         print(f"정제 완료: {len(enriched)}개 (혜택 {b} / 비혜택 {len(enriched)-b})")
         await _store_enriched_records(enriched)
         print("DB 저장 완료")
+        new_ids = [_rec_id(r) for r in new_records]
+        await asyncio.to_thread(retag_new_items, new_ids)
     else:
         print("신규 항목 없음 - 정제 스킵")
 
