@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { logEvent } from "@/lib/analytics";
 import MobileFrame from "@/components/ui/MobileFrame";
 import StatusBar from "@/components/ui/StatusBar";
 import PrimaryButton from "@/components/ui/PrimaryButton";
@@ -24,6 +25,10 @@ export default function PongDetailPage() {
   const { isAuthed } = useAuthGate();
   const [showToast, setShowToast] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+
+  useEffect(() => {
+    if (item) logEvent("item_view", { item_id: item.id, category: item.category, is_crawled: !!item.is_crawled });
+  }, [item]);
 
   if (!item) {
     return (
@@ -60,6 +65,7 @@ export default function PongDetailPage() {
       value: item!.value,
       pongAt: new Date().toISOString(),
     });
+    logEvent("pong_complete", { item_id: item!.id, category: item!.category, value: item!.value });
     setShowToast(true);
   }
 

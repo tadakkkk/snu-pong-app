@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { logEvent } from "@/lib/analytics";
 
 interface TagFilterSheetProps {
   open: boolean;
@@ -95,7 +96,7 @@ export default function TagFilterSheet({
         {/* bottom action */}
         <div className="px-5 pb-7 pt-2 shrink-0 border-t border-hairline">
           <button
-            onClick={onClose}
+            onClick={() => { logEvent("tagfilter_apply", { tags: selected, count: resultCount }); onClose(); }}
             className="w-full py-3.5 rounded-2xl bg-ink text-white text-[15px] font-medium active:opacity-80"
           >
             {resultCount}개 항목 보기

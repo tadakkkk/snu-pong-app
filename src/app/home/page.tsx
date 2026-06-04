@@ -18,6 +18,7 @@ import { useSemesterStore } from "@/store/semester";
 import { items, getTodayNewCount } from "@/data/items";
 import { getDaysUntilSemesterEnd } from "@/lib/semester";
 import { useAuthGate } from "@/lib/auth-gate";
+import { logEvent } from "@/lib/analytics";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
 
 function getMood(percent: number): string {
@@ -184,6 +185,7 @@ export default function HomePage() {
           <div className="px-5 pt-3">
             <Link
               href="/pong?sort=recent"
+              onClick={() => logEvent("new_banner_click", { count: todayNewCount })}
               className="flex items-center gap-3 w-full bg-[#F2F4F6] rounded-2xl px-4 py-3.5 active:bg-[#E8EBED] transition-colors"
             >
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0 text-[18px]">

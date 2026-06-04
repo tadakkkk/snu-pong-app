@@ -24,6 +24,7 @@ import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 import { useUserStore } from "@/store/user";
 import { useSearch } from "@/hooks/useSearch";
+import { logEvent } from "@/lib/analytics";
 
 const CATEGORIES = Object.entries(CATEGORY_META) as [
   Category,
@@ -190,7 +191,10 @@ export default function PongPage() {
       {/* 검색바 */}
       <SearchBar
         value={search}
-        onChange={setSearch}
+        onChange={(v) => {
+          setSearch(v);
+          if (v.trim().length >= 2) logEvent("search", { query: v.trim() });
+        }}
         placeholder={searchPlaceholder}
       />
 
@@ -234,9 +238,11 @@ export default function PongPage() {
                     <button
                       key={cat}
                       onClick={() => {
-                        setActiveCategory(isActive ? null : cat);
+                        const next = isActive ? null : cat;
+                        setActiveCategory(next);
                         setSelectedTags([]);
                         setSortMode("value");
+                        if (next) logEvent("category_select", { category: next });
                       }}
                       className={`rounded-[10px] py-2.5 px-1 text-center transition-colors ${
                         isActive
@@ -292,7 +298,7 @@ export default function PongPage() {
                   ] as const).map(([m, label]) => (
                     <button
                       key={m}
-                      onClick={() => setSortMode(m)}
+                      onClick={() => { setSortMode(m); logEvent("sort_change", { mode: m, category: activeCategory }); }}
                       className={`text-[11px] px-2.5 py-1 rounded-full transition-colors ${
                         sortMode === m
                           ? "bg-ink text-white"
@@ -303,7 +309,7 @@ export default function PongPage() {
                     </button>
                   ))}
                   <button
-                    onClick={() => setTagSheetOpen(true)}
+                    onClick={() => { setTagSheetOpen(true); logEvent("tagfilter_open", { category: activeCategory }); }}
                     className={`ml-auto text-[11px] px-2.5 py-1 rounded-full transition-colors ${
                       selectedTags.length > 0 ? "bg-blue/10 text-blue font-medium" : "bg-surface-sub text-ink-3"
                     }`}
