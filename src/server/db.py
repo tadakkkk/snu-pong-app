@@ -9,6 +9,65 @@ from psycopg.types.json import Jsonb
 
 _DATABASE_URL_ENV = "DATABASE_URL"
 
+_TITLE_TAG_RULES = [
+    ("캠프", "#캠프"),
+    ("세미나", "#세미나"),
+    ("콜로키움", "#세미나"),
+    ("특강", "#특강"),
+    ("강연", "#특강"),
+    ("강좌", "#특강"),
+    ("장학", "#장학금"),
+    ("인턴", "#인턴십"),
+    ("현장실습", "#현장실습"),
+    ("공모전", "#공모전"),
+    ("경진대회", "#공모전"),
+    ("공모", "#공모"),
+    ("워크숍", "#워크숍"),
+    ("워크샵", "#워크숍"),
+    ("멘토링", "#멘토링"),
+    ("봉사", "#봉사"),
+    ("교환학생", "#교환학생"),
+    ("해외", "#글로벌"),
+    ("글로벌", "#글로벌"),
+    ("국제", "#국제교류"),
+    ("전시", "#전시"),
+    ("박람회", "#박람회"),
+    ("채용", "#채용"),
+    ("모집", "#모집"),
+    ("프로그램", "#프로그램"),
+    ("학술대회", "#학술대회"),
+    ("창업", "#창업"),
+    ("연수", "#연수"),
+    ("상담", "#상담"),
+    ("공연", "#공연"),
+    ("콘서트", "#공연"),
+]
+
+_CATEGORY_FALLBACK_TAG = {
+    "learning": "#학습",
+    "career": "#진로",
+    "scholarship": "#장학금",
+    "welfare": "#복지",
+    "culture": "#문화",
+    "experience": "#경험",
+    "facility": "#시설",
+    "sports": "#운동",
+}
+
+
+def _tags_from_title(title: str, category: str | None) -> list[str]:
+    title = title or ""
+    found: list[str] = []
+    for kw, tag in _TITLE_TAG_RULES:
+        if kw in title and tag not in found:
+            found.append(tag)
+        if len(found) >= 3:
+            break
+    if not found:
+        fb = _CATEGORY_FALLBACK_TAG.get(category or "", "#기타")
+        found.append(fb)
+    return found
+
 
 def _connect() -> psycopg.Connection[dict[str, Any]]:
     url = os.environ.get(_DATABASE_URL_ENV)
@@ -117,8 +176,10 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     "site_id": record.get("site_id"),
                     "tags": Jsonb(
                         record.get("tags")
-                        or record.get("deadline_hints")
-                        or []
+                        or _tags_from_title(
+                            record.get("name") or record.get("title") or "",
+                            record.get("category"),
+                        )
                     ),
                     "value_status": record.get("value_status"),
                     "is_benefit": record.get("is_benefit", True),
