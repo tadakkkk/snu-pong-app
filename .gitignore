@@ -47,3 +47,15 @@ next-env.d.ts
 local/
 **/local/
 src/server/crawl_summary.txt
+
+# 일회성 스크립트
+export_json.py
+src/server/check_*.py
+src/server/count_crawl.py
+src/server/debug_enrich.py
+src/server/fix_tags.py
+src/server/ai_retag.py
+src/server/add_first_seen.py
+src/server/reenrich_old.py
+src/server/run_crawl_once.py
+src/server/test_dept.py
