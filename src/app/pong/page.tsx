@@ -176,6 +176,15 @@ export default function PongPage() {
     });
   }, []);
 
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(t);
+  }, [search]);
+  useEffect(() => {
+    if (debouncedSearch.trim().length >= 2) logEvent("search", { query: debouncedSearch.trim() });
+  }, [debouncedSearch]);
+
   const { activeSemesterId } = useSemesterStore();
   const { hasRecordForItem } = usePongStore();
   const user = useUserStore();
@@ -187,7 +196,7 @@ export default function PongPage() {
     items.filter((i) => isPonged(i.id)).map((i) => i.id)
   );
 
-  const { items: searchItems, sites: searchSites, isSearching } = useSearch(search);
+  const { items: searchItems, sites: searchSites, isSearching } = useSearch(debouncedSearch);
 
   const filteredItems = activeCategory
     ? items.filter((i) => i.category === activeCategory)
@@ -229,10 +238,7 @@ export default function PongPage() {
       {/* 검색바 */}
       <SearchBar
         value={search}
-        onChange={(v) => {
-          setSearch(v);
-          if (v.trim().length >= 2) logEvent("search", { query: v.trim() });
-        }}
+        onChange={(v) => setSearch(v)}
         placeholder={searchPlaceholder}
       />
 
@@ -264,6 +270,7 @@ export default function PongPage() {
             items={searchItems}
             sites={searchSites}
             pongedIds={pongedIds}
+            query={debouncedSearch}
           />
         ) : mode === "items" ? (
           /* ── 항목 모드 ── */

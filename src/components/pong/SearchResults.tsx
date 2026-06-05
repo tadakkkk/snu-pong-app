@@ -7,21 +7,29 @@ interface SearchResultsProps {
   items: PongItem[];
   sites: Site[];
   pongedIds: Set<string>;
+  query: string;
 }
 
 export default function SearchResults({
   items,
   sites,
   pongedIds,
+  query,
 }: SearchResultsProps) {
   const hasItems = items.length > 0;
   const hasSites = sites.length > 0;
 
   if (!hasItems && !hasSites) {
     return (
-      <p className="text-center text-[13px] text-ink-3 py-12">
-        검색 결과가 없어요
-      </p>
+      <div className="flex flex-col items-center py-12 px-5 text-center">
+        <span className="text-3xl mb-3">🔍</span>
+        <p className="text-[14px] text-ink-3">
+          &lsquo;{query}&rsquo; 검색 결과가 없어요
+        </p>
+        <p className="text-[12px] text-ink-4 mt-1">
+          다른 키워드로 찾아보거나 카테고리를 둘러보세요
+        </p>
+      </div>
     );
   }
 
