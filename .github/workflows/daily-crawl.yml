@@ -43,5 +43,10 @@ jobs:
           else
             SUMMARY=$(cat src/server/crawl_summary.txt 2>/dev/null || echo "data update")
             git commit -m "chore: daily crawl ($SUMMARY) [skip ci]"
-            git push
+            # push 전 최신 반영 (충돌 방지), 실패 시 재시도
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              echo "push attempt $i failed, retrying..."
+              sleep 5
+            done
           fi
