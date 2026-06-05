@@ -59,3 +59,18 @@ src/server/add_first_seen.py
 src/server/reenrich_old.py
 src/server/run_crawl_once.py
 src/server/test_dept.py
+
+# 일회성 dedupe/백업 (6/5)
+src/server/autodedupe_dryrun.py
+src/server/autodedupe_filter.py
+src/server/dedupe_dryrun.py
+src/server/dedupe_execute.py
+src/server/dedupe_review.py
+src/server/hide_hold_groups.py
+src/server/test_normalize.py
+src/server/delete_ids.txt
+src/server/delete_safe.txt
+src/server/hide_final.txt
+src/server/hide_ids.txt
+src/server/deleted_backup.json
+src/server/hidden_backup_57.json
