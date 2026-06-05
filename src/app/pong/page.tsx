@@ -164,6 +164,7 @@ export default function PongPage() {
   });
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [showTop, setShowTop] = useState(false);
 
   useEffect(() => { sessionStorage.setItem("pong:search",   search); },                    [search]);
   useEffect(() => { sessionStorage.setItem("pong:mode",     mode); },                      [mode]);
@@ -267,9 +268,11 @@ export default function PongPage() {
       <div
         ref={scrollRef}
         className="flex-1 overflow-y-auto"
-        onScroll={() =>
-          sessionStorage.setItem("pong:scroll", String(scrollRef.current?.scrollTop ?? 0))
-        }
+        onScroll={() => {
+          const y = scrollRef.current?.scrollTop ?? 0;
+          sessionStorage.setItem("pong:scroll", String(y));
+          setShowTop(y > 300);
+        }}
       >
         {isSearching ? (
           /* ── 검색 결과: 항목 + 부서 통합 ── */
@@ -629,6 +632,18 @@ export default function PongPage() {
         onChange={setSelectedTags}
         resultCount={tagFilteredItems.length}
       />
+
+      {showTop && (
+        <button
+          onClick={() => scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
+          className="absolute bottom-20 right-5 z-50 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center active:opacity-70"
+          aria-label="맨 위로"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 12V4M8 4L4 8M8 4L12 8" stroke="#888" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
 
       <BottomTabBar />
     </MobileFrame>
