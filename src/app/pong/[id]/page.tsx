@@ -14,6 +14,20 @@ import { useSemesterStore } from "@/store/semester";
 import { useAuthGate } from "@/lib/auth-gate";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
 
+function formatDeadline(item: { deadline_date?: string | null; deadline_label?: string | null }): string {
+  if (item.deadline_date && /^\d{4}-\d{2}-\d{2}$/.test(item.deadline_date)) {
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const d = new Date(item.deadline_date); d.setHours(0, 0, 0, 0);
+    const dday = Math.round((d.getTime() - today.getTime()) / 86400000);
+    const [y, m, dd] = item.deadline_date.split("-");
+    const dateStr = `${y}.${Number(m)}.${Number(dd)}`;
+    if (dday < 0) return `${dateStr} (마감)`;
+    if (dday === 0) return `${dateStr} (D-Day)`;
+    return `${dateStr} (D-${dday})`;
+  }
+  return item.deadline_label ?? "";
+}
+
 export default function PongDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
@@ -143,12 +157,12 @@ export default function PongDetailPage() {
             <span className="text-ink-3">마감</span>
             <span
               className={
-                item.deadline_type !== "always"
+                item.deadline_type !== "always" || item.deadline_date
                   ? "text-red font-medium"
                   : "text-ink"
               }
             >
-              {item.deadline_label}
+              {formatDeadline(item)}
             </span>
           </div>
           {item.provider && (
