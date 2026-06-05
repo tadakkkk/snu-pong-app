@@ -5,7 +5,7 @@ from typing import Any
 from AnnouncementsCommon import build_result, fetch_html, parse_event_cards, preview, value_signal_for_title
 
 
-SOURCE_ID = "snu_calendar_today_events"
+SOURCE_ID = "snu_calendar_events"
 SOURCE_NAME = "행사·전시"
 SOURCE_URL = "https://www.snu.ac.kr/snunow/events/today"
 

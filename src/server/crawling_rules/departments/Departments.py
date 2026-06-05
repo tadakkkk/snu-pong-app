@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from html import unescape
 from pathlib import Path
 from typing import Any, NamedTuple
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse, parse_qs, urlencode, urlunparse
 from urllib.request import Request, urlopen
 import hashlib
 import random
@@ -240,7 +240,7 @@ def _parse_board_articles(html: str, board_url: str) -> list[dict[str, str]]:
         title = _article_title(title_html)
         if not title or _looks_like_navigation_label(title):
             continue
-        article_url = absolute_url(board_url, href)
+        article_url = _normalize_article_url(absolute_url(board_url, href))
         if article_url == board_url:
             continue
         articles.append(
@@ -483,6 +483,21 @@ def absolute_url(base_url: str, href: str | None) -> str:
     if not href or href.startswith(("javascript:", "mailto:", "tel:")):
         return base_url
     return urljoin(base_url, unescape(href))
+
+
+def _normalize_article_url(url: str) -> str:
+    """게시글 식별 파라미터만 남기고 검색/페이지 쿼리스트링 제거."""
+    if not url:
+        return url
+    try:
+        parsed = urlparse(url)
+        qs = parse_qs(parsed.query)
+        keep_keys = {"bidx", "bbsidx", "idx", "no", "nttId", "seq", "articleNo", "id"}
+        filtered = {k: v for k, v in qs.items() if k in keep_keys}
+        new_query = urlencode(filtered, doseq=True)
+        return urlunparse(parsed._replace(query=new_query))
+    except Exception:
+        return url
 
 
 def _stable_uid(source_id: str, seed: str) -> str:
