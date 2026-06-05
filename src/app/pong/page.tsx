@@ -74,11 +74,15 @@ function ItemRow({
           className={`text-[13px] flex-1 min-w-0 ${ponged ? "text-ink-3 line-through" : "text-ink"}`}
         >
           {item.name}
-          {item.is_crawled && (
+          {item.is_crawled ? (
             <span className="ml-1.5 inline-block px-1 py-0.5 text-[10px] rounded bg-[#E1F5EE] text-[#0F6E56] font-normal not-italic">
               자동수집
             </span>
-          )}
+          ) : !item.deadline_date ? (
+            <span className="ml-1.5 inline-block px-1 py-0.5 text-[10px] rounded bg-[#E8F0FE] text-[#2F6FE8] font-normal not-italic">
+              상시
+            </span>
+          ) : null}
         </span>
         {item.deadline_date && (() => {
           const d = getDday(item.deadline_date);
@@ -203,6 +207,9 @@ export default function PongPage() {
     : items;
 
   const sortedCategoryItems = [...filteredItems].sort((a, b) => {
+    const aPonged = pongedIds.has(a.id) ? 1 : 0;
+    const bPonged = pongedIds.has(b.id) ? 1 : 0;
+    if (aPonged !== bPonged) return aPonged - bPonged;
     if (sortMode === "recent") {
       const fa = a.first_seen ?? "";
       const fb = b.first_seen ?? "";
