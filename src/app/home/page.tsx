@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import MobileFrame from "@/components/ui/MobileFrame";
@@ -45,6 +45,8 @@ export default function HomePage() {
   const [showAddSemester, setShowAddSemester] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [refreshSeed, setRefreshSeed] = useState(0);
+  const [spinning, setSpinning] = useState(false);
 
   const { isAuthed, loading: authLoading } = useAuthGate();
   const user = useUserStore();
@@ -83,51 +85,74 @@ export default function HomePage() {
     (i) => !activeSemesterId || !hasRecordForItem(activeSemesterId, i.id)
   );
 
-  // 1) 마감 임박: deadline_date 있고 D-0~30, 가장 급한 것
-  const urgentPick = unponged
-    .filter((i) => i.deadline_date && getDday(i.deadline_date) >= 0 && getDday(i.deadline_date) <= 30)
-    .sort((a, b) => getDday(a.deadline_date!) - getDday(b.deadline_date!))[0] ?? null;
-
-  // 2) 관심 카테고리: 관심 분야 중 아직 안 한 것 (urgentPick 제외)
-  const interestPick = (() => {
-    const exclude = new Set([urgentPick?.id]);
-    if (user.interests.length > 0) {
-      return unponged.find(
-        (i) => !exclude.has(i.id) && (user.interests as string[]).includes(i.category)
-      ) ?? null;
+  const fortuneCards = useMemo(() => {
+    function pickRandom<T>(pool: T[]): T | null {
+      if (pool.length === 0) return null;
+      return pool[Math.floor(Math.random() * pool.length)];
     }
-    return unponged.find((i) => !exclude.has(i.id)) ?? null;
-  })();
 
-  // 3) 랜덤: 나머지 중 무작위 (시드: 오늘 날짜 기반 의사랜덤)
-  const randomPick = (() => {
-    const exclude = new Set([urgentPick?.id, interestPick?.id]);
-    const pool = unponged.filter((i) => !exclude.has(i.id));
-    if (pool.length === 0) return null;
-    const seed = new Date().getDate() + new Date().getMonth() * 31;
-    return pool[seed % pool.length];
-  })();
+    let urgentPick: typeof items[0] | null;
+    let interestPick: typeof items[0] | null;
+    let randomPick: typeof items[0] | null;
 
-  const fortuneCards = [
-    urgentPick && {
-      item: urgentPick,
-      label: "마감 임박",
-      labelColor: "text-red",
-      dday: getDday(urgentPick.deadline_date!),
-    },
-    interestPick && {
-      item: interestPick,
-      label: user.interests.length > 0 ? "관심 분야" : "추천",
-      labelColor: "text-blue",
-      dday: null,
-    },
-    randomPick && {
-      item: randomPick,
-      label: "오늘의 운",
-      labelColor: "text-ink-3",
-      dday: null,
-    },
-  ].filter(Boolean) as { item: typeof items[0]; label: string; labelColor: string; dday: number | null }[];
+    if (refreshSeed === 0) {
+      // 초기: 기존 로직 — 급한 순 정렬 + 날짜 시드
+      urgentPick = unponged
+        .filter((i) => i.deadline_date && getDday(i.deadline_date) >= 0 && getDday(i.deadline_date) <= 30)
+        .sort((a, b) => getDday(a.deadline_date!) - getDday(b.deadline_date!))[0] ?? null;
+
+      const excl1 = new Set([urgentPick?.id]);
+      if (user.interests.length > 0) {
+        interestPick = unponged.find(
+          (i) => !excl1.has(i.id) && (user.interests as string[]).includes(i.category)
+        ) ?? null;
+      } else {
+        interestPick = unponged.find((i) => !excl1.has(i.id)) ?? null;
+      }
+
+      const excl2 = new Set([urgentPick?.id, interestPick?.id]);
+      const pool3 = unponged.filter((i) => !excl2.has(i.id));
+      const seed = new Date().getDate() + new Date().getMonth() * 31;
+      randomPick = pool3.length > 0 ? pool3[seed % pool3.length] : null;
+    } else {
+      // 새로고침: 각 풀에서 Math.random()
+      const urgentPool = unponged.filter(
+        (i) => i.deadline_date && getDday(i.deadline_date) >= 0 && getDday(i.deadline_date) <= 3
+      );
+      urgentPick = pickRandom(urgentPool);
+
+      const excl1 = new Set([urgentPick?.id]);
+      const interestPool = user.interests.length > 0
+        ? unponged.filter((i) => !excl1.has(i.id) && (user.interests as string[]).includes(i.category))
+        : unponged.filter((i) => !excl1.has(i.id));
+      interestPick = pickRandom(interestPool);
+
+      const excl2 = new Set([urgentPick?.id, interestPick?.id]);
+      randomPick = pickRandom(unponged.filter((i) => !excl2.has(i.id)));
+    }
+
+    return [
+      urgentPick && {
+        item: urgentPick,
+        label: "마감 임박",
+        labelColor: "text-red",
+        dday: getDday(urgentPick.deadline_date!),
+      },
+      interestPick && {
+        item: interestPick,
+        label: user.interests.length > 0 ? "관심 분야" : "추천",
+        labelColor: "text-blue",
+        dday: null,
+      },
+      randomPick && {
+        item: randomPick,
+        label: "오늘의 운",
+        labelColor: "text-ink-3",
+        dday: null,
+      },
+    ].filter(Boolean) as { item: typeof items[0]; label: string; labelColor: string; dday: number | null }[];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshSeed, activeSemesterId, unponged.length, user.interests]);
 
   const firstUnponged = unponged[0] ?? null;
   const todayNewCount = getTodayNewCount();
@@ -246,7 +271,21 @@ export default function HomePage() {
         {/* ── 운세 카드 3장 ── */}
         {fortuneCards.length > 0 && (
           <div data-tour="fortune" className="mb-5">
-            <p className="text-[11px] text-ink-3 font-medium px-5 mb-2">오늘의 뽕운세</p>
+            <div className="px-5 mb-2 flex items-center justify-between">
+              <p className="text-[11px] text-ink-3 font-medium">오늘의 뽕운세</p>
+              <button
+                onClick={() => {
+                  setRefreshSeed((s) => s + 1);
+                  setSpinning(true);
+                  setTimeout(() => setSpinning(false), 400);
+                  logEvent("fortune_refresh");
+                }}
+                className={`text-[16px] text-ink-3 active:opacity-60 transition-transform duration-300 ${spinning ? "rotate-180" : ""}`}
+                aria-label="운세 새로고침"
+              >
+                ↻
+              </button>
+            </div>
             <div className="flex gap-2.5 overflow-x-auto px-5 pb-1 [&::-webkit-scrollbar]:hidden">
               {fortuneCards.map(({ item, label, labelColor, dday }) => (
                 <Link
