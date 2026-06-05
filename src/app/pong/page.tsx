@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import MobileFrame from "@/components/ui/MobileFrame";
 import StatusBar from "@/components/ui/StatusBar";
@@ -128,15 +128,53 @@ function CollegeSummaryCard({ onClick }: { onClick: () => void }) {
 }
 
 export default function PongPage() {
-  const [search, setSearch] = useState("");
-  const [mode, setMode] = useState<ToggleMode>("items");
-  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-  const [sortMode, setSortMode] = useState<"value" | "recent" | "deadline">("value");
+  const [search, setSearch] = useState<string>(() => {
+    if (typeof window === "undefined") return "";
+    return sessionStorage.getItem("pong:search") ?? "";
+  });
+  const [mode, setMode] = useState<ToggleMode>(() => {
+    if (typeof window === "undefined") return "items";
+    return (sessionStorage.getItem("pong:mode") as ToggleMode) ?? "items";
+  });
+  const [activeCategory, setActiveCategory] = useState<Category | null>(() => {
+    if (typeof window === "undefined") return null;
+    const v = sessionStorage.getItem("pong:category");
+    return v && v !== "null" ? (v as Category) : null;
+  });
+  const [sortMode, setSortMode] = useState<"value" | "recent" | "deadline">(() => {
+    if (typeof window === "undefined") return "value";
+    return (sessionStorage.getItem("pong:sort") as "value" | "recent" | "deadline") ?? "value";
+  });
   const [tagSheetOpen, setTagSheetOpen] = useState(false);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try { return JSON.parse(sessionStorage.getItem("pong:tags") ?? "[]"); }
+    catch { return []; }
+  });
   const [activeSiteCategory, setActiveSiteCategory] = useState<
     SiteCategory | "colleges" | null
-  >(null);
+  >(() => {
+    if (typeof window === "undefined") return null;
+    const v = sessionStorage.getItem("pong:sitecat");
+    return v && v !== "null" ? (v as SiteCategory | "colleges") : null;
+  });
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { sessionStorage.setItem("pong:search",   search); },                    [search]);
+  useEffect(() => { sessionStorage.setItem("pong:mode",     mode); },                      [mode]);
+  useEffect(() => { sessionStorage.setItem("pong:category", String(activeCategory)); },    [activeCategory]);
+  useEffect(() => { sessionStorage.setItem("pong:sort",     sortMode); },                  [sortMode]);
+  useEffect(() => { sessionStorage.setItem("pong:tags",     JSON.stringify(selectedTags)); }, [selectedTags]);
+  useEffect(() => { sessionStorage.setItem("pong:sitecat",  String(activeSiteCategory)); }, [activeSiteCategory]);
+
+  useEffect(() => {
+    const y = sessionStorage.getItem("pong:scroll");
+    if (!y || !scrollRef.current) return;
+    requestAnimationFrame(() => {
+      if (scrollRef.current) scrollRef.current.scrollTop = Number(y);
+    });
+  }, []);
 
   const { activeSemesterId } = useSemesterStore();
   const { hasRecordForItem } = usePongStore();
@@ -213,7 +251,13 @@ export default function PongPage() {
       )}
 
       {/* 스크롤 영역 */}
-      <div className="flex-1 overflow-y-auto">
+      <div
+        ref={scrollRef}
+        className="flex-1 overflow-y-auto"
+        onScroll={() =>
+          sessionStorage.setItem("pong:scroll", String(scrollRef.current?.scrollTop ?? 0))
+        }
+      >
         {isSearching ? (
           /* ── 검색 결과: 항목 + 부서 통합 ── */
           <SearchResults
