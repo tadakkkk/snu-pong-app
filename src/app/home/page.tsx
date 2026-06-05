@@ -20,6 +20,7 @@ import { getDaysUntilSemesterEnd } from "@/lib/semester";
 import { useAuthGate } from "@/lib/auth-gate";
 import { logEvent } from "@/lib/analytics";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
+import TourOverlay from "@/components/tour/TourOverlay";
 
 function getMood(percent: number): string {
   if (percent === 0) return "배고파";
@@ -221,11 +222,11 @@ export default function HomePage() {
 
         {/* ── 까마고치 (까치 + 기분) ── */}
         <div className="px-6 pt-6 pb-4">
-          <div className="flex flex-col items-center">
+          <div data-tour="magpie" className="flex flex-col items-center">
             <MagpieByProgress percent={percent} size={120} />
             <p className="mt-2 text-[12px] text-ink-3">{getMood(percent)}</p>
           </div>
-          <div className="text-center mt-4">
+          <div data-tour="total" className="text-center mt-4">
             <p className="text-[13px] text-ink-3 mb-1.5">
               {user.nickname ? `${user.nickname}의 이번 학기 뽕뽑은 가치` : "이번 학기 등록금 뽕뽑은 가치"}
             </p>
@@ -244,7 +245,7 @@ export default function HomePage() {
 
         {/* ── 운세 카드 3장 ── */}
         {fortuneCards.length > 0 && (
-          <div className="mb-5">
+          <div data-tour="fortune" className="mb-5">
             <p className="text-[11px] text-ink-3 font-medium px-5 mb-2">오늘의 뽕운세</p>
             <div className="flex gap-2.5 overflow-x-auto px-5 pb-1 [&::-webkit-scrollbar]:hidden">
               {fortuneCards.map(({ item, label, labelColor, dday }) => (
@@ -273,63 +274,49 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* ── 등록금 내역 카드 ── */}
-        {activeSemester && (
-          <div className="px-6 mb-5">
-            <div className="bg-surface-sub rounded-xl px-4 py-[14px]">
-              <div className="flex justify-between text-[13px] mb-2">
-                <span className="text-ink-3">등록금</span>
-                <span className="text-ink">
-                  {activeSemester.tuition.toLocaleString("ko-KR")}원
-                </span>
-              </div>
-              {activeSemester.scholarship > 0 && (
-                <div className="flex justify-between text-[13px] mb-2">
-                  <span className="text-ink-3">받은 장학금</span>
-                  <span className="text-ink">
-                    - {activeSemester.scholarship.toLocaleString("ko-KR")}원
-                  </span>
-                </div>
-              )}
-              <div className="border-t border-hairline pt-2.5 flex justify-between text-[13px]">
-                <span className="font-medium text-ink">실 부담액</span>
-                <span className="font-medium text-ink">
-                  {activeSemester.netBurden.toLocaleString("ko-KR")}원
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* ── CTA ── */}
-        {totalPonged === 0 ? (
-          <div className="px-5 pb-8">
-            <Link href="/pong">
-              <PrimaryButton>
-                남은 뽕 {remainingCount}개 뽑으러 가기 보기
-              </PrimaryButton>
-            </Link>
-          </div>
-        ) : (
-          <div className="px-5 mb-8">
-            <Link href="/pong">
-              <div className="bg-ink rounded-xl px-[18px] py-4 flex justify-between items-center">
-                <div>
-                  <p className="text-[15px] font-medium text-white mb-0.5">
-                    남은 뽕 {remainingCount}개 뽑으러 가기
-                  </p>
-                  <p className="text-[12px] text-white/70">
-                    아직 안 한 것들이 남아 있어
-                  </p>
+        <div data-tour="cta">
+          {totalPonged === 0 ? (
+            <div className="px-5 pb-8">
+              <Link href="/pong">
+                <PrimaryButton>
+                  남은 뽕 {remainingCount}개 뽑으러 가기 보기
+                </PrimaryButton>
+              </Link>
+            </div>
+          ) : (
+            <div className="px-5 mb-8">
+              <Link href="/pong">
+                <div className="bg-ink rounded-xl px-[18px] py-4 flex justify-between items-center">
+                  <div>
+                    <p className="text-[15px] font-medium text-white mb-0.5">
+                      남은 뽕 {remainingCount}개 뽑으러 가기
+                    </p>
+                    <p className="text-[12px] text-white/70">
+                      아직 안 한 것들이 남아 있어
+                    </p>
+                  </div>
+                  <span className="text-[20px] text-white">→</span>
                 </div>
-                <span className="text-[20px] text-white">→</span>
-              </div>
-            </Link>
-          </div>
-        )}
+              </Link>
+            </div>
+          )}
+        </div>
 
       </div>
       <BottomTabBar />
+
+      <TourOverlay
+        storageKey="tour:home"
+        steps={[
+          { selector: '[data-tour="magpie"]', title: "물까치가 혜택을 물어와요", desc: "등록금 본전 뽑을 학교 혜택을 모아뒀어요. 뽑을수록 물까치 표정이 밝아져요." },
+          { selector: '[data-tour="total"]', title: "뽑은 가치가 쌓여요", desc: "이번 학기에 뽑은 혜택의 환산 가치가 여기 모여요." },
+          { selector: '[data-tour="fortune"]', title: "오늘의 뽕운세", desc: "마감 임박·관심 분야·랜덤으로 매일 다른 혜택을 추천해드려요." },
+          { selector: '[data-tour="cta"]', title: "혜택 뽑으러 가기", desc: "여기를 눌러 받을 수 있는 혜택을 둘러보세요." },
+          { selector: '[data-tour="tabbar"]', title: "이렇게 이동해요", desc: "홈·뽕뽑기·기록 탭으로 화면을 옮길 수 있어요." },
+          { title: "잠깐, 시작하기 전에", desc: "혜택 가치는 AI가 매긴 어림값이라 실제 가치와 다를 수 있어요. 숫자가 작아도 모두 다 소중한 기회예요.\n\n아직 베타 버전이라 엉뚱한 값이나 태그가 보일 수 있어요. 개발자에게만 살짝 알려주세요." },
+        ]}
+      />
 
       {showSemesterModal && (
         <SemesterModal

@@ -14,6 +14,7 @@ export default function BottomTabBar() {
 
   return (
     <div
+      data-tour="tabbar"
       className="border-t border-hairline flex bg-surface shrink-0"
       style={{
         paddingTop: "12px",
