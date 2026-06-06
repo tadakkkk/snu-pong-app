@@ -9,7 +9,8 @@ def main():
         rows = conn.execute("""
             SELECT id, name, category, source_url, provider,
                    estimated_value, deadline_date, tags,
-                   value_status, is_benefit, first_seen
+                   value_status, is_benefit,
+                   to_char(first_seen AT TIME ZONE 'Asia/Seoul', 'YYYY-MM-DD"T"HH24:MI:SS') AS first_seen
             FROM benefit_items
             ORDER BY is_benefit DESC, estimated_value DESC NULLS LAST
         """).fetchall()
@@ -29,7 +30,7 @@ def main():
             "review_priority": "medium",
             "deadline_hints": [],
             "is_benefit": bool(r["is_benefit"]),
-            "first_seen": r["first_seen"].isoformat() if r["first_seen"] else None,
+            "first_seen": r["first_seen"] if r["first_seen"] else None,
             "source": "crawled_enriched",
         })
 
