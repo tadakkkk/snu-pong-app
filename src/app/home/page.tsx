@@ -21,6 +21,7 @@ import { useAuthGate } from "@/lib/auth-gate";
 import { logEvent } from "@/lib/analytics";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
 import TourOverlay from "@/components/tour/TourOverlay";
+import TodayNewSheet from "@/components/home/TodayNewSheet";
 
 function getMood(percent: number): string {
   if (percent === 0) return "배고파";
@@ -45,6 +46,7 @@ export default function HomePage() {
   const [showAddSemester, setShowAddSemester] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [todaySheetOpen, setTodaySheetOpen] = useState(false);
   const [refreshSeed, setRefreshSeed] = useState(0);
   const [spinning, setSpinning] = useState(false);
 
@@ -209,9 +211,8 @@ export default function HomePage() {
         {/* ── 오늘 새로 들어온 혜택 (토스 스타일) ── */}
         {todayNewCount > 0 && (
           <div className="px-5 pt-3">
-            <Link
-              href="/pong?sort=recent"
-              onClick={() => logEvent("new_banner_click", { count: todayNewCount })}
+            <button
+              onClick={() => { logEvent("new_banner_click", { count: todayNewCount }); setTodaySheetOpen(true); }}
               className="flex items-center gap-3 w-full bg-[#F2F4F6] rounded-2xl px-4 py-3.5 active:bg-[#E8EBED] transition-colors"
             >
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0 text-[18px]">
@@ -226,7 +227,7 @@ export default function HomePage() {
                 </p>
               </div>
               <span className="text-ink-3 text-[18px] shrink-0">›</span>
-            </Link>
+            </button>
           </div>
         )}
 
@@ -356,6 +357,8 @@ export default function HomePage() {
           { title: "잠깐, 시작하기 전에", desc: "혜택 가치는 AI가 매긴 어림값이라 실제 가치와 다를 수 있어요. 숫자가 작아도 모두 다 소중한 기회예요.\n\n아직 베타 버전이라 엉뚱한 값이나 태그가 보일 수 있어요. 개발자에게만 살짝 알려주세요." },
         ]}
       />
+
+      <TodayNewSheet open={todaySheetOpen} onClose={() => setTodaySheetOpen(false)} />
 
       {showSemesterModal && (
         <SemesterModal
