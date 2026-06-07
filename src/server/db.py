@@ -105,6 +105,14 @@ def init_db() -> None:
             ADD COLUMN IF NOT EXISTS is_benefit BOOLEAN DEFAULT true
         """)
         conn.execute("""
+            ALTER TABLE benefit_items
+            ADD COLUMN IF NOT EXISTS enrichment_status TEXT
+        """)
+        conn.execute("""
+            ALTER TABLE benefit_items
+            ADD COLUMN IF NOT EXISTS enrichment_error TEXT
+        """)
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS crawl_sources (
                 id TEXT PRIMARY KEY,
                 name TEXT,
@@ -132,12 +140,14 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     id, name, category, provider, source_url,
                     estimated_value, value_basis, subtitle, unit,
                     eligibility, deadline_date, apply_url, how_to_apply,
-                    site_id, tags, value_status, is_benefit, body_excerpt, first_seen, updated_at
+                    site_id, tags, value_status, is_benefit, body_excerpt,
+                    enrichment_status, enrichment_error, first_seen, updated_at
                 ) VALUES (
                     %(id)s, %(name)s, %(category)s, %(provider)s, %(source_url)s,
                     %(estimated_value)s, %(value_basis)s, %(subtitle)s, %(unit)s,
                     %(eligibility)s, %(deadline_date)s, %(apply_url)s, %(how_to_apply)s,
-                    %(site_id)s, %(tags)s, %(value_status)s, %(is_benefit)s, %(body_excerpt)s, now(), now()
+                    %(site_id)s, %(tags)s, %(value_status)s, %(is_benefit)s, %(body_excerpt)s,
+                    %(enrichment_status)s, %(enrichment_error)s, now(), now()
                 )
                 ON CONFLICT (id) DO UPDATE SET
                     name = EXCLUDED.name,
@@ -157,6 +167,8 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     value_status = EXCLUDED.value_status,
                     is_benefit = EXCLUDED.is_benefit,
                     body_excerpt = EXCLUDED.body_excerpt,
+                    enrichment_status = EXCLUDED.enrichment_status,
+                    enrichment_error = EXCLUDED.enrichment_error,
                     updated_at = now()
                 """,
                 {
@@ -184,6 +196,8 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     "value_status": record.get("value_status"),
                     "is_benefit": record.get("is_benefit", True),
                     "body_excerpt": record.get("body_excerpt"),
+                    "enrichment_status": record.get("enrichment_status"),
+                    "enrichment_error": record.get("enrichment_error"),
                 },
             )
 

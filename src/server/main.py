@@ -648,6 +648,19 @@ def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str,
             merged["category"] = enrichment["category"]
         merged["is_benefit"] = bool(enrichment.get("is_benefit", True))
         merged["value_status"] = "estimated" if enrichment.get("estimated_value") else "needs_estimation"
+        is_failed = (
+            enrichment.get("enrichment_status") == "failed"
+            or enrichment.get("value_basis") == "AI 정제 실패"
+        )
+        if is_failed:
+            merged["enrichment_status"] = "failed"
+            merged["enrichment_error"] = enrichment.get("enrichment_error")
+        elif enrichment.get("estimated_value") is not None:
+            merged["enrichment_status"] = "success_valued"
+            merged["enrichment_error"] = None
+        else:
+            merged["enrichment_status"] = "success_unvalued"
+            merged["enrichment_error"] = None
         merged["source"] = "server_crawled_enriched"
         merged_records.append(merged)
     return merged_records
