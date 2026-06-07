@@ -13,7 +13,7 @@ import {
   personalizationQuestions,
   type PersonalizationAnswers,
 } from "@/data/personalization_questions";
-import { buildInterestVectorFromAnswers } from "@/lib/personalization/buildInterestVector";
+import { buildInterestVectorFromAnswers, interestsFromAnswers } from "@/lib/personalization/buildInterestVector";
 import PersonalizationQuestions from "@/components/onboarding/PersonalizationQuestions";
 import { pushToCloud } from "@/lib/supabase/sync";
 import { useUserStore, type PersonalizationInputMethod } from "@/store/user";
@@ -565,15 +565,9 @@ export default function OnboardingPage() {
   const appliedScholarship = hasScholarship ? scholarshipAmount : 0;
   const netBurden = Math.max(0, tuition - appliedScholarship);
 
-  // 맞춤 질문의 "어떤 걸 누리고 싶어?"(interests) 답변을 Category[]로 변환한다.
-  const interestsFrom = useCallback((answers: PersonalizationAnswers): Category[] => {
-    const raw = answers["interests"];
-    const ids = Array.isArray(raw) ? raw : raw ? [raw] : [];
-    return ids.filter((id): id is Category => id in CATEGORY_META);
-  }, []);
   const derivedInterests = useMemo(
-    () => interestsFrom(personalizationAnswers),
-    [interestsFrom, personalizationAnswers]
+    () => interestsFromAnswers(personalizationAnswers),
+    [personalizationAnswers]
   );
 
   const goNext = useCallback(() => {
@@ -611,7 +605,7 @@ export default function OnboardingPage() {
     const method = override?.personalizationInputMethod ?? personalizationInputMethod;
     const consentAt = override?.personalizationConsentAt ?? personalizationConsentAt;
     const answers = override?.personalizationAnswers ?? personalizationAnswers;
-    const interests = enabled ? interestsFrom(answers) : [];
+    const interests = enabled ? interestsFromAnswers(answers) : [];
     const interestTagVector = enabled ? buildInterestVectorFromAnswers(answers) : {};
     const updatedAt = new Date().toISOString();
 
@@ -656,7 +650,6 @@ export default function OnboardingPage() {
     });
     setStep(7);
   }, [
-    interestsFrom,
     selectedCollege,
     selectedTrack,
     selectedGrade,

@@ -2,6 +2,7 @@ import {
   personalizationQuestions,
   type PersonalizationAnswers,
 } from "@/data/personalization_questions";
+import { CATEGORY_META, type Category } from "@/data/items";
 
 export type InterestVectorEntry = {
   weight: number;
@@ -39,4 +40,10 @@ export function buildInterestVectorFromAnswers(
     };
   }
   return vector;
+}
+
+export function interestsFromAnswers(answers: PersonalizationAnswers): Category[] {
+  const raw = answers["interests"];
+  const ids = Array.isArray(raw) ? raw : raw ? [raw] : [];
+  return ids.filter((id): id is Category => id in CATEGORY_META);
 }
