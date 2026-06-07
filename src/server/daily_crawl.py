@@ -1,5 +1,8 @@
+import logging
 import os, sys, asyncio, json
 from collections import Counter
+
+logging.basicConfig(level=logging.INFO)
 import psycopg
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
@@ -8,6 +11,7 @@ import db as _db
 from main import (
     ScheduledActionContext, SCHEDULED_CRAWLERS,
     _run_scheduled_crawler, enrich_records, _store_enriched_records,
+    FatalEnrichmentError,
 )
 from crawling_rules.departments.Departments import crawl as crawl_departments
 
@@ -107,7 +111,7 @@ def _retag_batch(client, tag_pool, batch):
 
 def retag_new_items(new_ids):
     if not new_ids:
-        return 0
+        return 0, 0
     url = os.environ["DATABASE_URL"]
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     with psycopg.connect(url, row_factory=dict_row) as conn:
@@ -123,9 +127,10 @@ def retag_new_items(new_ids):
         ]
         if not targets:
             print("재태깅 대상 없음 (신규 태그 양호)")
-            return 0
+            return 0, 0
         print(f"신규 재태깅 대상: {len(targets)}개")
         fixed = 0
+        failed_batches = 0
         for i in range(0, len(targets), 10):
             batch = targets[i:i+10]
             try:
@@ -138,37 +143,72 @@ def retag_new_items(new_ids):
                 conn.commit()
             except Exception as e:
                 print(f"  재태깅 배치 실패: {e}")
-        print(f"신규 재태깅 완료: {fixed}개")
-        return fixed
+                failed_batches += 1
+        print(f"신규 재태깅 완료: {fixed}개 (실패 배치: {failed_batches}개)")
+        return fixed, failed_batches
 
 
 async def main():
+    key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    if not key:
+        print("CONFIG ERROR: ANTHROPIC_API_KEY is missing or empty. Aborting before crawl.")
+        sys.exit(1)
+    if not os.environ.get("DATABASE_URL"):
+        print("CONFIG ERROR: DATABASE_URL is missing. Aborting.")
+        sys.exit(1)
+
     print(f"=== daily crawl 시작 (departments={INCLUDE_DEPT}) ===")
     records = await crawl_all()
-    print(f"\n크롤 {len(records)}개 수집")
+    crawled_count = len(records)
+    print(f"\n크롤 {crawled_count}개 수집")
 
     existing = await asyncio.to_thread(_db.get_existing_ids)
     new_records = [r for r in records if _rec_id(r) not in existing]
     print(f"증분 필터: 신규 {len(new_records)}개 / 기존 {len(records)-len(new_records)}개 스킵")
 
     new_count = len(new_records)
+    enrichment_failed = 0
+    retag_failed_batches = 0
+
     if new_records:
         print("신규 정제 중...")
-        enriched = await asyncio.to_thread(enrich_records, new_records)
+        try:
+            enriched = await asyncio.to_thread(enrich_records, new_records)
+        except FatalEnrichmentError as e:
+            print(f"FATAL ENRICHMENT ERROR: {e}. DB 저장/export/커밋 없이 종료(코드 1).")
+            sys.exit(1)
+
+        enrichment_failed = sum(1 for e in enriched if e.get("value_basis") == "AI 정제 실패")
         b = sum(1 for e in enriched if e.get("is_benefit"))
         print(f"정제 완료: {len(enriched)}개 (혜택 {b} / 비혜택 {len(enriched)-b})")
+        if enrichment_failed > 0:
+            print(f"WARNING: {enrichment_failed} records stored as enrichment failure")
+
         await _store_enriched_records(enriched)
         print("DB 저장 완료")
+
         new_ids = [_rec_id(r) for r in new_records]
-        await asyncio.to_thread(retag_new_items, new_ids)
+        _, retag_failed_batches = await asyncio.to_thread(retag_new_items, new_ids)
     else:
         print("신규 항목 없음 - 정제 스킵")
 
     total, benefit, expired = export_json()
-    summary = f"new {new_count}, total {total}, expired {expired}"
+    enriched_ok = new_count - enrichment_failed
+    summary_parts = [
+        f"crawled={crawled_count}",
+        f"new={new_count}",
+        f"enriched={enriched_ok}",
+        f"enrichment_failed={enrichment_failed}",
+        f"retag_failed_batches={retag_failed_batches}",
+        f"expired={expired}",
+        f"total={total}",
+    ]
+    summary = ", ".join(summary_parts)
     with open("crawl_summary.txt", "w", encoding="utf-8") as f:
         f.write(summary)
     print(f"SUMMARY: {summary}")
+    if enrichment_failed > 0:
+        print(f"WARNING: {enrichment_failed} records stored as enrichment failure")
     print("=== 완료 ===")
 
 asyncio.run(main())
