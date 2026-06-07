@@ -134,6 +134,9 @@ export default function HomePage() {
     [unponged]
   );
 
+  const [refreshSeed, setRefreshSeed] = useState(0);
+  const [closing, setClosing] = useState(false);
+
   // ── 오늘의 뽕운세 카드: 마감 임박 1장 + 카테고리별 맞춤 추천 ──
   const fortuneCards = useMemo<FortuneCardData[]>(() => {
     const cards: FortuneCardData[] = [];
@@ -149,23 +152,30 @@ export default function HomePage() {
 
     // "임박한 것만" 선호면 마감 임박 카드를 더 띄우고, 기본("다 보여줘")은 1장
     const urgentCount = deadlineSensitivity === "urgent" ? 2 : 1;
-    for (const u of urgent.slice(0, urgentCount)) {
+    const urgentRotated = urgent.length > 0
+      ? [...urgent.slice(refreshSeed % urgent.length), ...urgent.slice(0, refreshSeed % urgent.length)]
+      : urgent;
+    for (const u of urgentRotated.slice(0, urgentCount)) {
       if (cards.length >= 4) break;
       cards.push({
         key: `urgent-${u.id}`,
         label: "마감 임박",
         labelColor: "text-red",
-        cover: "⚑",
+        cover: "🔥",
         item: u,
         dday: getDday(u.deadline_date!),
-        personalized: isPersonalized(u),
+        personalized: false,
       });
       usedId.add(u.id);
     }
 
     // 개인화 랭킹에서 카테고리당 1개씩 (맞춤 추천)
     const usedCat = new Set<string>();
-    for (const r of ranked) {
+    // ranked를 seed만큼 회전시켜 새로고침마다 다른 추천
+    const rotated = ranked.length > 0
+      ? [...ranked.slice(refreshSeed % ranked.length), ...ranked.slice(0, refreshSeed % ranked.length)]
+      : ranked;
+    for (const r of rotated) {
       if (cards.length >= 4) break;
       if (usedId.has(r.item.id) || usedCat.has(r.item.category)) continue;
       usedCat.add(r.item.category);
@@ -181,7 +191,7 @@ export default function HomePage() {
       });
     }
     return cards;
-  }, [ranked, urgent, deadlineSensitivity]);
+  }, [ranked, urgent, deadlineSensitivity, refreshSeed]);
 
   // ── 알림센터 ──
   const recentNewCount = useMemo(() => getRecentNewItems(7).length, []);
@@ -271,9 +281,23 @@ export default function HomePage() {
         {/* ── 오늘의 뽕운세 (뒤집기 카드) ── */}
         {fortuneCards.length > 0 && (
           <div data-tour="fortune" className="px-5 pt-6">
-            <div className="flex items-baseline justify-between mb-3">
+            <div className="flex items-center justify-between mb-3">
               <p className="text-[15px] font-medium text-ink">오늘의 뽕운세</p>
-              <span className="text-[11px] text-ink-3">{recoCopy}</span>
+              <button
+                onClick={() => {
+                  logEvent("fortune_refresh");
+                  setClosing(true);
+                  setTimeout(() => {
+                    setRefreshSeed((s) => s + 1);
+                    setClosing(false);
+                  }, 500);
+                }}
+                className="flex items-center gap-1 text-[11px] text-ink-3 active:opacity-60"
+                aria-label="운세 새로고침"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+                새로고침
+              </button>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
               {fortuneCards.map((c) => (
@@ -285,6 +309,7 @@ export default function HomePage() {
                   item={c.item}
                   dday={c.dday}
                   personalized={c.personalized}
+                  closeSignal={closing}
                 />
               ))}
             </div>
