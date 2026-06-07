@@ -1313,7 +1313,27 @@ const _CRAWLED_CATEGORY_MAP: Record<string, Category> = {
 
 function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
   const cat = (_CRAWLED_CATEGORY_MAP[raw.category] ?? "learning") as Category;
-  const estimatedValue = raw.estimated_value ?? 0;
+  const estimatedValue = (() => {
+    const v = raw.estimated_value;
+    const lo = raw.estimated_value_min;
+    const hi = raw.estimated_value_max;
+    switch (raw.valuation_status) {
+      case "estimated":
+        return v ?? 0;
+      case "variable_by_recipient":
+        if (lo != null && hi != null) return Math.round((lo + hi) / 2);
+        return v ?? lo ?? hi ?? 0;
+      case "conditional_reward":
+        if (raw.expected_value != null) return raw.expected_value;
+        {
+          const g = raw.guaranteed_value ?? lo ?? 0;
+          const top = hi ?? raw.conditional_reward_max ?? g;
+          return Math.round((g + top) / 2);
+        }
+      default:
+        return v ?? 0;
+    }
+  })();
   return {
     id: raw.id,
     category: cat,
