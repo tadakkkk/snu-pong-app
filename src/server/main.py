@@ -35,6 +35,7 @@ DEPARTMENT_REQUEST_JITTER_SECONDS = 0.5
 ENRICHMENT_BATCH_SIZE = 5
 ENRICHMENT_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
 ANTHROPIC_API_KEY_ENV = "ANTHROPIC_API_KEY"
+ENRICHMENT_BODY_LIMIT = 2000
 
 VALUE_GUIDE = """가치 환산 기준 (사설 시세 대비):
 - 1:1 상담/코칭: 회당 5~15만원
@@ -45,7 +46,10 @@ VALUE_GUIDE = """가치 환산 기준 (사설 시세 대비):
 - 인턴십/근로장학: 월 급여 기준
 - 무료 강연/행사: 외부 유료 강연 시세 1~3만원
 - 해외 프로그램: 항공+숙박+수업료 합산
-- 판단 불가: null"""
+- 무료 서비스는 위 기준 또는 명시된 공식 가격을 사용
+- 개인별 금액 차등: 최소/최대 범위와 산정 조건을 저장
+- 조건부 보상: 확정 혜택은 최소값에, 최고 가능 보상은 최대값에 저장
+- 근거 없는 시장가격, 급여, 수상확률은 만들지 말 것"""
 
 TAG_GUIDE = f"""활동 태그 풀 ({len(ACTIVITY_TAGS)}개) — 이 풀에서만 골라라:
 {', '.join(ACTIVITY_TAGS)}
@@ -99,6 +103,9 @@ class BenefitItemSummary:
     source_url: str
     category: str
     estimated_value_krw: int | None
+    estimated_value_min_krw: int | None
+    estimated_value_max_krw: int | None
+    valuation_status: str | None
     deadline_at: str | None
     updated_at: str
     tags: list[str]
@@ -228,6 +235,9 @@ class ServerQueries:
                 source_url=row.get("source_url") or "",
                 category=row.get("category") or "",
                 estimated_value_krw=row.get("estimated_value"),
+                estimated_value_min_krw=row.get("estimated_value_min"),
+                estimated_value_max_krw=row.get("estimated_value_max"),
+                valuation_status=row.get("valuation_status"),
                 deadline_at=row.get("deadline_date"),
                 updated_at=str(updated_at or ""),
                 tags=row.get("tags") or [],
@@ -253,6 +263,9 @@ class ServerQueries:
             source_url=row.get("source_url") or "",
             category=row.get("category") or "",
             estimated_value_krw=row.get("estimated_value"),
+            estimated_value_min_krw=row.get("estimated_value_min"),
+            estimated_value_max_krw=row.get("estimated_value_max"),
+            valuation_status=row.get("valuation_status"),
             deadline_at=row.get("deadline_date"),
             updated_at=str(updated_at or ""),
             tags=row.get("tags") or [],
@@ -390,7 +403,7 @@ async def _enrich_crawled_records(
         )
     if not os.environ.get(ANTHROPIC_API_KEY_ENV):
         return EnrichmentResult(
-            status="skipped",
+            status="failed",
             input_records_count=len(records),
             enriched_records_count=0,
             estimated_value_count=0,
@@ -435,8 +448,13 @@ class FatalEnrichmentError(RuntimeError):
     """재시도 불가, job을 실패시켜야 하는 에러 (인증/결제/권한/잘못된 요청)."""
 
 
+class EnrichmentBatchError(RuntimeError):
+    """A batch could not be enriched without losing or misrepresenting records."""
+
+
 _ENRICHMENT_API_RETRIES = 3
 _ENRICHMENT_API_BACKOFF = (2, 4, 8)
+_TRANSIENT_ANTHROPIC_STATUS_CODES = frozenset({408, 409, 429, 500, 502, 503, 504, 529})
 
 
 def enrich_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -445,15 +463,17 @@ def enrich_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
         batch = records[index : index + ENRICHMENT_BATCH_SIZE]
         try:
             batch_enrichment = _enrich_batch(batch)
-        except FatalEnrichmentError:
-            raise
         except Exception as exc:
             record_ids = [_record_id(r) for r in batch]
             logger.error(
-                "Batch enrichment failed, using fallback class=%s ids=%s",
+                "Batch enrichment failed class=%s ids=%s",
                 type(exc).__name__, record_ids,
             )
-            batch_enrichment = [_fallback_enrichment(record) for record in batch]
+            if isinstance(exc, (FatalEnrichmentError, EnrichmentBatchError)):
+                raise
+            raise EnrichmentBatchError(
+                f"Enrichment failed for record ids: {', '.join(record_ids)}"
+            ) from exc
         enriched_items.extend(_merge_enrichment(batch, batch_enrichment))
     return enriched_items
 
@@ -476,19 +496,30 @@ def _enrich_batch(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 messages=[{"role": "user", "content": prompt}],
             )
             return resp.content[0].text.strip()
-        except (anthropic.AuthenticationError, anthropic.PermissionDeniedError, anthropic.BadRequestError) as exc:
+        except (
+            anthropic.AuthenticationError,
+            anthropic.PermissionDeniedError,
+            anthropic.BadRequestError,
+            anthropic.NotFoundError,
+        ) as exc:
             logger.error(
                 "Fatal enrichment error class=%s status=%s request_id=%s ids=%s",
                 type(exc).__name__, exc.status_code, getattr(exc, "request_id", None), record_ids,
             )
-            raise FatalEnrichmentError(type(exc).__name__) from exc
+            raise FatalEnrichmentError(
+                f"{type(exc).__name__} status={exc.status_code} "
+                f"request_id={getattr(exc, 'request_id', None)}"
+            ) from exc
         except anthropic.APIStatusError as exc:
-            if exc.status_code == 402:
+            if exc.status_code not in _TRANSIENT_ANTHROPIC_STATUS_CODES:
                 logger.error(
-                    "Fatal enrichment error class=%s status=402 request_id=%s ids=%s",
-                    type(exc).__name__, getattr(exc, "request_id", None), record_ids,
+                    "Fatal enrichment error class=%s status=%s request_id=%s ids=%s",
+                    type(exc).__name__, exc.status_code, getattr(exc, "request_id", None), record_ids,
                 )
-                raise FatalEnrichmentError("payment_required") from exc
+                raise FatalEnrichmentError(
+                    f"{type(exc).__name__} status={exc.status_code} "
+                    f"request_id={getattr(exc, 'request_id', None)}"
+                ) from exc
             raise
 
     def _api_call_with_retries() -> str:
@@ -509,7 +540,9 @@ def _enrich_batch(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 last_exc = exc
                 if attempt < _ENRICHMENT_API_RETRIES - 1:
                     time.sleep(_ENRICHMENT_API_BACKOFF[attempt])
-        raise last_exc  # type: ignore[misc]
+        raise EnrichmentBatchError(
+            f"Anthropic request failed after {_ENRICHMENT_API_RETRIES} attempts"
+        ) from last_exc
 
     def _parse(raw: str) -> list[dict[str, Any]]:
         text = raw
@@ -520,8 +553,11 @@ def _enrich_batch(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 text = text[:-3].strip()
         parsed = json.loads(text)
         if isinstance(parsed, dict) and isinstance(parsed.get("items"), list):
-            return parsed["items"]
+            items = parsed["items"]
+            _validate_enrichment_response(records, items)
+            return items
         if isinstance(parsed, list):
+            _validate_enrichment_response(records, parsed)
             return parsed
         raise ValueError("AI enrichment response must be a JSON array or an object with an items array")
 
@@ -557,10 +593,22 @@ def _enrichment_prompt(records: list[dict[str, Any]]) -> str:
         articles_text += f"가치힌트: {record.get('value_basis_hint') or ''}\n"
         body = record.get("body_excerpt") or record.get("raw_content") or ""
         if body:
-            articles_text += f"본문발췌: {str(body)[:500]}\n"
+            articles_text += f"본문발췌: {str(body)[:ENRICHMENT_BODY_LIMIT]}\n"
+        attachments = record.get("attachment_texts") or record.get("attachments") or []
+        if attachments:
+            articles_text += (
+                "첨부자료: "
+                f"{json.dumps(attachments, ensure_ascii=False)[:ENRICHMENT_BODY_LIMIT]}\n"
+            )
 
-    return f"""너는 서울대 학생 혜택 데이터를 정제하는 AI야.
-다음 서울대 공지 {len(records)}개에서 학생 혜택 정보를 추출해.
+    return f"""너는 서울대학교 학생 혜택 데이터를 정제하는 AI다.
+다음 서울대 공지 {len(records)}개를 아래 순서로 판단한다.
+
+1. 실제 학생 혜택인지 판단한다.
+2. 대상 학생 범위를 판단한다.
+3. 혜택 지급 방식과 금액 산정 방식을 분류한다.
+4. 원문 정보가 충분한지 판단한다.
+5. 정해진 기준으로 금액 또는 범위를 계산한다.
 
 {VALUE_GUIDE}
 
@@ -568,7 +616,17 @@ def _enrichment_prompt(records: list[dict[str, Any]]) -> str:
 {{
   "id": "원본 id 그대로",
   "estimated_value": 숫자(원) 또는 null,
-  "value_basis": "산출 근거 한 줄",
+  "estimated_value_min": 숫자(원) 또는 null,
+  "estimated_value_max": 숫자(원) 또는 null,
+  "expected_value": 숫자(원) 또는 null,
+  "guaranteed_value": 숫자(원) 또는 null,
+  "conditional_reward_min": 숫자(원) 또는 null,
+  "conditional_reward_max": 숫자(원) 또는 null,
+  "value_basis": "산출 근거 또는 null 사유 한 줄",
+  "valuation_status": "estimated/not_a_benefit/missing_source_data/variable_by_recipient/conditional_reward/undisclosed_compensation/needs_market_reference 중 하나",
+  "eligibility_scope": "undergraduate/graduate/all_students/unknown 중 하나",
+  "confidence": "high/medium/low 중 하나",
+  "requires_source_review": true 또는 false,
   "subtitle": "15자 이내 한 줄 설명",
   "unit": "1회 / 8회 코스 / 학기 / 상시 등",
   "eligibility": "학부생 누구나 / 1학년만 등",
@@ -588,17 +646,29 @@ category 선택 규칙:
 - 제목과 본문을 보고 항목의 실제 성격에 맞게 판단해.
 
 is_benefit 판단 규칙:
-- 기본값은 true. 애매하면 true(보이는 쪽으로).
 - true: 학생이 신청·지원·참여·이용할 수 있는 모든 것.
   "모집", "공모", "선발", "지원사업", "장학생 모집", "캠프", "프로그램",
   "특강", "세미나", "상담", "인턴십", "공모전" 등은 거의 항상 true.
-  가치 금액이 없어도, 학부생 외 대상(대학원생/유학생/박사후연구원)이어도
-  학생 기회·혜택에 해당하면 true.
-- false: 확실히 행정·결과·내부 정보일 때만.
+- false:
   "~결과 발표", "~선정 결과", "합격자 발표", "수상작 발표" (이미 끝난 결과 공지),
-  전공이수규정/교과과정/교수진 소개/학과 비전·소개,
+  입학·신입생 모집, 등록·복학·재입학·학점인정·학과배정·전공배정,
+  의무교육·졸업요건·뉴스레터, 전공이수규정/교과과정/교수진 소개/학과 비전·소개,
   시스템 오류·조치완료 안내, 안내판 설치, 게시판 운영 안내,
   단순 일정변경 공지, 교직원·직원 채용공고.
+
+가치 상태 규칙:
+- is_benefit=false이면 valuation_status=not_a_benefit이고 모든 금액 필드는 null.
+- 확정 단일 금액이면 valuation_status=estimated, estimated_value/min/max를 같은 값으로 작성.
+- 개인별 차등이면 valuation_status=variable_by_recipient이고 공식 최소/최대 범위를 작성.
+- 공모전 등 조건부 보상은 valuation_status=conditional_reward.
+  guaranteed_value와 estimated_value_min에는 확정 참가 혜택을, 없으면 0을 작성.
+  estimated_value_max에는 한 사람이 받을 수 있는 최고 조건부 보상과 확정 혜택의 합계를 작성.
+  객관적 확률이 없으면 expected_value와 estimated_value는 null.
+- 급여·활동비가 공식적으로 공개되지 않은 근로·인턴십은 undisclosed_compensation.
+- 시장 대체가격 기준은 있으나 입력만으로 계산할 수 없으면 needs_market_reference.
+- 본문·첨부 등 원문 정보가 부족하면 missing_source_data와 requires_source_review=true.
+- estimated_value가 null이면 value_basis와 valuation_status가 반드시 있어야 한다.
+- value_basis에서 혜택이 아니라고 판단했다면 is_benefit=false여야 한다.
 
 {TAG_GUIDE}
 
@@ -620,6 +690,103 @@ _VALID_CATEGORIES: frozenset[str] = frozenset({
     "learning", "career", "sports", "welfare",
     "culture", "experience", "facility", "scholarship",
 })
+_VALID_VALUATION_STATUSES: frozenset[str] = frozenset({
+    "estimated",
+    "not_a_benefit",
+    "missing_source_data",
+    "variable_by_recipient",
+    "conditional_reward",
+    "undisclosed_compensation",
+    "needs_market_reference",
+})
+_VALID_ELIGIBILITY_SCOPES: frozenset[str] = frozenset({
+    "undergraduate", "graduate", "all_students", "unknown",
+})
+_VALID_CONFIDENCE_LEVELS: frozenset[str] = frozenset({"high", "medium", "low"})
+_MONEY_FIELDS: tuple[str, ...] = (
+    "estimated_value",
+    "estimated_value_min",
+    "estimated_value_max",
+    "expected_value",
+    "guaranteed_value",
+    "conditional_reward_min",
+    "conditional_reward_max",
+)
+_NON_BENEFIT_BASIS_MARKERS: tuple[str, ...] = (
+    "학생 혜택 없음",
+    "직접적 혜택 없음",
+    "직접적인 혜택 없음",
+    "혜택 아님",
+    "행정 절차",
+    "행정절차",
+    "입학 모집",
+    "신입생 모집",
+    "졸업 요건",
+)
+
+
+def _validate_enrichment_response(
+    records: list[dict[str, Any]],
+    enrichments: list[dict[str, Any]],
+) -> None:
+    expected_ids = [_record_id(record) for record in records]
+    if len(enrichments) != len(expected_ids):
+        raise ValueError(
+            f"Expected {len(expected_ids)} enrichment items, received {len(enrichments)}"
+        )
+
+    received_ids = [str(item.get("id")) for item in enrichments]
+    if len(set(received_ids)) != len(received_ids) or set(received_ids) != set(expected_ids):
+        raise ValueError(
+            f"Enrichment ids do not match input ids: expected={expected_ids} received={received_ids}"
+        )
+
+    for item in enrichments:
+        item_id = str(item.get("id"))
+        status = item.get("valuation_status")
+        if status not in _VALID_VALUATION_STATUSES:
+            raise ValueError(f"{item_id}: invalid valuation_status {status!r}")
+        if item.get("eligibility_scope") not in _VALID_ELIGIBILITY_SCOPES:
+            raise ValueError(f"{item_id}: invalid eligibility_scope")
+        if item.get("confidence") not in _VALID_CONFIDENCE_LEVELS:
+            raise ValueError(f"{item_id}: invalid confidence")
+        if not isinstance(item.get("requires_source_review"), bool):
+            raise ValueError(f"{item_id}: requires_source_review must be boolean")
+        if not isinstance(item.get("is_benefit"), bool):
+            raise ValueError(f"{item_id}: is_benefit must be boolean")
+
+        for field in _MONEY_FIELDS:
+            value = item.get(field)
+            if value is not None and (
+                isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0
+            ):
+                raise ValueError(f"{item_id}: {field} must be a non-negative number or null")
+
+        minimum = item.get("estimated_value_min")
+        maximum = item.get("estimated_value_max")
+        if minimum is not None and maximum is not None and minimum > maximum:
+            raise ValueError(f"{item_id}: estimated_value_min exceeds estimated_value_max")
+
+        if not item["is_benefit"]:
+            if status != "not_a_benefit":
+                raise ValueError(f"{item_id}: non-benefit must use not_a_benefit")
+            if any(item.get(field) is not None for field in _MONEY_FIELDS):
+                raise ValueError(f"{item_id}: non-benefit cannot contain monetary values")
+        elif status == "not_a_benefit":
+            raise ValueError(f"{item_id}: benefit cannot use not_a_benefit")
+
+        if item.get("estimated_value") is None and not str(item.get("value_basis") or "").strip():
+            raise ValueError(f"{item_id}: null estimate requires value_basis")
+        basis = str(item.get("value_basis") or "")
+        if item["is_benefit"] and any(marker in basis for marker in _NON_BENEFIT_BASIS_MARKERS):
+            raise ValueError(f"{item_id}: value_basis contradicts is_benefit=true")
+        if status == "estimated" and item.get("estimated_value") is None:
+            raise ValueError(f"{item_id}: estimated status requires estimated_value")
+        if status == "conditional_reward":
+            if item.get("estimated_value_min") is None or item.get("estimated_value_max") is None:
+                raise ValueError(f"{item_id}: conditional reward requires min and max values")
+        if status == "missing_source_data" and not item["requires_source_review"]:
+            raise ValueError(f"{item_id}: missing source data requires source review")
 
 
 def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -629,10 +796,25 @@ def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str,
         merged = dict(record)
         enrichment = enrichment_by_id.get(_record_id(record))
         if enrichment is None:
-            enrichment = _fallback_enrichment(record)
+            raise EnrichmentBatchError(
+                f"Missing enrichment result for record {_record_id(record)}"
+            )
         for key in (
             "estimated_value",
+            "estimated_value_min",
+            "estimated_value_max",
+            "expected_value",
+            "guaranteed_value",
+            "conditional_reward_min",
+            "conditional_reward_max",
             "value_basis",
+            "valuation_status",
+            "eligibility_scope",
+            "confidence",
+            "requires_source_review",
+        ):
+            merged[key] = enrichment.get(key)
+        for key in (
             "subtitle",
             "unit",
             "eligibility",
@@ -647,41 +829,18 @@ def _merge_enrichment(records: list[dict[str, Any]], enrichments: list[dict[str,
         if enrichment.get("category") in _VALID_CATEGORIES:
             merged["category"] = enrichment["category"]
         merged["is_benefit"] = bool(enrichment.get("is_benefit", True))
-        merged["value_status"] = "estimated" if enrichment.get("estimated_value") else "needs_estimation"
-        is_failed = (
-            enrichment.get("enrichment_status") == "failed"
-            or enrichment.get("value_basis") == "AI 정제 실패"
+        merged["value_status"] = (
+            "estimated" if enrichment.get("estimated_value") is not None else "needs_estimation"
         )
-        if is_failed:
-            merged["enrichment_status"] = "failed"
-            merged["enrichment_error"] = enrichment.get("enrichment_error")
-        elif enrichment.get("estimated_value") is not None:
-            merged["enrichment_status"] = "success_valued"
-            merged["enrichment_error"] = None
-        else:
-            merged["enrichment_status"] = "success_unvalued"
-            merged["enrichment_error"] = None
+        merged["enrichment_status"] = (
+            "success_valued"
+            if enrichment.get("estimated_value") is not None
+            else "success_unvalued"
+        )
+        merged["enrichment_error"] = None
         merged["source"] = "server_crawled_enriched"
         merged_records.append(merged)
     return merged_records
-
-
-def _fallback_enrichment(record: dict[str, Any]) -> dict[str, Any]:
-    return {
-        "id": _record_id(record),
-        "estimated_value": None,
-        "value_basis": "AI 정제 실패",
-        "subtitle": "",
-        "unit": "",
-        "eligibility": "",
-        "deadline_date": None,
-        "apply_url": None,
-        "how_to_apply": [],
-        "site_id": None,
-        "is_benefit": True,
-        "tags": [],
-        "enrichment_status": "failed",
-    }
 
 
 def _record_id(record: dict[str, Any]) -> str:

@@ -24,6 +24,14 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Validate required secrets
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          test -n "$DATABASE_URL" || { echo "DATABASE_URL secret is missing"; exit 1; }
+          test -n "$ANTHROPIC_API_KEY" || { echo "ANTHROPIC_API_KEY secret is missing"; exit 1; }
+
       - name: Run daily crawl + enrich + export
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}

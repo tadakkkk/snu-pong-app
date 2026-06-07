@@ -11,12 +11,14 @@ import db as _db
 from main import (
     ScheduledActionContext, SCHEDULED_CRAWLERS,
     _run_scheduled_crawler, enrich_records, _store_enriched_records,
-    FatalEnrichmentError,
+    FatalEnrichmentError, EnrichmentBatchError,
 )
 from crawling_rules.departments.Departments import crawl as crawl_departments
 
 INCLUDE_DEPT = os.environ.get("INCLUDE_DEPARTMENTS", "false").lower() == "true"
 MAX_PER_DEPT = int(os.environ.get("MAX_PER_DEPT", "3"))
+RETRY_FAILED_ENRICHMENT = os.environ.get("RETRY_FAILED_ENRICHMENT", "false").lower() == "true"
+MAX_RETRY_FAILED = int(os.environ.get("MAX_RETRY_FAILED", "50"))
 OUT_JSON = os.environ.get(
     "OUT_JSON",
     os.path.join(os.path.dirname(__file__), "..", "data", "enriched-items.json"),
@@ -51,15 +53,32 @@ def export_json():
     with psycopg.connect(url, row_factory=dict_row) as conn:
         rows = conn.execute("""
             SELECT id, name, category, source_url, provider,
-                   estimated_value, deadline_date, tags, value_status, is_benefit, first_seen
+                   estimated_value, estimated_value_min, estimated_value_max,
+                   expected_value, guaranteed_value,
+                   conditional_reward_min, conditional_reward_max,
+                   valuation_status, eligibility_scope, confidence,
+                   requires_source_review, deadline_date, tags, value_status,
+                   enrichment_status, is_benefit, first_seen
             FROM benefit_items
             ORDER BY is_benefit DESC, estimated_value DESC NULLS LAST
         """).fetchall()
     out = [{
         "id": r["id"], "name": r["name"], "category": r["category"],
         "source_url": r["source_url"] or "", "provider": r["provider"] or "",
-        "estimated_value": r["estimated_value"], "deadline_date": r["deadline_date"],
+        "estimated_value": r["estimated_value"],
+        "estimated_value_min": r["estimated_value_min"],
+        "estimated_value_max": r["estimated_value_max"],
+        "expected_value": r["expected_value"],
+        "guaranteed_value": r["guaranteed_value"],
+        "conditional_reward_min": r["conditional_reward_min"],
+        "conditional_reward_max": r["conditional_reward_max"],
+        "valuation_status": r["valuation_status"],
+        "eligibility_scope": r["eligibility_scope"],
+        "confidence": r["confidence"],
+        "requires_source_review": bool(r["requires_source_review"]),
+        "deadline_date": r["deadline_date"],
         "tags": r["tags"] or [], "value_status": r["value_status"] or "needs_estimation",
+        "enrichment_status": r["enrichment_status"],
         "review_priority": "medium", "deadline_hints": [],
         "is_benefit": bool(r["is_benefit"]),
         "first_seen": r["first_seen"].isoformat() if r["first_seen"] else None,
@@ -157,6 +176,7 @@ async def main():
         print("CONFIG ERROR: DATABASE_URL is missing. Aborting.")
         sys.exit(1)
 
+    _db.init_db()
     print(f"=== daily crawl 시작 (departments={INCLUDE_DEPT}) ===")
     records = await crawl_all()
     crawled_count = len(records)
@@ -167,22 +187,30 @@ async def main():
     print(f"증분 필터: 신규 {len(new_records)}개 / 기존 {len(records)-len(new_records)}개 스킵")
 
     new_count = len(new_records)
+    retry_records = []
+    if RETRY_FAILED_ENRICHMENT:
+        retry_records = (await asyncio.to_thread(_db.get_failed_enrichment_items))[:MAX_RETRY_FAILED]
+        print(f"실패 재처리 활성화: {len(retry_records)}개 (최대 {MAX_RETRY_FAILED}개)")
+    else:
+        print("실패 재처리 비활성화: RETRY_FAILED_ENRICHMENT=true로 명시적으로 활성화")
+
+    retry_ids = {_rec_id(record) for record in retry_records}
+    records_to_enrich = new_records + [
+        record for record in retry_records if _rec_id(record) not in {_rec_id(r) for r in new_records}
+    ]
     enrichment_failed = 0
     retag_failed_batches = 0
 
-    if new_records:
-        print("신규 정제 중...")
+    if records_to_enrich:
+        print(f"정제 중... 신규 {new_count}개 / 재처리 {len(retry_ids)}개")
         try:
-            enriched = await asyncio.to_thread(enrich_records, new_records)
-        except FatalEnrichmentError as e:
+            enriched = await asyncio.to_thread(enrich_records, records_to_enrich)
+        except (FatalEnrichmentError, EnrichmentBatchError, ValueError) as e:
             print(f"FATAL ENRICHMENT ERROR: {e}. DB 저장/export/커밋 없이 종료(코드 1).")
             sys.exit(1)
 
-        enrichment_failed = sum(1 for e in enriched if e.get("value_basis") == "AI 정제 실패")
         b = sum(1 for e in enriched if e.get("is_benefit"))
         print(f"정제 완료: {len(enriched)}개 (혜택 {b} / 비혜택 {len(enriched)-b})")
-        if enrichment_failed > 0:
-            print(f"WARNING: {enrichment_failed} records stored as enrichment failure")
 
         await _store_enriched_records(enriched)
         print("DB 저장 완료")
@@ -193,12 +221,19 @@ async def main():
         print("신규 항목 없음 - 정제 스킵")
 
     total, benefit, expired = export_json()
-    enriched_ok = new_count - enrichment_failed
+    enriched_ok = len(records_to_enrich) - enrichment_failed
+    valuation_counts = Counter(
+        record.get("valuation_status") or "unknown"
+        for record in (enriched if records_to_enrich else [])
+    )
     summary_parts = [
         f"crawled={crawled_count}",
         f"new={new_count}",
+        f"retried={len(retry_ids)}",
         f"enriched={enriched_ok}",
         f"enrichment_failed={enrichment_failed}",
+        f"intentionally_unvalued={sum(count for status, count in valuation_counts.items() if status not in {'estimated', 'not_a_benefit'})}",
+        f"not_benefit={valuation_counts['not_a_benefit']}",
         f"retag_failed_batches={retag_failed_batches}",
         f"expired={expired}",
         f"total={total}",
@@ -207,8 +242,6 @@ async def main():
     with open("crawl_summary.txt", "w", encoding="utf-8") as f:
         f.write(summary)
     print(f"SUMMARY: {summary}")
-    if enrichment_failed > 0:
-        print(f"WARNING: {enrichment_failed} records stored as enrichment failure")
     print("=== 완료 ===")
 
 asyncio.run(main())

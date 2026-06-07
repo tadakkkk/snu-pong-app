@@ -45,6 +45,23 @@ export interface PongItem {
   value_status?: "verified" | "needs_estimation" | "estimated";
   review_priority?: "high" | "medium";
   estimated_value?: number | null;
+  estimated_value_min?: number | null;
+  estimated_value_max?: number | null;
+  expected_value?: number | null;
+  guaranteed_value?: number | null;
+  conditional_reward_min?: number | null;
+  conditional_reward_max?: number | null;
+  valuation_status?:
+    | "estimated"
+    | "not_a_benefit"
+    | "missing_source_data"
+    | "variable_by_recipient"
+    | "conditional_reward"
+    | "undisclosed_compensation"
+    | "needs_market_reference";
+  eligibility_scope?: "undergraduate" | "graduate" | "all_students" | "unknown";
+  confidence?: "high" | "medium" | "low";
+  requires_source_review?: boolean;
   subtitle?: string;
   apply_url?: string | null;
   deadline_date?: string | null;
@@ -1257,6 +1274,16 @@ interface _CrawledRawItem {
   source: "crawled" | "crawled_enriched";
   // fields added by src/server/enrichment/enrich-crawled-data.py
   estimated_value?: number | null;
+  estimated_value_min?: number | null;
+  estimated_value_max?: number | null;
+  expected_value?: number | null;
+  guaranteed_value?: number | null;
+  conditional_reward_min?: number | null;
+  conditional_reward_max?: number | null;
+  valuation_status?: PongItem["valuation_status"];
+  eligibility_scope?: PongItem["eligibility_scope"];
+  confidence?: PongItem["confidence"];
+  requires_source_review?: boolean;
   value_basis?: string;
   subtitle?: string;
   unit?: string;
@@ -1312,6 +1339,16 @@ function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
     value_status: raw.value_status as "needs_estimation" | "verified" | "estimated",
     review_priority: raw.review_priority as "high" | "medium",
     estimated_value: raw.estimated_value,
+    estimated_value_min: raw.estimated_value_min,
+    estimated_value_max: raw.estimated_value_max,
+    expected_value: raw.expected_value,
+    guaranteed_value: raw.guaranteed_value,
+    conditional_reward_min: raw.conditional_reward_min,
+    conditional_reward_max: raw.conditional_reward_max,
+    valuation_status: raw.valuation_status,
+    eligibility_scope: raw.eligibility_scope,
+    confidence: raw.confidence,
+    requires_source_review: raw.requires_source_review,
     subtitle: raw.subtitle,
     apply_url: raw.apply_url,
     deadline_date: raw.deadline_date,
