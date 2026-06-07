@@ -7,7 +7,7 @@ import StatusBar from "@/components/ui/StatusBar";
 import BottomTabBar from "@/components/layout/BottomTabBar";
 import MagpieWithCoin from "@/components/magpie/MagpieWithCoin";
 import SearchBar from "@/components/pong/SearchBar";
-import ItemSiteToggle, { type ToggleMode } from "@/components/pong/ItemSiteToggle";
+import { type ToggleMode } from "@/components/pong/ItemSiteToggle";
 import SiteCard from "@/components/pong/SiteCard";
 import SearchResults from "@/components/pong/SearchResults";
 import { items, CATEGORY_META, type Category, getTagsForCategory, filterByTags } from "@/data/items";
@@ -251,19 +251,6 @@ export default function PongPage() {
         placeholder={searchPlaceholder}
       />
 
-      {/* 토글 (검색 전에만) */}
-      {!isSearching && (
-        <ItemSiteToggle
-          mode={mode}
-          onChange={(m) => {
-            setMode(m);
-            setActiveCategory(null);
-            setActiveSiteCategory(null);
-          }}
-          itemCount={items.length}
-          siteCount={sites.length + collegeSites.length}
-        />
-      )}
 
       {/* 스크롤 영역 */}
       <div
@@ -335,6 +322,24 @@ export default function PongPage() {
                   );
                 })}
               </div>
+            </div>
+
+            {/* 출처 보기 버튼 */}
+            <div className="px-5 pt-1 pb-3">
+              <button
+                onClick={() => {
+                  setMode("sites");
+                  setActiveCategory(null);
+                  logEvent("view_sites");
+                }}
+                className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl bg-surface-sub border border-hairline active:opacity-70"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="text-[15px]">🔎</span>
+                  <span className="text-[13px] font-medium text-ink">직접 사이트에서 살펴보기</span>
+                </span>
+                <span className="text-[12px] text-ink-3">출처 {sites.length + collegeSites.length}개 ›</span>
+              </button>
             </div>
 
             {activeCategory ? (
@@ -466,6 +471,16 @@ export default function PongPage() {
         ) : (
           /* ── 부서 모드 ── */
           <>
+            {/* 돌아가기 */}
+            <div className="px-5 pt-3 pb-1">
+              <button
+                onClick={() => { setMode("items"); setActiveSiteCategory(null); }}
+                className="flex items-center gap-1 text-[13px] text-blue active:opacity-60"
+              >
+                ‹ 뽕 목록으로 돌아가기
+              </button>
+            </div>
+
             {/* 부서 카테고리 그리드 */}
             <div className="px-5 pb-2">
               <div className="grid grid-cols-4 gap-1.5">
