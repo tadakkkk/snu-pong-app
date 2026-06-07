@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
-MODEL = "claude-sonnet-4-20250514"
+MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
 
 BATCH_SIZE = 5
 PROJECT_ROOT = Path(__file__).resolve().parents[3]

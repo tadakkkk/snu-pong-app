@@ -98,7 +98,7 @@ def _retag_batch(client, tag_pool, batch):
 
 출력: JSON 배열만. 각 원소는 태그 문자열 배열. 항목 순서대로. 설명 없이 JSON만."""
     resp = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
         max_tokens=2000,
         messages=[{"role": "user", "content": prompt}],
     )
