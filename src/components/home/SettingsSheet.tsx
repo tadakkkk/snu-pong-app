@@ -7,6 +7,7 @@ import { useUserStore } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { usePongStore } from "@/store/pong";
 import { createClient } from "@/lib/supabase/client";
+import { pushToCloud } from "@/lib/supabase/sync";
 import { formatWon } from "@/lib/format-currency";
 import type { User } from "@supabase/supabase-js";
 
@@ -40,6 +41,9 @@ export default function SettingsSheet({ onClose }: Props) {
   }
 
   async function handleLogout() {
+    // 로그아웃 전에 아직 cloud로 안 올라간 변경(뽕뽑기 기록 등 debounce 대기분)을 먼저 flush.
+    // signOut 이후에는 getUser()가 null이라 push가 무효화되어 직전 변경이 유실됨.
+    await pushToCloud();
     await supabase.auth.signOut();
     setAuthUser(null);
   }
