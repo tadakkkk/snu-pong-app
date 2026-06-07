@@ -2,6 +2,7 @@ import Link from "next/link";
 import { type PongItem } from "@/data/items";
 import { type Site } from "@/data/sites";
 import SiteCard from "./SiteCard";
+import { formatWonCompact } from "@/lib/format-currency";
 
 interface SearchResultsProps {
   items: PongItem[];
@@ -53,7 +54,7 @@ export default function SearchResults({
                   <span
                     className={`text-[12px] font-medium ml-3 shrink-0 ${ponged ? "text-ink-4" : "text-ink"}`}
                   >
-                    +{Math.round(item.value / 10000)}만
+                    +{formatWonCompact(item.value)}
                   </span>
                 </div>
               </Link>

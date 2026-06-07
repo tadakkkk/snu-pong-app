@@ -3,6 +3,7 @@
 import MagpieByProgress from "@/components/magpie/MagpieByProgress";
 import type { PongRecord } from "@/store/pong";
 import { getItem } from "@/data/items";
+import { formatWon, formatWonCompact } from "@/lib/format-currency";
 
 interface Props {
   semesterLabel: string;
@@ -47,7 +48,7 @@ export default function ShareCardModal({
             <MagpieByProgress percent={percent} size={64} />
             <div>
               <p className="text-[34px] font-medium text-white leading-tight">
-                +{total.toLocaleString("ko-KR")}원
+                +{formatWon(total)}
               </p>
               {netBurden > 0 && (
                 <p className="text-[13px] text-white/60 mt-0.5">
@@ -68,7 +69,7 @@ export default function ShareCardModal({
                       {item?.name ?? record.itemId}
                     </p>
                     <p className="text-[12px] text-white/50 shrink-0">
-                      +{Math.round(record.value / 10000)}만
+                      +{formatWonCompact(record.value)}
                     </p>
                   </div>
                 );

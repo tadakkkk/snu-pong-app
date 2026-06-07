@@ -13,6 +13,7 @@ import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 import { useAuthGate } from "@/lib/auth-gate";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
+import { formatWon } from "@/lib/format-currency";
 
 function formatDeadline(item: { deadline_date?: string | null; deadline_label?: string | null }): string {
   if (item.deadline_date && /^\d{4}-\d{2}-\d{2}$/.test(item.deadline_date)) {
@@ -129,7 +130,7 @@ export default function PongDetailPage() {
             </p>
           ) : (
             <p className="text-[36px] font-medium text-ink leading-tight">
-              +{item.value.toLocaleString("ko-KR")}원
+              +{formatWon(item.value)}
             </p>
           )}
           {item.value_basis && (
@@ -325,12 +326,12 @@ export default function PongDetailPage() {
               <div>
                 <p className="text-[12px] text-white/70 mb-0.5">방금 뽕뽑음</p>
                 <p className="text-[24px] font-medium leading-tight">
-                  +{item.value.toLocaleString("ko-KR")}원
+                  +{formatWon(item.value)}
                 </p>
               </div>
             </div>
             <p className="text-[13px] text-white/80 mb-4">
-              이번 학기 누적 {semesterTotal.toLocaleString("ko-KR")}원
+              이번 학기 누적 {formatWon(semesterTotal)}
             </p>
             <div className="border-t border-white/15 pt-3.5 flex justify-between">
               <button

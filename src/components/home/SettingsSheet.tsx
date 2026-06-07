@@ -7,6 +7,7 @@ import { useUserStore } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { usePongStore } from "@/store/pong";
 import { createClient } from "@/lib/supabase/client";
+import { formatWon } from "@/lib/format-currency";
 import type { User } from "@supabase/supabase-js";
 
 interface Props {
@@ -160,7 +161,7 @@ export default function SettingsSheet({ onClose }: Props) {
               <div className="flex justify-between text-[13px] mb-2">
                 <span className="text-ink-3">등록금</span>
                 <span className="text-ink">
-                  {activeSemester.tuition.toLocaleString("ko-KR")}원
+                  {formatWon(activeSemester.tuition)}
                 </span>
               </div>
 
@@ -186,7 +187,7 @@ export default function SettingsSheet({ onClose }: Props) {
                 ) : (
                   <div className="flex items-center gap-2">
                     <span className="text-ink">
-                      {activeSemester.scholarship.toLocaleString("ko-KR")}원
+                      {formatWon(activeSemester.scholarship)}
                     </span>
                     <button
                       onClick={() => setEditingScholarship(true)}
@@ -201,7 +202,7 @@ export default function SettingsSheet({ onClose }: Props) {
               <div className="border-t border-hairline mt-2.5 pt-2.5 flex justify-between text-[13px]">
                 <span className="font-medium text-ink">실 부담액</span>
                 <span className="font-medium text-ink">
-                  {activeSemester.netBurden.toLocaleString("ko-KR")}원
+                  {formatWon(activeSemester.netBurden)}
                 </span>
               </div>
             </div>

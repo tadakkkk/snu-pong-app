@@ -4,6 +4,7 @@ import { useState } from "react";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import { getTuition } from "@/data/colleges";
 import { makeSemesterId } from "@/lib/semester";
+import { formatWon } from "@/lib/format-currency";
 import type { Semester } from "@/store/semester";
 
 interface Props {
@@ -117,17 +118,17 @@ export default function AddSemesterModal({
           <div className="bg-surface-sub rounded-xl px-4 py-3.5 mb-5">
             <div className="flex justify-between text-[13px] mb-1.5">
               <span className="text-ink-3">등록금</span>
-              <span className="text-ink">{tuition.toLocaleString("ko-KR")}원</span>
+              <span className="text-ink">{formatWon(tuition)}</span>
             </div>
             {scholarship > 0 && (
               <div className="flex justify-between text-[13px] mb-1.5">
                 <span className="text-ink-3">장학금</span>
-                <span className="text-ink">- {scholarship.toLocaleString("ko-KR")}원</span>
+                <span className="text-ink">- {formatWon(scholarship)}</span>
               </div>
             )}
             <div className="border-t border-hairline pt-2 flex justify-between text-[13px]">
               <span className="font-medium text-ink">실 부담액</span>
-              <span className="font-medium text-ink">{netBurden.toLocaleString("ko-KR")}원</span>
+              <span className="font-medium text-ink">{formatWon(netBurden)}</span>
             </div>
           </div>
         )}

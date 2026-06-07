@@ -25,13 +25,14 @@ export function makeSemesterId(year: number, term: 1 | 2): string {
   return `${year}-${term}`;
 }
 
+import { formatWonCompact } from "@/lib/format-currency";
+
 export function getRecommendText(
   name: string,
   value: number,
   deadlineLabel: string
 ): string {
-  const v = Math.round(value / 10000);
   const deadline =
     deadlineLabel === "상시" ? "상시 신청 가능해" : `${deadlineLabel}까지야`;
-  return `${v}만원짜리 ${name}이 ${deadline}. 한 번 해봐.`;
+  return `${formatWonCompact(value)}짜리 ${name}이 ${deadline}. 한 번 해봐.`;
 }

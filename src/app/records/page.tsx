@@ -11,6 +11,7 @@ import ShareCardModal from "@/components/records/ShareCardModal";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 import { getItem } from "@/data/items";
+import { formatWon } from "@/lib/format-currency";
 
 type SortMode = "value" | "date";
 
@@ -46,7 +47,7 @@ export default function RecordsPage() {
     const semLabel = viewSemester
       ? `${viewSemester.year} - ${viewSemester.term}학기`
       : "전체";
-    const text = `서울대 등록금 뽕뽑기\n${semLabel}: +${total.toLocaleString("ko-KR")}원 달성!${
+    const text = `서울대 등록금 뽕뽑기\n${semLabel}: +${formatWon(total)} 달성!${
       netBurden > 0 ? ` (등록금의 ${percent}%)` : ""
     }\n\n낸 만큼 누리고 졸업하자`;
 
@@ -110,13 +111,13 @@ export default function RecordsPage() {
                   : "전체"}
               </p>
               <p className="text-[28px] font-medium text-ink leading-tight">
-                +{total.toLocaleString("ko-KR")}원
+                +{formatWon(total)}
               </p>
             </div>
           </div>
           {netBurden > 0 && (
             <p className="text-[12px] text-ink-3 mb-3">
-              실 부담 {netBurden.toLocaleString("ko-KR")}원의 {percent}%
+              실 부담 {formatWon(netBurden)}의 {percent}%
             </p>
           )}
           <ProgressBar percent={percent} />
@@ -171,7 +172,7 @@ export default function RecordsPage() {
                           {item?.name ?? record.itemId}
                         </p>
                         <p className="text-[15px] font-medium text-ink">
-                          +{record.value.toLocaleString("ko-KR")}원
+                          +{formatWon(record.value)}
                         </p>
                         <p className="text-[10px] text-ink-3 mt-1">{dateLabel}</p>
                       </div>
@@ -203,7 +204,7 @@ export default function RecordsPage() {
                     )}
                   </div>
                   <span className="text-[14px] text-ink">
-                    +{semTotal.toLocaleString("ko-KR")}원
+                    +{formatWon(semTotal)}
                   </span>
                 </div>
               );
@@ -211,7 +212,7 @@ export default function RecordsPage() {
             <div className="pt-3 flex justify-between items-center">
               <span className="text-[13px] font-medium text-ink">전체 누적</span>
               <span className="text-[16px] font-medium text-ink">
-                +{allTotal.toLocaleString("ko-KR")}원
+                +{formatWon(allTotal)}
               </span>
             </div>
           </div>

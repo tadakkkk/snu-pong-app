@@ -18,11 +18,12 @@ import { pushToCloud } from "@/lib/supabase/sync";
 import { useUserStore, type PersonalizationInputMethod } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { createClient } from "@/lib/supabase/client";
+import { formatWon, formatWonCompact } from "@/lib/format-currency";
 
 type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 function formatKRW(n: number) {
-  return n.toLocaleString("ko-KR") + "원";
+  return formatWon(n);
 }
 
 // ─── Step 0: 스플래시 ──────────────────────────────────────────────
@@ -775,7 +776,7 @@ function StepResult({
                   <p className="text-[13px] font-medium text-ink">{item.name}</p>
                 </div>
                 <span className="text-[13px] font-medium text-ink shrink-0 ml-3">
-                  +{Math.round(item.value / 10000)}만
+                  +{formatWonCompact(item.value)}
                 </span>
               </div>
             ))}

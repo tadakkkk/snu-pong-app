@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Semester } from "@/store/semester";
+import { formatWon } from "@/lib/format-currency";
 
 interface Props {
   semesters: Semester[];
@@ -58,8 +59,8 @@ export default function SemesterModal({
                 ? Math.round((total / sem.netBurden) * 100)
                 : 0;
             const sublabel = sem.isActive
-              ? `진행 중 · ${total.toLocaleString("ko-KR")}원 뽕뽑음`
-              : `종료 · ${total.toLocaleString("ko-KR")}원 뽕뽑음 (${pct}%)`;
+              ? `진행 중 · ${formatWon(total)} 뽕뽑음`
+              : `종료 · ${formatWon(total)} 뽕뽑음 (${pct}%)`;
 
             return (
               <div

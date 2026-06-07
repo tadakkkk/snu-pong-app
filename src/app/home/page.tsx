@@ -17,6 +17,7 @@ import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 import { items, getTodayNewCount } from "@/data/items";
 import { getDaysUntilSemesterEnd } from "@/lib/semester";
+import { formatWon, formatWonCompact } from "@/lib/format-currency";
 import { useAuthGate } from "@/lib/auth-gate";
 import { logEvent } from "@/lib/analytics";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
@@ -237,7 +238,7 @@ export default function HomePage() {
             <div className="bg-surface-sub rounded-xl p-[18px]">
               <p className="text-[13px] text-ink leading-relaxed mb-3">
                 첫 항목 뽑으면 물까치 표정이 바뀌어.{" "}
-                {`${Math.round(firstUnponged.value / 10000)}만원짜리 ${firstUnponged.name}부터 어때?`}
+                {`${formatWonCompact(firstUnponged.value)}짜리 ${firstUnponged.name}부터 어때?`}
               </p>
               <Link href="/pong" className="text-[13px] text-blue font-medium">
                 바로 뽕뽑으러 가기 →
@@ -257,12 +258,11 @@ export default function HomePage() {
               {user.nickname ? `${user.nickname}의 이번 학기 뽕뽑은 가치` : "이번 학기 등록금 뽕뽑은 가치"}
             </p>
             <p className="text-[38px] font-medium text-ink leading-tight">
-              {totalPonged.toLocaleString("ko-KR")}
-              <span className="text-[20px] text-ink-3 ml-0.5">원</span>
+              {formatWon(totalPonged)}
             </p>
             {netBurden > 0 && (
               <p className="text-[13px] text-ink-3 mt-1.5">
-                실 부담 {netBurden.toLocaleString("ko-KR")}원 중 {percent}%
+                실 부담 {formatWon(netBurden)} 중 {percent}%
               </p>
             )}
           </div>
@@ -300,7 +300,7 @@ export default function HomePage() {
                   </p>
                   <div className="flex items-end justify-between">
                     <p className="text-[12px] font-medium text-ink">
-                      +{Math.round(item.value / 10000)}만
+                      +{formatWonCompact(item.value)}
                     </p>
                     {dday !== null && (
                       <p className={`text-[11px] font-medium tabular-nums ${dday <= 3 ? "text-red" : "text-[#E88B30]"}`}>
@@ -310,6 +310,34 @@ export default function HomePage() {
                   </div>
                 </Link>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── 등록금 내역 카드 ── */}
+        {activeSemester && (
+          <div className="px-6 mb-5">
+            <div className="bg-surface-sub rounded-xl px-4 py-[14px]">
+              <div className="flex justify-between text-[13px] mb-2">
+                <span className="text-ink-3">등록금</span>
+                <span className="text-ink">
+                  {formatWon(activeSemester.tuition)}
+                </span>
+              </div>
+              {activeSemester.scholarship > 0 && (
+                <div className="flex justify-between text-[13px] mb-2">
+                  <span className="text-ink-3">받은 장학금</span>
+                  <span className="text-ink">
+                    - {formatWon(activeSemester.scholarship)}
+                  </span>
+                </div>
+              )}
+              <div className="border-t border-hairline pt-2.5 flex justify-between text-[13px]">
+                <span className="font-medium text-ink">실 부담액</span>
+                <span className="font-medium text-ink">
+                  {formatWon(activeSemester.netBurden)}
+                </span>
+              </div>
             </div>
           </div>
         )}

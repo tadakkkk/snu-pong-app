@@ -25,6 +25,7 @@ import { useSemesterStore } from "@/store/semester";
 import { useUserStore } from "@/store/user";
 import { useSearch } from "@/hooks/useSearch";
 import { logEvent } from "@/lib/analytics";
+import { formatWonCompact } from "@/lib/format-currency";
 
 const CATEGORIES = Object.entries(CATEGORY_META) as [
   Category,
@@ -104,7 +105,7 @@ function ItemRow({
               : "text-ink"
           }`}
         >
-          {isCrawledUnestimated ? "가치 확인 중" : `+${Math.round(item.value / 10000)}만`}
+          {isCrawledUnestimated ? "가치 확인 중" : `+${formatWonCompact(item.value)}`}
         </span>
       </div>
     </Link>
@@ -453,7 +454,7 @@ export default function PongPage() {
                           {item.name}
                         </span>
                         <span className="text-[12px] font-medium text-ink">
-                          +{Math.round(item.value / 10000)}만
+                          +{formatWonCompact(item.value)}
                         </span>
                       </div>
                     </Link>
