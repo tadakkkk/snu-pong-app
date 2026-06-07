@@ -15,6 +15,15 @@ import { formatWon } from "@/lib/format-currency";
 
 type SortMode = "value" | "date";
 
+function getMood(percent: number): string {
+  if (percent === 0) return "배고파";
+  if (percent < 25) return "심심해";
+  if (percent < 50) return "좋아";
+  if (percent < 75) return "신나";
+  if (percent < 100) return "행복해";
+  return "완벽해 ✨";
+}
+
 export default function RecordsPage() {
   const { semesters, activeSemesterId } = useSemesterStore();
   const { getRecordsBySemester, getTotalBySemester } = usePongStore();
@@ -100,27 +109,29 @@ export default function RecordsPage() {
       )}
 
       <div className="flex-1 overflow-y-auto">
-        {/* 요약 */}
-        <div className="px-6 pb-5 pt-1">
-          <div className="flex items-center gap-3 mb-2">
-            <MagpieByProgress percent={percent} size={52} />
-            <div>
-              <p className="text-[12px] text-ink-3 mb-0.5">
-                {viewSemester
-                  ? `${viewSemester.year} - ${viewSemester.term}학기`
-                  : "전체"}
-              </p>
-              <p className="text-[28px] font-medium text-ink leading-tight">
-                +{formatWon(total)}
-              </p>
-            </div>
+        {/* ── 까마고치 (큰 캐릭터 + 기분 + 총액 + 진행바) ── */}
+        <div data-tour="magpie" className="px-6 pb-5 pt-2">
+          <div className="flex flex-col items-center">
+            <MagpieByProgress percent={percent} size={110} />
+            <p className="mt-2 text-[12px] text-ink-3">{getMood(percent)}</p>
           </div>
-          {netBurden > 0 && (
-            <p className="text-[12px] text-ink-3 mb-3">
-              실 부담 {formatWon(netBurden)}의 {percent}%
+          <div className="text-center mt-4">
+            <p className="text-[12px] text-ink-3 mb-1">
+              {viewSemester
+                ? `${viewSemester.year} - ${viewSemester.term}학기`
+                : "전체"}{" "}
+              뽑은 가치
             </p>
-          )}
-          <ProgressBar percent={percent} />
+            <p className="text-[34px] font-medium text-ink leading-tight">
+              +{formatWon(total)}
+            </p>
+            {netBurden > 0 && (
+              <p className="text-[12px] text-ink-3 mt-1.5">
+                실 부담 {formatWon(netBurden)} 중 {percent}%
+              </p>
+            )}
+          </div>
+          <ProgressBar percent={percent} className="mt-5" />
         </div>
 
         {/* 컬렉션 */}

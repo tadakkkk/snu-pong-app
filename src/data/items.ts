@@ -1365,6 +1365,19 @@ export function getTodayNewCount(): number {
   return items.filter((i) => i.first_seen && i.first_seen.slice(0, 10) === kstToday).length;
 }
 
+/**
+ * 최근 N일 내에 새로 추가된 혜택을 first_seen 최신순으로 반환한다 (알림센터용).
+ * first_seen 포맷이 섞여 있어(타임존 유무) 날짜 prefix(YYYY-MM-DD)로 비교한다.
+ */
+export function getRecentNewItems(days = 7): PongItem[] {
+  const cutoff = new Date(Date.now() + 9 * 60 * 60 * 1000 - days * 86_400_000)
+    .toISOString()
+    .slice(0, 10);
+  return items
+    .filter((i) => i.first_seen && i.first_seen.slice(0, 10) >= cutoff)
+    .sort((a, b) => (b.first_seen ?? "").localeCompare(a.first_seen ?? ""));
+}
+
 export function getTagsForCategory(category: Category): { tag: string; count: number }[] {
   const counter = new Map<string, number>();
   for (const item of items) {

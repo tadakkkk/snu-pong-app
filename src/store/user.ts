@@ -23,6 +23,8 @@ interface UserState {
   personalizationSummary: string | null;
   personalizationUpdatedAt: string | null;
   onboardingDone: boolean;
+  // 알림센터: 마지막으로 알림을 확인한 시각(ISO). cloud로 동기화됨.
+  notificationsSeenAt: string | null;
   setProfile: (data: Partial<Omit<UserState, "setProfile" | "reset">>) => void;
   reset: () => void;
 }
@@ -44,6 +46,7 @@ const initial: Omit<UserState, "setProfile" | "reset"> = {
   personalizationSummary: null,
   personalizationUpdatedAt: null,
   onboardingDone: false,
+  notificationsSeenAt: null,
 };
 
 export const useUserStore = create<UserState>()((set) => ({
