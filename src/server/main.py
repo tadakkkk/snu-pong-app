@@ -8,9 +8,11 @@ from typing import Any, Callable, Literal
 import asyncio
 import dataclasses
 import json
+import logging
 import os
 import random
 import sys
+import time
 
 
 _SERVER_DIR = str(Path(__file__).resolve().parent)
@@ -18,6 +20,8 @@ if _SERVER_DIR not in sys.path:
     sys.path.insert(0, _SERVER_DIR)
 
 from tag_pool import ACTIVITY_TAGS, DOMAIN_TAGS, TAG_POOL
+
+logger = logging.getLogger("enrichment")
 
 SERVER_TIME_ZONE = "Asia/Seoul"
 DAILY_CRAWL_HOUR_KST = 5
@@ -427,13 +431,28 @@ async def _enrich_crawled_records(
         )
 
 
+class FatalEnrichmentError(RuntimeError):
+    """재시도 불가, job을 실패시켜야 하는 에러 (인증/결제/권한/잘못된 요청)."""
+
+
+_ENRICHMENT_API_RETRIES = 3
+_ENRICHMENT_API_BACKOFF = (2, 4, 8)
+
+
 def enrich_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     enriched_items: list[dict[str, Any]] = []
     for index in range(0, len(records), ENRICHMENT_BATCH_SIZE):
         batch = records[index : index + ENRICHMENT_BATCH_SIZE]
         try:
             batch_enrichment = _enrich_batch(batch)
-        except Exception:
+        except FatalEnrichmentError:
+            raise
+        except Exception as exc:
+            record_ids = [_record_id(r) for r in batch]
+            logger.error(
+                "Batch enrichment failed, using fallback class=%s ids=%s",
+                type(exc).__name__, record_ids,
+            )
             batch_enrichment = [_fallback_enrichment(record) for record in batch]
         enriched_items.extend(_merge_enrichment(batch, batch_enrichment))
     return enriched_items
@@ -445,25 +464,84 @@ def _enrich_batch(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     except ImportError as error:
         raise RuntimeError("anthropic package is required for server-side enrichment") from error
 
+    record_ids = [_record_id(r) for r in records]
     client = anthropic.Anthropic(api_key=os.environ[ANTHROPIC_API_KEY_ENV])
-    response = client.messages.create(
-        model=ENRICHMENT_MODEL,
-        max_tokens=4096,
-        messages=[{"role": "user", "content": _enrichment_prompt(records)}],
-    )
-    raw_text = response.content[0].text.strip()
-    if raw_text.startswith("```"):
-        lines = raw_text.splitlines()
-        raw_text = "\n".join(lines[1:])
-        if raw_text.endswith("```"):
-            raw_text = raw_text[:-3].strip()
+    prompt = _enrichment_prompt(records)
 
-    parsed = json.loads(raw_text)
-    if isinstance(parsed, dict) and isinstance(parsed.get("items"), list):
-        return parsed["items"]
-    if isinstance(parsed, list):
-        return parsed
-    raise ValueError("AI enrichment response must be a JSON array or an object with an items array")
+    def _api_call() -> str:
+        try:
+            resp = client.messages.create(
+                model=ENRICHMENT_MODEL,
+                max_tokens=4096,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            return resp.content[0].text.strip()
+        except (anthropic.AuthenticationError, anthropic.PermissionDeniedError, anthropic.BadRequestError) as exc:
+            logger.error(
+                "Fatal enrichment error class=%s status=%s request_id=%s ids=%s",
+                type(exc).__name__, exc.status_code, getattr(exc, "request_id", None), record_ids,
+            )
+            raise FatalEnrichmentError(type(exc).__name__) from exc
+        except anthropic.APIStatusError as exc:
+            if exc.status_code == 402:
+                logger.error(
+                    "Fatal enrichment error class=%s status=402 request_id=%s ids=%s",
+                    type(exc).__name__, getattr(exc, "request_id", None), record_ids,
+                )
+                raise FatalEnrichmentError("payment_required") from exc
+            raise
+
+    def _api_call_with_retries() -> str:
+        last_exc: BaseException | None = None
+        for attempt in range(_ENRICHMENT_API_RETRIES):
+            try:
+                return _api_call()
+            except FatalEnrichmentError:
+                raise
+            except (anthropic.APIStatusError, anthropic.APIConnectionError) as exc:
+                logger.warning(
+                    "Transient enrichment error class=%s status=%s request_id=%s ids=%s attempt=%d/%d",
+                    type(exc).__name__,
+                    getattr(exc, "status_code", None),
+                    getattr(exc, "request_id", None),
+                    record_ids, attempt + 1, _ENRICHMENT_API_RETRIES,
+                )
+                last_exc = exc
+                if attempt < _ENRICHMENT_API_RETRIES - 1:
+                    time.sleep(_ENRICHMENT_API_BACKOFF[attempt])
+        raise last_exc  # type: ignore[misc]
+
+    def _parse(raw: str) -> list[dict[str, Any]]:
+        text = raw
+        if text.startswith("```"):
+            lines = text.splitlines()
+            text = "\n".join(lines[1:])
+            if text.endswith("```"):
+                text = text[:-3].strip()
+        parsed = json.loads(text)
+        if isinstance(parsed, dict) and isinstance(parsed.get("items"), list):
+            return parsed["items"]
+        if isinstance(parsed, list):
+            return parsed
+        raise ValueError("AI enrichment response must be a JSON array or an object with an items array")
+
+    raw_text = _api_call_with_retries()
+    try:
+        return _parse(raw_text)
+    except (json.JSONDecodeError, ValueError) as first_parse_exc:
+        logger.warning(
+            "Parse error on attempt 1, retrying API call class=%s ids=%s",
+            type(first_parse_exc).__name__, record_ids,
+        )
+        raw_text = _api_call_with_retries()
+        try:
+            return _parse(raw_text)
+        except (json.JSONDecodeError, ValueError) as exc:
+            logger.warning(
+                "Parse error on attempt 2, giving up class=%s ids=%s",
+                type(exc).__name__, record_ids,
+            )
+            raise
 
 
 def _enrichment_prompt(records: list[dict[str, Any]]) -> str:
@@ -589,6 +667,7 @@ def _fallback_enrichment(record: dict[str, Any]) -> dict[str, Any]:
         "site_id": None,
         "is_benefit": True,
         "tags": [],
+        "enrichment_status": "failed",
     }
 
 
