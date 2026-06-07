@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCollege } from "@/data/colleges";
-import { CATEGORY_META, type Category } from "@/data/items";
+import { CATEGORY_META } from "@/data/items";
 import { useUserStore } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { usePongStore } from "@/store/pong";
@@ -11,6 +11,9 @@ import { createClient } from "@/lib/supabase/client";
 import { pushToCloud } from "@/lib/supabase/sync";
 import { formatWon } from "@/lib/format-currency";
 import type { User } from "@supabase/supabase-js";
+import PersonalizationQuestions from "@/components/onboarding/PersonalizationQuestions";
+import { buildInterestVectorFromAnswers, interestsFromAnswers } from "@/lib/personalization/buildInterestVector";
+import type { PersonalizationAnswers } from "@/data/personalization_questions";
 
 interface Props {
   onClose: () => void;
@@ -42,12 +45,11 @@ export default function SettingsSheet({ onClose }: Props) {
   }
 
   async function handleLogout() {
-    // 로그아웃 전에 아직 cloud로 안 올라간 변경(뽕뽑기 기록 등 debounce 대기분)을 먼저 flush.
-    // signOut 이후에는 getUser()가 null이라 push가 무효화되어 직전 변경이 유실됨.
     await pushToCloud();
     await supabase.auth.signOut();
     setAuthUser(null);
   }
+
   const [scholarshipInput, setScholarshipInput] = useState(
     String(activeSemester?.scholarship ?? 0)
   );
@@ -55,29 +57,27 @@ export default function SettingsSheet({ onClose }: Props) {
 
   // 관심사 편집
   const [editingInterests, setEditingInterests] = useState(false);
-  const [interestDraft, setInterestDraft] = useState<Category[]>(user.interests);
-  const categoryEntries = Object.entries(CATEGORY_META) as [
-    Category,
-    { label: string; emoji: string; hint: string }
-  ][];
+  const [answersDraft, setAnswersDraft] = useState<PersonalizationAnswers>(
+    (user.personalizationAnswers ?? {}) as PersonalizationAnswers
+  );
 
   function startEditInterests() {
-    setInterestDraft(user.interests);
+    setAnswersDraft((user.personalizationAnswers ?? {}) as PersonalizationAnswers);
     setEditingInterests(true);
   }
 
-  function toggleInterestDraft(cat: Category) {
-    setInterestDraft((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
-  }
-
   function handleInterestsSave() {
-    user.setProfile({ interests: interestDraft });
-    setEditingInterests(false);
-    void pushToCloud().catch(() => {
-      // 관심사 저장은 cloud 동기화 실패해도 로컬엔 반영됨.
+    const interests = interestsFromAnswers(answersDraft);
+    const interestTagVector = buildInterestVectorFromAnswers(answersDraft);
+    user.setProfile({
+      interests,
+      interestTagVector,
+      personalizationAnswers: answersDraft,
+      personalizationEnabled: true,
+      personalizationSummary: `관심 태그 ${Object.keys(interestTagVector).length}개를 반영했어요.`,
     });
+    setEditingInterests(false);
+    void pushToCloud().catch(() => {});
   }
 
   function handleScholarshipSave() {
@@ -189,10 +189,10 @@ export default function SettingsSheet({ onClose }: Props) {
             <p className="text-[12px] text-ink-3">내 관심사</p>
             {editingInterests ? (
               <button
-                onClick={handleInterestsSave}
-                className="text-[12px] text-blue font-medium"
+                onClick={() => setEditingInterests(false)}
+                className="text-[12px] text-ink-3"
               >
-                저장
+                취소
               </button>
             ) : (
               <button
@@ -203,52 +203,45 @@ export default function SettingsSheet({ onClose }: Props) {
               </button>
             )}
           </div>
-          <div className="bg-surface-sub rounded-xl px-4 py-3.5">
-            {editingInterests ? (
-              <div className="grid grid-cols-2 gap-2">
-                {categoryEntries.map(([cat, meta]) => {
-                  const isSelected = interestDraft.includes(cat);
-                  return (
-                    <button
-                      key={cat}
-                      onClick={() => toggleInterestDraft(cat)}
-                      className={`flex items-center gap-1.5 px-3 py-2.5 rounded-[10px] border text-[13px] transition-colors ${
-                        isSelected
-                          ? "bg-ink text-white border-ink font-medium"
-                          : "bg-surface text-ink border-hairline"
-                      }`}
-                    >
-                      <span className="text-[15px] leading-none">{meta.emoji}</span>
-                      <span>{meta.label}</span>
-                    </button>
-                  );
-                })}
+          {editingInterests ? (
+            <div className="mt-2" style={{ height: "70vh", display: "flex", flexDirection: "column" }}>
+              <PersonalizationQuestions
+                answers={answersDraft}
+                onChange={setAnswersDraft}
+                onFinish={handleInterestsSave}
+                finishLabel="저장"
+              />
+            </div>
+          ) : (
+            <>
+              <div className="bg-surface-sub rounded-xl px-4 py-3.5">
+                {user.interests.length > 0 ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {user.interests.map((cat) => (
+                      <span
+                        key={cat}
+                        className="flex items-center gap-1 text-[12px] text-ink bg-surface border border-hairline rounded-full px-2.5 py-1"
+                      >
+                        <span className="leading-none">{CATEGORY_META[cat]?.emoji}</span>
+                        {CATEGORY_META[cat]?.label}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-[13px] text-ink-3">
+                    아직 고른 관심사가 없어요. 수정을 눌러 골라보세요.
+                  </p>
+                )}
               </div>
-            ) : user.interests.length > 0 ? (
-              <div className="flex flex-wrap gap-1.5">
-                {user.interests.map((cat) => (
-                  <span
-                    key={cat}
-                    className="flex items-center gap-1 text-[12px] text-ink bg-surface border border-hairline rounded-full px-2.5 py-1"
-                  >
-                    <span className="leading-none">{CATEGORY_META[cat]?.emoji}</span>
-                    {CATEGORY_META[cat]?.label}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <p className="text-[13px] text-ink-3">
-                아직 고른 관심사가 없어요. 수정을 눌러 골라보세요.
+              <p className="text-[11px] text-ink-3 mt-1.5 px-1">
+                뽑은 기록도 추천에 자동 반영돼요. 뽑을수록 더 똑똑해져요.
               </p>
-            )}
-          </div>
-          <p className="text-[11px] text-ink-3 mt-1.5 px-1">
-            뽑은 기록도 추천에 자동 반영돼요. 뽑을수록 더 똑똑해져요.
-          </p>
+            </>
+          )}
         </div>
 
         {/* 이번 학기 장학금 */}
-        {activeSemester && (
+        {!editingInterests && activeSemester && (
           <div className="px-5 mb-4">
             <p className="text-[12px] text-ink-3 mb-2">
               이번 학기 ({activeSemester.year} - {activeSemester.term}학기)
@@ -306,36 +299,38 @@ export default function SettingsSheet({ onClose }: Props) {
         )}
 
         {/* 데이터 초기화 */}
-        <div className="px-5">
-          {showResetConfirm ? (
-            <div className="bg-red-light rounded-xl px-4 py-4">
-              <p className="text-[13px] text-ink mb-3">
-                모든 뽕뽑기 기록과 학기 데이터가 삭제돼요. 정말로?
-              </p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setShowResetConfirm(false)}
-                  className="flex-1 py-2.5 rounded-[10px] text-[13px] border border-hairline text-ink-3"
-                >
-                  취소
-                </button>
-                <button
-                  onClick={handleReset}
-                  className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium bg-red text-white"
-                >
-                  초기화
-                </button>
+        {!editingInterests && (
+          <div className="px-5">
+            {showResetConfirm ? (
+              <div className="bg-red-light rounded-xl px-4 py-4">
+                <p className="text-[13px] text-ink mb-3">
+                  모든 뽕뽑기 기록과 학기 데이터가 삭제돼요. 정말로?
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setShowResetConfirm(false)}
+                    className="flex-1 py-2.5 rounded-[10px] text-[13px] border border-hairline text-ink-3"
+                  >
+                    취소
+                  </button>
+                  <button
+                    onClick={handleReset}
+                    className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium bg-red text-white"
+                  >
+                    초기화
+                  </button>
+                </div>
               </div>
-            </div>
-          ) : (
-            <button
-              onClick={() => setShowResetConfirm(true)}
-              className="w-full py-3 text-[13px] text-red text-center"
-            >
-              데이터 초기화
-            </button>
-          )}
-        </div>
+            ) : (
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                className="w-full py-3 text-[13px] text-red text-center"
+              >
+                데이터 초기화
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
