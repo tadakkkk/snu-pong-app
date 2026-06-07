@@ -7,7 +7,10 @@ import psycopg
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
+from tag_pool import TAG_POOL
+
 _DATABASE_URL_ENV = "DATABASE_URL"
+_VALID_TAGS = frozenset(TAG_POOL)
 
 _TITLE_TAG_RULES = [
     ("캠프", "#캠프"),
@@ -97,13 +100,41 @@ def init_db() -> None:
                 tags JSONB,
                 value_status TEXT,
                 body_excerpt TEXT,
+                first_seen TIMESTAMPTZ DEFAULT now(),
                 updated_at TIMESTAMPTZ DEFAULT now()
             )
         """)
         conn.execute("""
             ALTER TABLE benefit_items
+            ADD COLUMN IF NOT EXISTS first_seen TIMESTAMPTZ DEFAULT now()
+        """)
+        conn.execute("""
+            ALTER TABLE benefit_items
             ADD COLUMN IF NOT EXISTS is_benefit BOOLEAN DEFAULT true
         """)
+        conn.execute("""
+            ALTER TABLE benefit_items
+            ADD COLUMN IF NOT EXISTS enrichment_status TEXT
+        """)
+        conn.execute("""
+            ALTER TABLE benefit_items
+            ADD COLUMN IF NOT EXISTS enrichment_error TEXT
+        """)
+        for column_definition in (
+            "estimated_value_min INTEGER",
+            "estimated_value_max INTEGER",
+            "expected_value INTEGER",
+            "guaranteed_value INTEGER",
+            "conditional_reward_min INTEGER",
+            "conditional_reward_max INTEGER",
+            "valuation_status TEXT",
+            "eligibility_scope TEXT",
+            "confidence TEXT",
+            "requires_source_review BOOLEAN DEFAULT false",
+        ):
+            conn.execute(
+                f"ALTER TABLE benefit_items ADD COLUMN IF NOT EXISTS {column_definition}"
+            )
         conn.execute("""
             CREATE TABLE IF NOT EXISTS crawl_sources (
                 id TEXT PRIMARY KEY,
@@ -130,14 +161,24 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                 """
                 INSERT INTO benefit_items (
                     id, name, category, provider, source_url,
-                    estimated_value, value_basis, subtitle, unit,
+                    estimated_value, estimated_value_min, estimated_value_max,
+                    expected_value, guaranteed_value,
+                    conditional_reward_min, conditional_reward_max,
+                    value_basis, valuation_status, eligibility_scope,
+                    confidence, requires_source_review, subtitle, unit,
                     eligibility, deadline_date, apply_url, how_to_apply,
-                    site_id, tags, value_status, is_benefit, body_excerpt, first_seen, updated_at
+                    site_id, tags, value_status, is_benefit, body_excerpt,
+                    enrichment_status, enrichment_error, first_seen, updated_at
                 ) VALUES (
                     %(id)s, %(name)s, %(category)s, %(provider)s, %(source_url)s,
-                    %(estimated_value)s, %(value_basis)s, %(subtitle)s, %(unit)s,
+                    %(estimated_value)s, %(estimated_value_min)s, %(estimated_value_max)s,
+                    %(expected_value)s, %(guaranteed_value)s,
+                    %(conditional_reward_min)s, %(conditional_reward_max)s,
+                    %(value_basis)s, %(valuation_status)s, %(eligibility_scope)s,
+                    %(confidence)s, %(requires_source_review)s, %(subtitle)s, %(unit)s,
                     %(eligibility)s, %(deadline_date)s, %(apply_url)s, %(how_to_apply)s,
-                    %(site_id)s, %(tags)s, %(value_status)s, %(is_benefit)s, %(body_excerpt)s, now(), now()
+                    %(site_id)s, %(tags)s, %(value_status)s, %(is_benefit)s, %(body_excerpt)s,
+                    %(enrichment_status)s, %(enrichment_error)s, now(), now()
                 )
                 ON CONFLICT (id) DO UPDATE SET
                     name = EXCLUDED.name,
@@ -145,7 +186,17 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     provider = EXCLUDED.provider,
                     source_url = EXCLUDED.source_url,
                     estimated_value = EXCLUDED.estimated_value,
+                    estimated_value_min = EXCLUDED.estimated_value_min,
+                    estimated_value_max = EXCLUDED.estimated_value_max,
+                    expected_value = EXCLUDED.expected_value,
+                    guaranteed_value = EXCLUDED.guaranteed_value,
+                    conditional_reward_min = EXCLUDED.conditional_reward_min,
+                    conditional_reward_max = EXCLUDED.conditional_reward_max,
                     value_basis = EXCLUDED.value_basis,
+                    valuation_status = EXCLUDED.valuation_status,
+                    eligibility_scope = EXCLUDED.eligibility_scope,
+                    confidence = EXCLUDED.confidence,
+                    requires_source_review = EXCLUDED.requires_source_review,
                     subtitle = EXCLUDED.subtitle,
                     unit = EXCLUDED.unit,
                     eligibility = EXCLUDED.eligibility,
@@ -157,6 +208,8 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     value_status = EXCLUDED.value_status,
                     is_benefit = EXCLUDED.is_benefit,
                     body_excerpt = EXCLUDED.body_excerpt,
+                    enrichment_status = EXCLUDED.enrichment_status,
+                    enrichment_error = EXCLUDED.enrichment_error,
                     updated_at = now()
                 """,
                 {
@@ -166,7 +219,17 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     "provider": record.get("provider") or record.get("author"),
                     "source_url": record.get("source_url"),
                     "estimated_value": record.get("estimated_value"),
+                    "estimated_value_min": record.get("estimated_value_min"),
+                    "estimated_value_max": record.get("estimated_value_max"),
+                    "expected_value": record.get("expected_value"),
+                    "guaranteed_value": record.get("guaranteed_value"),
+                    "conditional_reward_min": record.get("conditional_reward_min"),
+                    "conditional_reward_max": record.get("conditional_reward_max"),
                     "value_basis": record.get("value_basis"),
+                    "valuation_status": record.get("valuation_status"),
+                    "eligibility_scope": record.get("eligibility_scope"),
+                    "confidence": record.get("confidence"),
+                    "requires_source_review": record.get("requires_source_review", False),
                     "subtitle": record.get("subtitle"),
                     "unit": record.get("unit"),
                     "eligibility": record.get("eligibility"),
@@ -174,16 +237,14 @@ def upsert_items(records: list[dict[str, Any]]) -> None:
                     "apply_url": record.get("apply_url"),
                     "how_to_apply": Jsonb(record.get("how_to_apply") or []),
                     "site_id": record.get("site_id"),
-                    "tags": Jsonb(
-                        record.get("tags")
-                        or _tags_from_title(
-                            record.get("name") or record.get("title") or "",
-                            record.get("category"),
-                        )
-                    ),
+                    "tags": Jsonb([
+                        tag for tag in (record.get("tags") or []) if tag in _VALID_TAGS
+                    ]),
                     "value_status": record.get("value_status"),
                     "is_benefit": record.get("is_benefit", True),
                     "body_excerpt": record.get("body_excerpt"),
+                    "enrichment_status": record.get("enrichment_status"),
+                    "enrichment_error": record.get("enrichment_error"),
                 },
             )
 
@@ -217,6 +278,21 @@ def get_existing_ids() -> set[str]:
     with _connect() as conn:
         rows = conn.execute("SELECT id FROM benefit_items").fetchall()
     return {row["id"] for row in rows}
+
+
+def get_failed_enrichment_items() -> list[dict[str, Any]]:
+    with _connect() as conn:
+        rows = conn.execute(
+            """
+            SELECT *
+            FROM benefit_items
+            WHERE enrichment_status = 'failed'
+               OR value_basis = 'AI 정제 실패'
+            ORDER BY updated_at
+            """
+        ).fetchall()
+    return [dict(row) for row in rows]
+
 
 def get_sources() -> list[dict[str, Any]]:
     with _connect() as conn:

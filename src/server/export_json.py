@@ -8,8 +8,12 @@ def main():
     with psycopg.connect(url, row_factory=dict_row) as conn:
         rows = conn.execute("""
             SELECT id, name, category, source_url, provider,
-                   estimated_value, deadline_date, tags,
-                   value_status, is_benefit,
+                   estimated_value, estimated_value_min, estimated_value_max,
+                   expected_value, guaranteed_value,
+                   conditional_reward_min, conditional_reward_max,
+                   valuation_status, eligibility_scope, confidence,
+                   requires_source_review, deadline_date, tags,
+                   value_status, enrichment_status, is_benefit,
                    to_char(first_seen AT TIME ZONE 'Asia/Seoul', 'YYYY-MM-DD"T"HH24:MI:SS') AS first_seen
             FROM benefit_items
             ORDER BY is_benefit DESC, estimated_value DESC NULLS LAST
@@ -24,9 +28,20 @@ def main():
             "source_url": r["source_url"] or "",
             "provider": r["provider"] or "",
             "estimated_value": r["estimated_value"],
+            "estimated_value_min": r["estimated_value_min"],
+            "estimated_value_max": r["estimated_value_max"],
+            "expected_value": r["expected_value"],
+            "guaranteed_value": r["guaranteed_value"],
+            "conditional_reward_min": r["conditional_reward_min"],
+            "conditional_reward_max": r["conditional_reward_max"],
+            "valuation_status": r["valuation_status"],
+            "eligibility_scope": r["eligibility_scope"],
+            "confidence": r["confidence"],
+            "requires_source_review": bool(r["requires_source_review"]),
             "deadline_date": r["deadline_date"],
             "tags": r["tags"] or [],
             "value_status": r["value_status"] or "needs_estimation",
+            "enrichment_status": r["enrichment_status"],
             "review_priority": "medium",
             "deadline_hints": [],
             "is_benefit": bool(r["is_benefit"]),
