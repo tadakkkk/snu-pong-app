@@ -11,10 +11,12 @@ interface Props {
   cover: string; // 카드 뒷면(앞표지) 이모지
   item: PongItem;
   dday: number | null;
+  /** 계정에 저장된 관심사(태그/카테고리)에 맞춰 뽑힌 카드면 true → 맞춤 배지 표시 */
+  personalized?: boolean;
 }
 
 /** 탭하면 뒤집혀 추천 혜택이 드러나는 '운세 카드'. 다시 탭하면 상세로 이동. */
-export default function FortuneCard({ label, labelColor, cover, item, dday }: Props) {
+export default function FortuneCard({ label, labelColor, cover, item, dday, personalized }: Props) {
   const router = useRouter();
   const [flipped, setFlipped] = useState(false);
 
@@ -34,7 +36,12 @@ export default function FortuneCard({ label, labelColor, cover, item, dday }: Pr
           style={{ backfaceVisibility: "hidden" }}
           aria-label={`${label} 카드 뒤집기`}
         >
-          <span className="text-[30px] leading-none">{cover}</span>
+          {personalized && (
+            <span className="absolute top-2 right-2 text-[9px] font-medium text-white/90 bg-blue/90 rounded-full px-1.5 py-0.5">
+              ✓ 내 관심사
+            </span>
+          )}
+          <span className={`text-[30px] leading-none ${labelColor}`}>{cover}</span>
           <span className="text-[12px] font-medium text-white">{label}</span>
           <span className="text-[10px] text-white/60 mt-0.5">탭해서 뒤집기</span>
         </button>
@@ -46,7 +53,10 @@ export default function FortuneCard({ label, labelColor, cover, item, dday }: Pr
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <div className="flex items-center justify-between mb-1.5">
-            <span className={`text-[10px] font-medium ${labelColor}`}>{label}</span>
+            <span className={`text-[10px] font-medium ${labelColor} flex items-center gap-1`}>
+              {label}
+              {personalized && <span className="text-[9px] text-blue">· ✓ 내 관심사</span>}
+            </span>
             {dday !== null && dday >= 0 && (
               <span
                 className={`text-[10px] font-medium tabular-nums ${

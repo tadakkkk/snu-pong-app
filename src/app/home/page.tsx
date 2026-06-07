@@ -17,7 +17,8 @@ import { useUserStore } from "@/store/user";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
 import { items, getRecentNewItems, CATEGORY_META, type PongItem } from "@/data/items";
-import { rankByInterest } from "@/lib/personalization/rankByInterest";
+import { rankByInterest, type TimeCommitment } from "@/lib/personalization/rankByInterest";
+import { buildBehaviorSignal } from "@/lib/personalization/buildBehaviorVector";
 import { getUnreadCount } from "@/lib/notifications";
 import { useAuthGate } from "@/lib/auth-gate";
 import { logEvent } from "@/lib/analytics";
@@ -31,6 +32,7 @@ type FortuneCardData = {
   cover: string;
   item: PongItem;
   dday: number | null;
+  personalized: boolean;
 };
 
 function getDday(dateStr: string): number {
@@ -64,6 +66,7 @@ export default function HomePage() {
   const { semesters, activeSemesterId, setActive, addSemester, removeSemester } =
     useSemesterStore();
   const { hasRecordForItem, getTotalBySemester } = usePongStore();
+  const pongRecords = usePongStore((s) => s.records);
 
   const activeSemester = semesters.find((s) => s.id === activeSemesterId);
   const semesterLabel = activeSemester
@@ -82,11 +85,41 @@ export default function HomePage() {
 
   const remainingCount = unponged.length;
 
-  // ── 개인화 추천 (관심사 벡터 기반 랭킹) ──
-  const ranked = useMemo(
-    () => rankByInterest(unponged, user.interestTagVector, user.interests),
-    [unponged, user.interestTagVector, user.interests]
+  // 추천 후보: 마감이 지난 항목은 제외 (마감일이 있고 D-day < 0)
+  const recommendable = useMemo(
+    () => unponged.filter((i) => !i.deadline_date || getDday(i.deadline_date) >= 0),
+    [unponged]
   );
+
+  // 온보딩 답변에서 추천 보정 신호 추출
+  const timeCommitment =
+    typeof user.personalizationAnswers?.["time_commitment"] === "string"
+      ? (user.personalizationAnswers["time_commitment"] as TimeCommitment)
+      : undefined;
+  const deadlineSensitivity = user.personalizationAnswers?.["deadline_sensitivity"];
+
+  // ── 행동 신호 (뽑은 기록 기반, 뽑을수록 고도화) ──
+  const behavior = useMemo(
+    () => buildBehaviorSignal(pongRecords, items),
+    [pongRecords]
+  );
+
+  // ── 개인화 추천 (관심사 벡터 + 카테고리 + 행동 + 시간적합 합산, 만료 제외) ──
+  const ranked = useMemo(
+    () =>
+      rankByInterest(recommendable, user.interestTagVector, user.interests, behavior, {
+        timeCommitment,
+      }),
+    [recommendable, user.interestTagVector, user.interests, behavior, timeCommitment]
+  );
+
+  // 뽕운세 추천 설명 멘트 (뽑을수록 고도화되는 느낌 전달)
+  const recoCopy =
+    behavior.claimedCount > 0
+      ? `${behavior.claimedCount}번 뽑은 걸 학습해서 더 똑똑해졌어`
+      : user.interests.length > 0
+        ? "내 관심사 기준으로 골랐어"
+        : "탭해서 뒤집어 봐";
 
   // ── 마감 임박 (7일 이내, 가장 급한 순) ──
   const urgent = useMemo(
@@ -106,16 +139,28 @@ export default function HomePage() {
     const cards: FortuneCardData[] = [];
     const usedId = new Set<string>();
 
-    if (urgent[0]) {
+    // "내 관심사" 배지는 사용자가 직접 고른 카테고리(interests)에만 붙인다.
+    // (태그 매칭은 활동방식·상황 질문에서도 생겨서 관심사로 오인될 수 있어 제외)
+    const matchById = new Map(ranked.map((r) => [r.item.id, r]));
+    const isPersonalized = (item: PongItem) => {
+      const r = matchById.get(item.id);
+      return !!r && r.matchedCategory;
+    };
+
+    // "임박한 것만" 선호면 마감 임박 카드를 더 띄우고, 기본("다 보여줘")은 1장
+    const urgentCount = deadlineSensitivity === "urgent" ? 2 : 1;
+    for (const u of urgent.slice(0, urgentCount)) {
+      if (cards.length >= 4) break;
       cards.push({
-        key: "urgent",
+        key: `urgent-${u.id}`,
         label: "마감 임박",
         labelColor: "text-red",
-        cover: CATEGORY_META[urgent[0].category]?.emoji ?? "🎴",
-        item: urgent[0],
-        dday: getDday(urgent[0].deadline_date!),
+        cover: "⚑",
+        item: u,
+        dday: getDday(u.deadline_date!),
+        personalized: isPersonalized(u),
       });
-      usedId.add(urgent[0].id);
+      usedId.add(u.id);
     }
 
     // 개인화 랭킹에서 카테고리당 1개씩 (맞춤 추천)
@@ -132,10 +177,11 @@ export default function HomePage() {
         cover: CATEGORY_META[r.item.category]?.emoji ?? "🎴",
         item: r.item,
         dday: r.item.deadline_date ? getDday(r.item.deadline_date) : null,
+        personalized: r.matchedCategory,
       });
     }
     return cards;
-  }, [ranked, urgent]);
+  }, [ranked, urgent, deadlineSensitivity]);
 
   // ── 알림센터 ──
   const recentNewCount = useMemo(() => getRecentNewItems(7).length, []);
@@ -227,7 +273,7 @@ export default function HomePage() {
           <div data-tour="fortune" className="px-5 pt-6">
             <div className="flex items-baseline justify-between mb-3">
               <p className="text-[15px] font-medium text-ink">오늘의 뽕운세</p>
-              <span className="text-[11px] text-ink-3">탭해서 뒤집어 봐</span>
+              <span className="text-[11px] text-ink-3">{recoCopy}</span>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
               {fortuneCards.map((c) => (
@@ -238,6 +284,7 @@ export default function HomePage() {
                   cover={c.cover}
                   item={c.item}
                   dday={c.dday}
+                  personalized={c.personalized}
                 />
               ))}
             </div>

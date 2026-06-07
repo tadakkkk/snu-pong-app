@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import MobileFrame from "@/components/ui/MobileFrame";
 import PrimaryButton from "@/components/ui/PrimaryButton";
@@ -20,7 +20,8 @@ import { useSemesterStore } from "@/store/semester";
 import { createClient } from "@/lib/supabase/client";
 import { formatWon, formatWonCompact } from "@/lib/format-currency";
 
-type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+// 0 로그인 · 1 단과대 · 2 계열 · 3 학년 · 4 등록금 · 5 맞춤추천 동의 · 6 맞춤 질문 · 7 결과
+type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 function formatKRW(n: number) {
   return formatWon(n);
@@ -71,73 +72,7 @@ function StepWelcome({ onNext }: { onNext: () => void }) {
   );
 }
 
-// ─── Step 1: 관심 분야 (첫 번째 질문) ─────────────────────────────
-function StepInterests({
-  selected,
-  onToggle,
-  onNext,
-}: {
-  selected: Category[];
-  onToggle: (cat: Category) => void;
-  onNext: () => void;
-}) {
-  const categories = Object.entries(CATEGORY_META) as [
-    Category,
-    { label: string; emoji: string; hint: string }
-  ][];
-
-  return (
-    <div className="flex-1 flex flex-col min-h-0">
-      <div className="flex-1 overflow-y-auto min-h-0 px-6 pt-8">
-        <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
-          어떤 걸 누리고 싶어?
-        </h2>
-        <p className="text-[13px] text-ink-3 mb-6">
-          골라두면 관련 혜택 위주로 추천해줄게
-        </p>
-        <div className="grid grid-cols-2 gap-2 pb-4">
-          {categories.map(([cat, meta]) => {
-            const isSelected = selected.includes(cat);
-            return (
-              <button
-                key={cat}
-                onClick={() => onToggle(cat)}
-                className={`flex flex-col items-start gap-1 px-4 py-3.5 rounded-xl border transition-colors ${
-                  isSelected
-                    ? "bg-ink text-white border-ink"
-                    : "bg-surface text-ink border-hairline"
-                }`}
-              >
-                <span className="text-[22px] leading-none mb-0.5">{meta.emoji}</span>
-                <span className={`text-[14px] font-medium leading-snug ${isSelected ? "text-white" : "text-ink"}`}>
-                  {meta.label}
-                </span>
-                <span className={`text-[11px] leading-snug ${isSelected ? "text-white/60" : "text-ink-3"}`}>
-                  {meta.hint}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-      <div className="shrink-0 px-5 pb-8 pt-4 bg-surface border-t border-hairline flex flex-col gap-3">
-        <PrimaryButton onClick={onNext}>
-          {selected.length > 0 ? `${selected.length}개 선택 · 다음` : "다음"}
-        </PrimaryButton>
-        {selected.length === 0 && (
-          <button
-            onClick={onNext}
-            className="text-center text-[13px] text-ink-3 py-1"
-          >
-            건너뛰기
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ─── Step 2: 단과대 ────────────────────────────────────────────────
+// ─── Step 1: 단과대 ────────────────────────────────────────────────
 function StepCollege({
   selected,
   onSelect,
@@ -190,7 +125,7 @@ function StepCollege({
   );
 }
 
-// ─── Step 3: 계열 (조건부) ─────────────────────────────────────────
+// ─── Step 2: 계열 (조건부) ─────────────────────────────────────────
 function StepTrack({
   college,
   selected,
@@ -257,7 +192,7 @@ function StepTrack({
   );
 }
 
-// ─── Step 4: 학년 ─────────────────────────────────────────────────
+// ─── Step 3: 학년 ─────────────────────────────────────────────────
 function StepGrade({
   selected,
   onSelect,
@@ -312,7 +247,7 @@ function StepGrade({
   );
 }
 
-// ─── Step 5: 등록금 + 장학금 ──────────────────────────────────────
+// ─── Step 4: 등록금 + 장학금 ──────────────────────────────────────
 function StepTuition({
   tuition,
   hasScholarship,
@@ -467,7 +402,7 @@ function StepTuition({
   );
 }
 
-// ─── Step 6: 개인화 동의 ───────────────────────────────────────────
+// ─── Step 5: 맞춤 추천 동의 ────────────────────────────────────────
 function StepPersonalizationConsent({
   onAccept,
   onSkip,
@@ -497,8 +432,7 @@ function StepPersonalizationConsent({
         <div className="flex flex-col gap-2">
           {[
             "질문 몇 개만 답하면 관심 태그를 만들어요",
-            "파일이나 채팅 입력은 나중에 추가할 예정이에요",
-            "지금은 이 기기와 로그인 동기화 데이터에 저장돼요",
+            "답변은 이 기기에 저장되고, 로그인하면 계정에 동기화돼요",
           ].map((line) => (
             <div key={line} className="flex items-start gap-2 text-[13px] text-ink-3">
               <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-blue shrink-0" />
@@ -517,87 +451,7 @@ function StepPersonalizationConsent({
   );
 }
 
-// ─── Step 7: 개인화 입력 방식 ─────────────────────────────────────
-function StepPersonalizationMethod({
-  selected,
-  onSelect,
-}: {
-  selected: PersonalizationInputMethod | null;
-  onSelect: (method: PersonalizationInputMethod) => void;
-}) {
-  const methods: Array<{
-    id: PersonalizationInputMethod;
-    label: string;
-    description: string;
-    enabled: boolean;
-  }> = [
-    {
-      id: "questions",
-      label: "질문으로 설정",
-      description: "30초 안에 관심사를 고를 수 있어",
-      enabled: true,
-    },
-    {
-      id: "file",
-      label: "파일로 시작",
-      description: "이력서나 자료 분석은 준비 중",
-      enabled: false,
-    },
-    {
-      id: "chat",
-      label: "채팅으로 설정",
-      description: "AI 대화형 입력은 준비 중",
-      enabled: false,
-    },
-  ];
-
-  return (
-    <div className="flex-1 flex flex-col min-h-0">
-      <div className="flex-1 overflow-y-auto min-h-0 px-6 pt-8">
-        <h2 className="text-[22px] font-medium text-ink leading-snug mb-2">
-          어떻게 알려줄래?
-        </h2>
-        <p className="text-[13px] text-ink-3 mb-6">
-          지금은 질문 방식부터 사용할 수 있어
-        </p>
-        <div className="flex flex-col gap-2">
-          {methods.map((method) => {
-            const isSelected = selected === method.id;
-            return (
-              <button
-                key={method.id}
-                onClick={() => onSelect(method.id)}
-                className={`w-full text-left rounded-xl px-4 py-4 border transition-colors ${
-                  isSelected
-                    ? "bg-ink text-white border-ink"
-                    : method.enabled
-                      ? "bg-surface text-ink border-hairline"
-                      : "bg-surface-sub text-ink-3 border-hairline"
-                }`}
-              >
-                <div className="flex justify-between gap-3">
-                  <div>
-                    <p className={`text-[15px] font-medium ${isSelected ? "text-white" : "text-ink"}`}>
-                      {method.label}
-                    </p>
-                    <p className={`text-[12px] mt-1 ${isSelected ? "text-white/70" : "text-ink-3"}`}>
-                      {method.description}
-                    </p>
-                  </div>
-                  {!method.enabled && (
-                    <span className="text-[11px] text-ink-3 shrink-0">준비 중</span>
-                  )}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Step 8: 개인화 질문 ──────────────────────────────────────────
+// ─── Step 6: 맞춤 질문 ────────────────────────────────────────────
 function StepPersonalizationQuestions({
   answers,
   onChange,
@@ -687,39 +541,7 @@ function StepPersonalizationQuestions({
   );
 }
 
-// ─── Step 9: 준비 중 입력 방식 ────────────────────────────────────
-function StepPersonalizationPlaceholder({
-  method,
-  onQuestions,
-  onSkip,
-}: {
-  method: PersonalizationInputMethod | null;
-  onQuestions: () => void;
-  onSkip: () => void;
-}) {
-  const label = method === "file" ? "파일 분석" : "채팅 설정";
-  return (
-    <div className="flex-1 flex flex-col min-h-0">
-      <div className="flex-1 flex flex-col justify-center px-7">
-        <h2 className="text-[22px] font-medium text-ink leading-snug mb-3">
-          {label}은 아직 준비 중이에요
-        </h2>
-        <p className="text-[14px] text-ink-3 leading-relaxed">
-          업로드 파일과 대화 내용은 개인정보 처리가 정해진 뒤 연결할 예정입니다.
-          지금은 질문 방식으로 관심사를 설정할 수 있어요.
-        </p>
-      </div>
-      <div className="shrink-0 px-5 pb-8 pt-4 bg-surface border-t border-hairline flex flex-col gap-3">
-        <PrimaryButton onClick={onQuestions}>질문으로 설정하기</PrimaryButton>
-        <button onClick={onSkip} className="text-center text-[13px] text-ink-3 py-1">
-          맞춤 추천 없이 계속
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// ─── Step 10: 결과 화면 ───────────────────────────────────────────
+// ─── Step 7: 결과 화면 ────────────────────────────────────────────
 function StepResult({
   interests,
   personalized,
@@ -760,7 +582,9 @@ function StepResult({
         )}
         {personalized && (
           <p className="text-[13px] text-blue mb-4">
-            맞춤 관심사를 저장했어. 서버 추천이 연결되면 이 정보를 반영할게.
+            관심사를 저장했어. 이제 홈에서 너에게 맞는 혜택부터 보여줄게.
+            <br />
+            뽑을수록 추천이 점점 더 똑똑해져.
           </p>
         )}
 
@@ -810,7 +634,6 @@ export default function OnboardingPage() {
       if (data.session) setStep(1);
     });
   }, []);
-  const [selectedInterests, setSelectedInterests] = useState<Category[]>([]);
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null);
   const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
@@ -831,21 +654,26 @@ export default function OnboardingPage() {
   const appliedScholarship = hasScholarship ? scholarshipAmount : 0;
   const netBurden = Math.max(0, tuition - appliedScholarship);
 
-  const toggleInterest = useCallback((cat: Category) => {
-    setSelectedInterests((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
+  // 맞춤 질문의 "어떤 걸 누리고 싶어?"(interests) 답변을 Category[]로 변환한다.
+  const interestsFrom = useCallback((answers: PersonalizationAnswers): Category[] => {
+    const raw = answers["interests"];
+    const ids = Array.isArray(raw) ? raw : raw ? [raw] : [];
+    return ids.filter((id): id is Category => id in CATEGORY_META);
   }, []);
+  const derivedInterests = useMemo(
+    () => interestsFrom(personalizationAnswers),
+    [interestsFrom, personalizationAnswers]
+  );
 
   const goNext = useCallback(() => {
     setStep((s) => {
-      if (s === 2) {
+      if (s === 1) {
         if (!selectedCollege) return s;
         if (selectedCollege.tracks.length === 1) {
           setSelectedTrack(selectedCollege.tracks[0]);
-          return 4; // skip Track → Grade
+          return 3; // skip Track → Grade
         }
-        return 3; // Track
+        return 2; // Track
       }
       return (s + 1) as Step;
     });
@@ -853,8 +681,7 @@ export default function OnboardingPage() {
 
   const goBack = useCallback(() => {
     setStep((s) => {
-      if (s === 4 && selectedCollege && selectedCollege.tracks.length === 1) return 2;
-      if (s === 9) return 7;
+      if (s === 3 && selectedCollege && selectedCollege.tracks.length === 1) return 1;
       return Math.max(0, s - 1) as Step;
     });
   }, [selectedCollege]);
@@ -873,6 +700,7 @@ export default function OnboardingPage() {
     const method = override?.personalizationInputMethod ?? personalizationInputMethod;
     const consentAt = override?.personalizationConsentAt ?? personalizationConsentAt;
     const answers = override?.personalizationAnswers ?? personalizationAnswers;
+    const interests = enabled ? interestsFrom(answers) : [];
     const interestTagVector = enabled ? buildInterestVectorFromAnswers(answers) : {};
     const updatedAt = new Date().toISOString();
 
@@ -883,7 +711,7 @@ export default function OnboardingPage() {
     const semesterId = `${year}-${term}`;
 
     setProfile({
-      interests: selectedInterests,
+      interests,
       collegeId: selectedCollege.id,
       trackId: track.id,
       grade: selectedGrade,
@@ -915,9 +743,9 @@ export default function OnboardingPage() {
     void pushToCloud().catch(() => {
       // Local onboarding must not fail because optional cloud sync failed.
     });
-    setStep(10);
+    setStep(7);
   }, [
-    selectedInterests,
+    interestsFrom,
     selectedCollege,
     selectedTrack,
     selectedGrade,
@@ -936,7 +764,7 @@ export default function OnboardingPage() {
     <MobileFrame>
       <StatusBar />
 
-      {step > 0 && step < 10 && (
+      {step > 0 && step < 7 && (
         <button
           onClick={goBack}
           className="shrink-0 px-5 py-4 text-[22px] text-ink-3 self-start"
@@ -948,14 +776,6 @@ export default function OnboardingPage() {
       {step === 0 && <StepWelcome onNext={() => setStep(1)} />}
 
       {step === 1 && (
-        <StepInterests
-          selected={selectedInterests}
-          onToggle={toggleInterest}
-          onNext={goNext}
-        />
-      )}
-
-      {step === 2 && (
         <StepCollege
           selected={selectedCollege}
           onSelect={(c) => {
@@ -969,7 +789,7 @@ export default function OnboardingPage() {
         />
       )}
 
-      {step === 3 && selectedCollege && (
+      {step === 2 && selectedCollege && (
         <StepTrack
           college={selectedCollege}
           selected={selectedTrack}
@@ -983,7 +803,7 @@ export default function OnboardingPage() {
         />
       )}
 
-      {step === 4 && (
+      {step === 3 && (
         <StepGrade
           selected={selectedGrade}
           onSelect={setSelectedGrade}
@@ -991,7 +811,7 @@ export default function OnboardingPage() {
         />
       )}
 
-      {step === 5 && (
+      {step === 4 && (
         <StepTuition
           tuition={tuition}
           hasScholarship={hasScholarship}
@@ -1003,14 +823,14 @@ export default function OnboardingPage() {
         />
       )}
 
-      {step === 6 && (
+      {step === 5 && (
         <StepPersonalizationConsent
           onAccept={() => {
             const consentAt = new Date().toISOString();
             setPersonalizationEnabled(true);
             setPersonalizationConsentAt(consentAt);
             setPersonalizationInputMethod("questions");
-            setStep(7);
+            setStep(6);
           }}
           onSkip={() => {
             setPersonalizationEnabled(false);
@@ -1027,21 +847,7 @@ export default function OnboardingPage() {
         />
       )}
 
-      {step === 7 && (
-        <StepPersonalizationMethod
-          selected={personalizationInputMethod}
-          onSelect={(method) => {
-            setPersonalizationInputMethod(method);
-            if (method === "questions") {
-              setStep(8);
-              return;
-            }
-            setStep(9);
-          }}
-        />
-      )}
-
-      {step === 8 && (
+      {step === 6 && (
         <StepPersonalizationQuestions
           answers={personalizationAnswers}
           onChange={setPersonalizationAnswers}
@@ -1069,30 +875,9 @@ export default function OnboardingPage() {
         />
       )}
 
-      {step === 9 && (
-        <StepPersonalizationPlaceholder
-          method={personalizationInputMethod}
-          onQuestions={() => {
-            setPersonalizationInputMethod("questions");
-            setStep(8);
-          }}
-          onSkip={() => {
-            setPersonalizationEnabled(false);
-            setPersonalizationInputMethod("skip");
-            setPersonalizationAnswers({});
-            completeOnboarding({
-              personalizationEnabled: false,
-              personalizationInputMethod: "skip",
-              personalizationConsentAt,
-              personalizationAnswers: {},
-            });
-          }}
-        />
-      )}
-
-      {step === 10 && (
+      {step === 7 && (
         <StepResult
-          interests={selectedInterests}
+          interests={derivedInterests}
           personalized={personalizationEnabled && Object.keys(personalizationAnswers).length > 0}
           netBurden={netBurden}
           onStart={() => router.replace("/home")}

@@ -27,6 +27,8 @@ function getMood(percent: number): string {
 export default function RecordsPage() {
   const { semesters, activeSemesterId } = useSemesterStore();
   const { getRecordsBySemester, getTotalBySemester } = usePongStore();
+  const allRecords = usePongStore((s) => s.records);
+  const claimedTotal = new Set(allRecords.map((r) => r.itemId)).size;
 
   const sortedSems = [...semesters].sort((a, b) => {
     if (b.year !== a.year) return b.year - a.year;
@@ -114,6 +116,11 @@ export default function RecordsPage() {
           <div className="flex flex-col items-center">
             <MagpieByProgress percent={percent} size={110} />
             <p className="mt-2 text-[12px] text-ink-3">{getMood(percent)}</p>
+            <p className="mt-1 text-[11px] text-blue">
+              {claimedTotal > 0
+                ? `지금까지 ${claimedTotal}개 뽑았어요 · 추천이 학습 중이에요`
+                : "뽑을수록 추천이 점점 똑똑해져요"}
+            </p>
           </div>
           <div className="text-center mt-4">
             <p className="text-[12px] text-ink-3 mb-1">

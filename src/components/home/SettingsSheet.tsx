@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCollege } from "@/data/colleges";
+import { CATEGORY_META, type Category } from "@/data/items";
 import { useUserStore } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { usePongStore } from "@/store/pong";
@@ -51,6 +52,33 @@ export default function SettingsSheet({ onClose }: Props) {
     String(activeSemester?.scholarship ?? 0)
   );
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+
+  // 관심사 편집
+  const [editingInterests, setEditingInterests] = useState(false);
+  const [interestDraft, setInterestDraft] = useState<Category[]>(user.interests);
+  const categoryEntries = Object.entries(CATEGORY_META) as [
+    Category,
+    { label: string; emoji: string; hint: string }
+  ][];
+
+  function startEditInterests() {
+    setInterestDraft(user.interests);
+    setEditingInterests(true);
+  }
+
+  function toggleInterestDraft(cat: Category) {
+    setInterestDraft((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  }
+
+  function handleInterestsSave() {
+    user.setProfile({ interests: interestDraft });
+    setEditingInterests(false);
+    void pushToCloud().catch(() => {
+      // 관심사 저장은 cloud 동기화 실패해도 로컬엔 반영됨.
+    });
+  }
 
   function handleScholarshipSave() {
     if (!activeSemesterId || !activeSemester) return;
@@ -153,6 +181,70 @@ export default function SettingsSheet({ onClose }: Props) {
               </span>
             </div>
           </div>
+        </div>
+
+        {/* 관심사 */}
+        <div className="px-5 mb-4">
+          <div className="flex justify-between items-center mb-2">
+            <p className="text-[12px] text-ink-3">내 관심사</p>
+            {editingInterests ? (
+              <button
+                onClick={handleInterestsSave}
+                className="text-[12px] text-blue font-medium"
+              >
+                저장
+              </button>
+            ) : (
+              <button
+                onClick={startEditInterests}
+                className="text-[12px] text-blue"
+              >
+                수정
+              </button>
+            )}
+          </div>
+          <div className="bg-surface-sub rounded-xl px-4 py-3.5">
+            {editingInterests ? (
+              <div className="grid grid-cols-2 gap-2">
+                {categoryEntries.map(([cat, meta]) => {
+                  const isSelected = interestDraft.includes(cat);
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => toggleInterestDraft(cat)}
+                      className={`flex items-center gap-1.5 px-3 py-2.5 rounded-[10px] border text-[13px] transition-colors ${
+                        isSelected
+                          ? "bg-ink text-white border-ink font-medium"
+                          : "bg-surface text-ink border-hairline"
+                      }`}
+                    >
+                      <span className="text-[15px] leading-none">{meta.emoji}</span>
+                      <span>{meta.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : user.interests.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {user.interests.map((cat) => (
+                  <span
+                    key={cat}
+                    className="flex items-center gap-1 text-[12px] text-ink bg-surface border border-hairline rounded-full px-2.5 py-1"
+                  >
+                    <span className="leading-none">{CATEGORY_META[cat]?.emoji}</span>
+                    {CATEGORY_META[cat]?.label}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="text-[13px] text-ink-3">
+                아직 고른 관심사가 없어요. 수정을 눌러 골라보세요.
+              </p>
+            )}
+          </div>
+          <p className="text-[11px] text-ink-3 mt-1.5 px-1">
+            뽑은 기록도 추천에 자동 반영돼요. 뽑을수록 더 똑똑해져요.
+          </p>
         </div>
 
         {/* 이번 학기 장학금 */}

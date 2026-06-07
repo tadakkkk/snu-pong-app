@@ -330,8 +330,11 @@ export default function PongDetailPage() {
                 </p>
               </div>
             </div>
-            <p className="text-[13px] text-white/80 mb-4">
+            <p className="text-[13px] text-white/80 mb-1.5">
               이번 학기 누적 {formatWon(semesterTotal)}
+            </p>
+            <p className="text-[12px] text-white/55 mb-4">
+              뽑을수록 추천이 더 정교해져요
             </p>
             <div className="border-t border-white/15 pt-3.5 flex justify-between">
               <button
