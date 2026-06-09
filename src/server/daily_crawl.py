@@ -183,8 +183,23 @@ async def main():
     print(f"\n크롤 {crawled_count}개 수집")
 
     existing = await asyncio.to_thread(_db.get_existing_ids)
-    new_records = [r for r in records if _rec_id(r) not in existing]
-    print(f"증분 필터: 신규 {len(new_records)}개 / 기존 {len(records)-len(new_records)}개 스킵")
+    seen: set[str] = set()
+    deduped: list = []
+    internal_dupes = 0
+    for r in records:
+        rid = _rec_id(r)
+        if rid in existing:
+            continue
+        if rid in seen:
+            internal_dupes += 1
+            continue
+        seen.add(rid)
+        deduped.append(r)
+    new_records = deduped
+    print(
+        f"증분 필터: 신규 {len(new_records)}개 / 기존 {len(records)-len(new_records)-internal_dupes}개 스킵"
+        f" / 내부 중복 {internal_dupes}개 제거"
+    )
 
     new_count = len(new_records)
     retry_records = []
@@ -205,10 +220,13 @@ async def main():
         print(f"정제 중... 신규 {new_count}개 / 재처리 {len(retry_ids)}개")
         try:
             enriched = await asyncio.to_thread(enrich_records, records_to_enrich)
-        except (FatalEnrichmentError, EnrichmentBatchError, ValueError) as e:
+        except FatalEnrichmentError as e:
             print(f"FATAL ENRICHMENT ERROR: {e}. DB 저장/export/커밋 없이 종료(코드 1).")
             sys.exit(1)
 
+        enrichment_failed = sum(1 for e in enriched if e.get("enrichment_status") == "failed")
+        if enrichment_failed > 0:
+            print(f"⚠ 정제 실패 항목 {enrichment_failed}개 - enrichment_status='failed'로 저장 (다음 실행 재처리 대상)")
         b = sum(1 for e in enriched if e.get("is_benefit"))
         print(f"정제 완료: {len(enriched)}개 (혜택 {b} / 비혜택 {len(enriched)-b})")
 

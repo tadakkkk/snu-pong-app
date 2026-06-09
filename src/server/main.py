@@ -463,19 +463,61 @@ def enrich_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
         batch = records[index : index + ENRICHMENT_BATCH_SIZE]
         try:
             batch_enrichment = _enrich_batch(batch)
+        except FatalEnrichmentError:
+            # 인증/결제/권한/BadRequest 등 재시도 불가 — 전체 job 중단.
+            raise
         except Exception as exc:
             record_ids = [_record_id(r) for r in batch]
-            logger.error(
-                "Batch enrichment failed class=%s ids=%s",
-                type(exc).__name__, record_ids,
+            logger.warning(
+                "Batch enrichment failed, isolating per-record class=%s ids=%s detail=%s",
+                type(exc).__name__, record_ids, str(exc),
             )
-            if isinstance(exc, (FatalEnrichmentError, EnrichmentBatchError)):
-                raise
-            raise EnrichmentBatchError(
-                f"Enrichment failed for record ids: {', '.join(record_ids)}"
-            ) from exc
+            enriched_items.extend(_enrich_batch_isolated(batch))
+            continue
         enriched_items.extend(_merge_enrichment(batch, batch_enrichment))
     return enriched_items
+
+
+def _enrich_batch_isolated(batch: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """배치가 비치명 오류로 실패했을 때 항목 1개씩 재시도하고,
+    개별로도 실패하면 그 항목만 enrichment_status='failed'로 보존한다."""
+    recovered: list[dict[str, Any]] = []
+    for record in batch:
+        record_id = _record_id(record)
+        try:
+            single_enrichment = _enrich_batch([record])
+        except FatalEnrichmentError:
+            # 단일 항목에서도 치명 오류면 전체 중단.
+            raise
+        except Exception as exc:
+            logger.warning(
+                "Record enrichment failed, marking failed id=%s class=%s detail=%s",
+                record_id, type(exc).__name__, str(exc),
+            )
+            recovered.append(_fallback_enrichment(record, exc))
+            continue
+        recovered.append(_merge_enrichment([record], single_enrichment)[0])
+    return recovered
+
+
+def _fallback_enrichment(record: dict[str, Any], exc: Exception) -> dict[str, Any]:
+    """정제에 실패한 항목을 잃지 않고 'failed' 상태로 보존하는 레코드를 만든다.
+    금액 필드는 모두 None, 다음 실행에서 재처리 대상이 되도록 표시한다."""
+    merged = dict(record)
+    for key in _MONEY_FIELDS:
+        merged[key] = None
+    merged["value_basis"] = "AI 정제 실패"
+    merged["valuation_status"] = None
+    merged["eligibility_scope"] = None
+    merged["confidence"] = None
+    merged["requires_source_review"] = True
+    merged["tags"] = [t for t in (record.get("tags") or []) if t in _TAG_POOL_SET]
+    merged["is_benefit"] = bool(record.get("is_benefit", True))
+    merged["value_status"] = "needs_estimation"
+    merged["enrichment_status"] = "failed"
+    merged["enrichment_error"] = str(exc)
+    merged["source"] = "server_crawled_unenriched"
+    return merged
 
 
 def _enrich_batch(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
