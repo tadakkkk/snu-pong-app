@@ -829,8 +829,9 @@ def _validate_enrichment_response(
         if status == "estimated" and item.get("estimated_value") is None:
             raise ValueError(f"{item_id}: estimated status requires estimated_value")
         if status == "conditional_reward":
-            if item.get("estimated_value_min") is None or item.get("estimated_value_max") is None:
-                raise ValueError(f"{item_id}: conditional reward requires min and max values")
+            if item.get("estimated_value_min") is None:
+                raise ValueError(f"{item_id}: conditional reward requires a minimum (guaranteed) value")
+            # estimated_value_max는 null 허용 (상금 미공개 공모전은 최대값 산출 불가가 정상)
         if status == "missing_source_data" and not item["requires_source_review"]:
             raise ValueError(f"{item_id}: missing source data requires source review")
 

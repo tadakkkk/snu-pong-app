@@ -194,7 +194,7 @@ export default function HomePage() {
   }, [ranked, urgent, deadlineSensitivity, refreshSeed]);
 
   // ── 알림센터 ──
-  const recentNewCount = useMemo(() => getRecentNewItems(7).length, []);
+  const recentNewCount = useMemo(() => getRecentNewItems(2).length, []);
   const unreadCount = getUnreadCount(user.notificationsSeenAt);
 
   function openNotifications() {
