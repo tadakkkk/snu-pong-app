@@ -566,16 +566,20 @@ def _enrich_batch(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
         return _parse(raw_text)
     except (json.JSONDecodeError, ValueError) as first_parse_exc:
         logger.warning(
-            "Parse error on attempt 1, retrying API call class=%s ids=%s",
-            type(first_parse_exc).__name__, record_ids,
+            "Parse error on attempt 1, retrying API call class=%s ids=%s detail=%s",
+            type(first_parse_exc).__name__, record_ids, str(first_parse_exc),
         )
         raw_text = _api_call_with_retries()
         try:
             return _parse(raw_text)
         except (json.JSONDecodeError, ValueError) as exc:
             logger.warning(
-                "Parse error on attempt 2, giving up class=%s ids=%s",
-                type(exc).__name__, record_ids,
+                "Parse error on attempt 2, giving up class=%s ids=%s detail=%s",
+                type(exc).__name__, record_ids, str(exc),
+            )
+            logger.warning(
+                "Final parse failure raw response (truncated) ids=%s raw=%s",
+                record_ids, raw_text[:800],
             )
             raise
 
