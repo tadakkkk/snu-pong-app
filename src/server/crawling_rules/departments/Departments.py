@@ -9,6 +9,7 @@ from urllib.request import Request, urlopen
 import hashlib
 import random
 import re
+import sys
 import time
 
 
@@ -242,6 +243,14 @@ def _parse_board_articles(html: str, board_url: str) -> list[dict[str, str]]:
             continue
         article_url = _normalize_article_url(absolute_url(board_url, href))
         if article_url == board_url:
+            continue
+        if _is_unstable_board_url(article_url):
+            # 그누보드(board.php) 등에서 글 단위 식별자(wr_id 등)를 못 뽑아
+            # 게시판 루트로 떨어진 URL. 잘못된 링크로 저장되는 것을 막기 위해 건너뛰고 경고만 남긴다.
+            print(
+                f"[departments] 글 단위 URL 추출 실패(게시판 루트 추정), 건너뜀: {article_url}",
+                file=sys.stderr,
+            )
             continue
         articles.append(
             {
@@ -492,12 +501,40 @@ def _normalize_article_url(url: str) -> str:
     try:
         parsed = urlparse(url)
         qs = parse_qs(parsed.query)
-        keep_keys = {"bidx", "bbsidx", "idx", "no", "nttId", "seq", "articleNo", "id"}
+        # 그누보드(board.php) 계열은 bo_table+wr_id 로 개별 글을 식별한다.
+        # 이 둘이 keep_keys 에 없으면 normalize 과정에서 잘려나가 board.php 루트로 떨어진다.
+        keep_keys = {
+            "bidx", "bbsidx", "idx", "no", "nttId", "seq", "articleNo", "id",
+            "bo_table", "wr_id",
+        }
         filtered = {k: v for k, v in qs.items() if k in keep_keys}
         new_query = urlencode(filtered, doseq=True)
         return urlunparse(parsed._replace(query=new_query))
     except Exception:
         return url
+
+
+def _is_unstable_board_url(url: str) -> bool:
+    """글 식별 파라미터 없이 게시판 루트(board.php / bbs)로만 떨어지는 URL인지 판정."""
+    if not url:
+        return False
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    path = parsed.path.lower()
+    looks_like_board_root = (
+        path.endswith("board.php")
+        or path.rstrip("/").endswith("/bbs")
+    )
+    if not looks_like_board_root:
+        return False
+    qs = parse_qs(parsed.query)
+    # 그누보드 글 단위 식별자 또는 기타 게시판 계열 글 식별자가 하나라도 있으면 안정적인 URL.
+    article_id_keys = {
+        "wr_id", "bidx", "bbsidx", "idx", "no", "nttId", "seq", "articleNo", "id",
+    }
+    return not any(k in qs for k in article_id_keys)
 
 
 def _stable_uid(source_id: str, seed: str) -> str:
