@@ -55,13 +55,25 @@ export default function HomePage() {
   const { isAuthed, loading: authLoading } = useAuthGate();
   const user = useUserStore();
 
+  // persist hydration이 끝나기 전엔 onboardingDone이 초기값(false)으로 읽혀
+  // 온보딩 완료 유저가 잘못 튕길 수 있으므로, 하이드레이션 완료 후에만 라우팅 판정.
+  // 주의: persist는 storage(localStorage)가 있을 때만 store에 .persist를 붙이므로
+  // SSR/프리렌더 중엔 undefined다. render 단계에서 접근하지 말고 effect(클라이언트)에서만 만진다.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    if (useUserStore.persist.hasHydrated()) setHydrated(true);
+    const unsub = useUserStore.persist.onFinishHydration(() => setHydrated(true));
+    return unsub;
+  }, []);
+
   // 온보딩이 아직 안 끝났는데 직접 /home으로 들어온 경우 → 온보딩으로 보냄
   useEffect(() => {
+    if (!hydrated) return;
     if (authLoading) return;
     if (!user.onboardingDone && !isAuthed) {
       router.replace("/onboarding");
     }
-  }, [authLoading, isAuthed, user.onboardingDone, router]);
+  }, [hydrated, authLoading, isAuthed, user.onboardingDone, router]);
 
   const { semesters, activeSemesterId, setActive, addSemester, removeSemester } =
     useSemesterStore();

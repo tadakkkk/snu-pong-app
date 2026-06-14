@@ -1,7 +1,7 @@
 import os, json, psycopg
 from psycopg.rows import dict_row
 
-OUT = r"C:\Users\gram\snu-pong-app\src\data\enriched-items.json"
+OUT = os.path.join(os.path.dirname(__file__), "..", "data", "enriched-items.json")
 
 def main():
     url = os.environ["DATABASE_URL"]
@@ -14,6 +14,7 @@ def main():
                    valuation_status, eligibility_scope, confidence,
                    requires_source_review, deadline_date, tags,
                    value_status, enrichment_status, is_benefit,
+                   eligibility, apply_url, how_to_apply, subtitle, unit,
                    to_char(first_seen AT TIME ZONE 'Asia/Seoul', 'YYYY-MM-DD"T"HH24:MI:SS') AS first_seen
             FROM benefit_items
             ORDER BY is_benefit DESC, estimated_value DESC NULLS LAST
@@ -46,6 +47,11 @@ def main():
             "deadline_hints": [],
             "is_benefit": bool(r["is_benefit"]),
             "first_seen": r["first_seen"] if r["first_seen"] else None,
+            "eligibility": r["eligibility"],
+            "apply_url": r["apply_url"],
+            "how_to_apply": r["how_to_apply"] or [],   # DB에서 JSONB라 이미 list로 옴
+            "subtitle": r["subtitle"],
+            "unit": r["unit"],
             "source": "crawled_enriched",
         })
 

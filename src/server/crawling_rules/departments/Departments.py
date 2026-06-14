@@ -9,6 +9,7 @@ from urllib.request import Request, urlopen
 import hashlib
 import random
 import re
+import sys
 import time
 
 
@@ -242,6 +243,14 @@ def _parse_board_articles(html: str, board_url: str) -> list[dict[str, str]]:
             continue
         article_url = _normalize_article_url(absolute_url(board_url, href))
         if article_url == board_url:
+            continue
+        if _is_unstable_board_url(article_url):
+            # board.php(그누보드)·*.do 등 동적 게시판에서 글 단위 식별자를 못 뽑아
+            # 게시판 루트로 떨어진 URL. 잘못된 링크로 저장되는 것을 막기 위해 건너뛰고 경고만 남긴다.
+            print(
+                f"[departments] 글 단위 URL 추출 실패(게시판 루트 추정), 건너뜀: {article_url}",
+                file=sys.stderr,
+            )
             continue
         articles.append(
             {
@@ -485,6 +494,18 @@ def absolute_url(base_url: str, href: str | None) -> str:
     return urljoin(base_url, unescape(href))
 
 
+# 게시글을 식별하는 query 파라미터 화이트리스트.
+# normalize 후에도 이 키들만 살아남는다(= 글 단위 URL의 식별자).
+# 한 곳에서 관리해 normalize 보존 키와 "안정 URL" 판정 키가 어긋나지 않게 한다.
+#  - bo_table/wr_id : 그누보드(board.php)
+#  - boardId/menuNo : .do 계열 게시판(view.do 등). menuNo는 메뉴 컨텍스트 없이는
+#                     글을 못 띄우는 경우가 있어 함께 보존한다.
+_ARTICLE_ID_KEYS = {
+    "bidx", "bbsidx", "idx", "no", "nttId", "seq", "articleNo", "id",
+    "bo_table", "wr_id", "boardId", "menuNo",
+}
+
+
 def _normalize_article_url(url: str) -> str:
     """게시글 식별 파라미터만 남기고 검색/페이지 쿼리스트링 제거."""
     if not url:
@@ -492,12 +513,48 @@ def _normalize_article_url(url: str) -> str:
     try:
         parsed = urlparse(url)
         qs = parse_qs(parsed.query)
-        keep_keys = {"bidx", "bbsidx", "idx", "no", "nttId", "seq", "articleNo", "id"}
-        filtered = {k: v for k, v in qs.items() if k in keep_keys}
+        filtered = {k: v for k, v in qs.items() if k in _ARTICLE_ID_KEYS}
         new_query = urlencode(filtered, doseq=True)
         return urlunparse(parsed._replace(query=new_query))
     except Exception:
         return url
+
+
+def _is_dynamic_board_endpoint(path: str) -> bool:
+    """경로 마지막 세그먼트가 query 파라미터가 있어야만 개별 글을 띄우는
+    동적 게시판 엔드포인트인지 판정.
+
+    board.php(그누보드), *.do(Struts/Spring servlet, 예: view.do/list.do),
+    또는 /bbs 디렉터리 루트가 해당한다. 반면 /boards/notice/41018/detail/ 처럼
+    스크립트 확장자가 아닌 정적 경로 기반 상세페이지는 여기에 해당하지 않으므로
+    식별 파라미터가 없어도 잘못 버려지지 않는다.
+    """
+    p = path.lower().rstrip("/")
+    last_segment = p.rsplit("/", 1)[-1]
+    return (
+        last_segment == "board.php"
+        or last_segment.endswith(".do")
+        or p.endswith("/bbs")
+    )
+
+
+def _is_unstable_board_url(url: str) -> bool:
+    """글 식별 파라미터 없이 게시판 루트로만 떨어지는 깨진 URL인지 판정.
+
+    식별 파라미터가 하나라도 살아있으면 안정적인 글 단위 URL로 본다.
+    식별자가 0개이면서 동적 게시판 엔드포인트(board.php/*.do/bbs)인 경우에만
+    게시판 루트로 붕괴된 링크로 간주해 수집에서 제외한다.
+    """
+    if not url:
+        return False
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    qs = parse_qs(parsed.query)
+    if any(k in qs for k in _ARTICLE_ID_KEYS):
+        return False
+    return _is_dynamic_board_endpoint(parsed.path)
 
 
 def _stable_uid(source_id: str, seed: str) -> str:

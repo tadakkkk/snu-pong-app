@@ -58,7 +58,8 @@ def export_json():
                    conditional_reward_min, conditional_reward_max,
                    valuation_status, eligibility_scope, confidence,
                    requires_source_review, deadline_date, tags, value_status,
-                   enrichment_status, is_benefit, first_seen
+                   enrichment_status, is_benefit, first_seen,
+                   eligibility, apply_url, how_to_apply, subtitle, unit
             FROM benefit_items
             ORDER BY is_benefit DESC, estimated_value DESC NULLS LAST
         """).fetchall()
@@ -82,6 +83,11 @@ def export_json():
         "review_priority": "medium", "deadline_hints": [],
         "is_benefit": bool(r["is_benefit"]),
         "first_seen": r["first_seen"].isoformat() if r["first_seen"] else None,
+        "eligibility": r["eligibility"],
+        "apply_url": r["apply_url"],
+        "how_to_apply": r["how_to_apply"] or [],   # DB에서 JSONB라 이미 list로 옴
+        "subtitle": r["subtitle"],
+        "unit": r["unit"],
         "source": "crawled_enriched",
     } for r in rows]
     path = os.path.abspath(OUT_JSON)
