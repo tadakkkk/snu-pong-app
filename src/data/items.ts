@@ -1296,20 +1296,28 @@ interface _CrawledRawItem {
   first_seen?: string | null;
 }
 
-const _CRAWLED_CATEGORY_MAP: Record<string, Category> = {
-  learning: "learning",
-  scholarship: "scholarship",
-  experience: "experience",
-  culture: "culture",
-  welfare: "welfare",
-  career: "career",
-  facility: "facility",
-  sports: "sports",
-  announcements: "culture",
-  related: "learning",
-  affiliated: "experience",
-  other: "learning",
-};
+// 앱이 인정하는 유효 카테고리 8종. 이 집합에 없는 raw.category(크롤러 그룹명, 오타,
+// AI 누락 등)는 엉뚱한 버킷으로 강제 변환하지 않고 중립 기본값으로 보낸다.
+const _VALID_CATEGORIES: ReadonlySet<string> = new Set<Category>([
+  "learning",
+  "scholarship",
+  "experience",
+  "culture",
+  "welfare",
+  "career",
+  "facility",
+  "sports",
+]);
+
+const _CRAWLED_CATEGORY_FALLBACK: Category = "learning";
+
+function _resolveCrawledCategory(rawCategory: string): Category {
+  if (_VALID_CATEGORIES.has(rawCategory)) return rawCategory as Category;
+  console.warn(
+    `[items] 알 수 없는 크롤링 카테고리 "${rawCategory}" → "${_CRAWLED_CATEGORY_FALLBACK}"로 대체`
+  );
+  return _CRAWLED_CATEGORY_FALLBACK;
+}
 
 const SCOPE_LABEL: Record<NonNullable<PongItem["eligibility_scope"]>, string> = {
   undergraduate: "학부생",
@@ -1319,7 +1327,7 @@ const SCOPE_LABEL: Record<NonNullable<PongItem["eligibility_scope"]>, string> = 
 };
 
 function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
-  const cat = (_CRAWLED_CATEGORY_MAP[raw.category] ?? "learning") as Category;
+  const cat = _resolveCrawledCategory(raw.category);
   const estimatedValue = (() => {
     const v = raw.estimated_value;
     const lo = raw.estimated_value_min;
@@ -1359,7 +1367,8 @@ function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
       raw.eligibility ??
       (raw.eligibility_scope ? SCOPE_LABEL[raw.eligibility_scope] : "대상 확인 필요"),
     duration_minutes: null,
-    deadline_type: raw.deadline_hints.length > 0 ? "once" : "always",
+    // export가 deadline_hints를 항상 []로 내보내므로 실제 마감일(deadline_date) 유무로 판정한다.
+    deadline_type: raw.deadline_date ? "once" : "always",
     deadline_label:
       raw.deadline_hints.length > 0 ? raw.deadline_hints[0] : "상시",
     url: raw.apply_url ?? raw.source_url,
