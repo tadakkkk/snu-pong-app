@@ -1311,6 +1311,13 @@ const _CRAWLED_CATEGORY_MAP: Record<string, Category> = {
   other: "learning",
 };
 
+const SCOPE_LABEL: Record<NonNullable<PongItem["eligibility_scope"]>, string> = {
+  undergraduate: "학부생",
+  graduate: "대학원생",
+  all_students: "재학생 누구나",
+  unknown: "대상 확인 필요",
+};
+
 function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
   const cat = (_CRAWLED_CATEGORY_MAP[raw.category] ?? "learning") as Category;
   const estimatedValue = (() => {
@@ -1348,7 +1355,9 @@ function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
     source: raw.source_url,
     description: "",
     how_to_apply: raw.how_to_apply ?? [],
-    eligibility: raw.eligibility ?? "서울대 학부생",
+    eligibility:
+      raw.eligibility ??
+      (raw.eligibility_scope ? SCOPE_LABEL[raw.eligibility_scope] : "대상 확인 필요"),
     duration_minutes: null,
     deadline_type: raw.deadline_hints.length > 0 ? "once" : "always",
     deadline_label:
