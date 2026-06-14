@@ -2,12 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import {
-  pushToCloud,
-  pullFromCloud,
-  hydrateLegacyLocalStorage,
-  clearLegacyLocalStorage,
-} from "@/lib/supabase/sync";
+import { pushToCloud, pullFromCloud } from "@/lib/supabase/sync";
 import { useUserStore } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { usePongStore } from "@/store/pong";
@@ -15,24 +10,17 @@ import { usePongStore } from "@/store/pong";
 export default function SupabaseSync() {
   const isSyncing = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const hadLegacy = useRef(false);
 
   useEffect(() => {
     const supabase = createClient();
 
-    // 1) 과거 persist 데이터를 in-memory로 1회 복원 (마이그레이션 대상)
-    hadLegacy.current = hydrateLegacyLocalStorage();
-
+    // persist(zustand/middleware)가 localStorage를 로컬 즉시 저장 레이어로 담당한다.
+    // 여기서는 cloud pull/push(기기 간 동기화)만 처리한다.
     async function syncOnLogin() {
       isSyncing.current = true;
       try {
-        // pullFromCloud가 cloud empty 시 자동으로 pushToCloud 호출 → legacy 데이터가 cloud로 업로드됨
+        // pullFromCloud가 cloud empty 시 자동으로 pushToCloud 호출 → 로컬 데이터가 cloud로 업로드됨
         await pullFromCloud();
-        // legacy 데이터를 cloud에 반영했거나, cloud가 우선이라면 어쨌든 legacy 키는 제거
-        if (hadLegacy.current) {
-          clearLegacyLocalStorage();
-          hadLegacy.current = false;
-        }
       } finally {
         // pull이 실패해도 isSyncing이 true로 고착되지 않도록 보장.
         // 고착되면 이후 모든 schedulePush가 막혀 뽕뽑기 기록 등이 영영 저장 안 됨.

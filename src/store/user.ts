@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type { Category } from "@/data/items";
 import type {
   InterestTagVector,
@@ -49,8 +50,21 @@ const initial: Omit<UserState, "setProfile" | "reset"> = {
   notificationsSeenAt: null,
 };
 
-export const useUserStore = create<UserState>()((set) => ({
-  ...initial,
-  setProfile: (data) => set((s) => ({ ...s, ...data })),
-  reset: () => set(initial),
-}));
+export const useUserStore = create<UserState>()(
+  persist(
+    (set) => ({
+      ...initial,
+      setProfile: (data) => set((s) => ({ ...s, ...data })),
+      reset: () => set(initial),
+    }),
+    {
+      name: "snu-pong-user",
+      // 함수(setProfile/reset)는 저장 대상에서 제외 — 상태 값만 영속화
+      partialize: (state) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { setProfile: _a, reset: _b, ...rest } = state;
+        return rest;
+      },
+    }
+  )
+);
