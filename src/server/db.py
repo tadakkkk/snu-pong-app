@@ -280,6 +280,17 @@ def get_existing_ids() -> set[str]:
     return {row["id"] for row in rows}
 
 
+def get_existing_dedup_keys() -> set[str]:
+    """DB에 이미 있는 항목들의 dedup_key 집합.
+    다른 게시판/URL로 재게시된 같은 공지를 다시 정제하지 않도록 증분 필터에서 사용."""
+    from dedup import dedup_key
+    with _connect() as conn:
+        rows = conn.execute(
+            "SELECT name, deadline_date, source_url FROM benefit_items"
+        ).fetchall()
+    return {dedup_key(dict(row)) for row in rows}
+
+
 def get_failed_enrichment_items() -> list[dict[str, Any]]:
     with _connect() as conn:
         rows = conn.execute(

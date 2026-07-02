@@ -67,6 +67,9 @@ export interface PongItem {
   deadline_date?: string | null;
   tags?: string[];
   first_seen?: string | null;
+  // 같은 공지가 여러 학과 게시판에 재게시된 경우: 합쳐진 원본 수 / 대표 외 게시처
+  source_count?: number;
+  also_posted_by?: string[];
 }
 
 const _verifiedItems: PongItem[] = [
@@ -1294,6 +1297,8 @@ interface _CrawledRawItem {
   tags?: string[];
   is_benefit?: boolean;
   first_seen?: string | null;
+  source_count?: number;
+  also_posted_by?: string[];
 }
 
 // 앱이 인정하는 유효 카테고리 8종. 이 집합에 없는 raw.category(크롤러 그룹명, 오타,
@@ -1392,6 +1397,8 @@ function _crawledToPongItem(raw: _CrawledRawItem): PongItem {
     deadline_date: raw.deadline_date,
     tags: raw.tags ?? [],
     first_seen: raw.first_seen ?? null,
+    source_count: raw.source_count,
+    also_posted_by: raw.also_posted_by,
   };
 }
 

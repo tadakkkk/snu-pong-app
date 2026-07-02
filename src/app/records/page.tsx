@@ -178,23 +178,34 @@ export default function RecordsPage() {
               <div className="grid grid-cols-2 gap-2">
                 {sorted.map((record) => {
                   const item = getItem(record.itemId);
+                  const stillListed = !!item;
+                  const name = record.itemName ?? item?.name ?? "지난 혜택";
+                  const category =
+                    record.categoryLabel ?? item?.category_label ?? "기타";
                   const date = new Date(record.pongAt);
                   const dateLabel = `${date.getMonth() + 1}.${date.getDate()}`;
-                  return (
+                  const card = (
+                    <div className="bg-surface-sub rounded-xl p-[14px] active:opacity-70 transition-opacity">
+                      <p className="text-[10px] text-ink-3 mb-1.5">{category}</p>
+                      <p className="text-[13px] font-medium text-ink leading-snug mb-2.5">
+                        {name}
+                      </p>
+                      <p className="text-[15px] font-medium text-ink">
+                        +{formatWon(record.value)}
+                      </p>
+                      <p className="text-[10px] text-ink-3 mt-1">
+                        {stillListed ? dateLabel : `${dateLabel} · 마감`}
+                      </p>
+                    </div>
+                  );
+                  // 아직 목록에 있는 항목만 상세로 연결. 마감돼 내려간 항목은
+                  // 상세가 없으므로 링크를 걸지 않아 "항목을 찾을 수 없어요" 데드엔드를 막는다.
+                  return stillListed ? (
                     <Link key={record.id} href={`/pong/${record.itemId}`}>
-                      <div className="bg-surface-sub rounded-xl p-[14px] active:opacity-70 transition-opacity">
-                        <p className="text-[10px] text-ink-3 mb-1.5">
-                          {item?.category_label ?? "기타"}
-                        </p>
-                        <p className="text-[13px] font-medium text-ink leading-snug mb-2.5">
-                          {item?.name ?? record.itemId}
-                        </p>
-                        <p className="text-[15px] font-medium text-ink">
-                          +{formatWon(record.value)}
-                        </p>
-                        <p className="text-[10px] text-ink-3 mt-1">{dateLabel}</p>
-                      </div>
+                      {card}
                     </Link>
+                  ) : (
+                    <div key={record.id}>{card}</div>
                   );
                 })}
               </div>

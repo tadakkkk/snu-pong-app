@@ -8,6 +8,7 @@ from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 import anthropic
 import db as _db
+from dedup import collapse, dedup_key
 from main import (
     ScheduledActionContext, SCHEDULED_CRAWLERS,
     _run_scheduled_crawler, enrich_records, _store_enriched_records,
@@ -90,6 +91,11 @@ def export_json():
         "unit": r["unit"],
         "source": "crawled_enriched",
     } for r in rows]
+    # 같은 공지 중복 제거(여러 학과 게시판 재게시/URL 파라미터 차이/source_id 차이).
+    # 대표 1개로 합치고 source_count / also_posted_by 를 붙인다.
+    before = len(out)
+    out = collapse(out)
+    print(f"dedup: {before}개 → {len(out)}개 (중복 {before - len(out)}개 병합)")
     path = os.path.abspath(OUT_JSON)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
@@ -189,17 +195,22 @@ async def main():
     print(f"\n크롤 {crawled_count}개 수집")
 
     existing = await asyncio.to_thread(_db.get_existing_ids)
+    existing_keys = await asyncio.to_thread(_db.get_existing_dedup_keys)
     seen: set[str] = set()
+    seen_keys: set[str] = set()
     deduped: list = []
     internal_dupes = 0
     for r in records:
         rid = _rec_id(r)
-        if rid in existing:
+        key = dedup_key(r)
+        # 이미 아는 공지(다른 게시판/URL로 재게시된 것 포함)면 재정제하지 않는다.
+        if rid in existing or key in existing_keys:
             continue
-        if rid in seen:
+        if rid in seen or key in seen_keys:
             internal_dupes += 1
             continue
         seen.add(rid)
+        seen_keys.add(key)
         deduped.append(r)
     new_records = deduped
     print(

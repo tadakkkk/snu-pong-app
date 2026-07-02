@@ -48,8 +48,20 @@ export default function PongDetailPage() {
   if (!item) {
     return (
       <MobileFrame>
-        <div className="flex-1 flex items-center justify-center">
-          <p className="text-ink-3">항목을 찾을 수 없어요</p>
+        <StatusBar />
+        <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-3">
+          <MagpieIdle size={72} />
+          <p className="text-[15px] font-medium text-ink">마감된 혜택이에요</p>
+          <p className="text-[13px] text-ink-3 leading-relaxed whitespace-pre-line">
+            이 혜택은 신청이 끝나 목록에서 내려갔어요.
+            {"\n"}이미 뽑은 기록은 그대로 남아 있어요.
+          </p>
+          <button
+            onClick={() => router.push("/pong")}
+            className="mt-2 text-[13px] text-blue font-medium active:opacity-60"
+          >
+            다른 혜택 보러 가기 →
+          </button>
         </div>
       </MobileFrame>
     );
@@ -79,6 +91,8 @@ export default function PongDetailPage() {
       itemId: item!.id,
       value: item!.value,
       pongAt: new Date().toISOString(),
+      itemName: item!.name,
+      categoryLabel: item!.category_label,
     });
     logEvent("pong_complete", { item_id: item!.id, category: item!.category, value: item!.value });
     setShowToast(true);
@@ -170,6 +184,14 @@ export default function PongDetailPage() {
             <div className="flex justify-between text-[13px]">
               <span className="text-ink-3">운영</span>
               <span className="text-ink">{item.provider}</span>
+            </div>
+          )}
+          {item.source_count && item.source_count > 1 && (
+            <div className="flex justify-between text-[13px]">
+              <span className="text-ink-3">공지</span>
+              <span className="text-ink-3">
+                {item.source_count}개 학과 게시판에 게시됨
+              </span>
             </div>
           )}
         </div>

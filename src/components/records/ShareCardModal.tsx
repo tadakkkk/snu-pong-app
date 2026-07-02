@@ -63,10 +63,11 @@ export default function ShareCardModal({
             <div className="border-t border-white/10 pt-4 flex flex-col gap-2">
               {topRecords.map((record) => {
                 const item = getItem(record.itemId);
+                const displayName = record.itemName ?? item?.name ?? "지난 혜택";
                 return (
                   <div key={record.id} className="flex justify-between items-center">
                     <p className="text-[12px] text-white/70 truncate pr-3">
-                      {item?.name ?? record.itemId}
+                      {displayName}
                     </p>
                     <p className="text-[12px] text-white/50 shrink-0">
                       +{formatWonCompact(record.value)}
