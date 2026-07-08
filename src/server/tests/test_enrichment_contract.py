@@ -3,13 +3,19 @@ from __future__ import annotations
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 SERVER_DIR = Path(__file__).resolve().parents[1]
 if str(SERVER_DIR) not in sys.path:
     sys.path.insert(0, str(SERVER_DIR))
 
-from main import _merge_enrichment, _validate_enrichment_response
+from main import (
+    FatalEnrichmentError,
+    _merge_enrichment,
+    _validate_enrichment_response,
+    enrich_records,
+)
 
 
 def _base_enrichment(**overrides):
@@ -120,6 +126,28 @@ class EnrichmentContractTests(unittest.TestCase):
         self.assertIsNone(merged["estimated_value_min"])
         self.assertEqual(merged["valuation_status"], "undisclosed_compensation")
         self.assertEqual(merged["enrichment_status"], "success_unvalued")
+
+    def test_enrich_records_raises_fatal_by_default(self):
+        with patch(
+            "main._enrich_batch",
+            side_effect=FatalEnrichmentError("AuthenticationError status=401"),
+        ):
+            with self.assertRaisesRegex(FatalEnrichmentError, "AuthenticationError status=401"):
+                enrich_records(self.records)
+
+    def test_enrich_records_can_preserve_fatal_failures(self):
+        with patch(
+            "main._enrich_batch",
+            side_effect=FatalEnrichmentError("AuthenticationError status=401"),
+        ) as enrich_batch:
+            enriched = enrich_records(self.records, fail_on_fatal=False)
+
+        enrich_batch.assert_called_once()
+        self.assertEqual(len(enriched), 1)
+        self.assertEqual(enriched[0]["enrichment_status"], "failed")
+        self.assertEqual(enriched[0]["value_basis"], "AI 정제 실패")
+        self.assertIn("AuthenticationError status=401", enriched[0]["enrichment_error"])
+        self.assertTrue(enriched[0]["requires_source_review"])
 
 
 if __name__ == "__main__":

@@ -445,7 +445,7 @@ async def _enrich_crawled_records(
 
 
 class FatalEnrichmentError(RuntimeError):
-    """재시도 불가, job을 실패시켜야 하는 에러 (인증/결제/권한/잘못된 요청)."""
+    """재시도 불가, 기본적으로 job을 실패시켜야 하는 에러 (인증/결제/권한/잘못된 요청)."""
 
 
 class EnrichmentBatchError(RuntimeError):
@@ -457,15 +457,27 @@ _ENRICHMENT_API_BACKOFF = (2, 4, 8)
 _TRANSIENT_ANTHROPIC_STATUS_CODES = frozenset({408, 409, 429, 500, 502, 503, 504, 529})
 
 
-def enrich_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def enrich_records(
+    records: list[dict[str, Any]],
+    *,
+    fail_on_fatal: bool = True,
+) -> list[dict[str, Any]]:
     enriched_items: list[dict[str, Any]] = []
     for index in range(0, len(records), ENRICHMENT_BATCH_SIZE):
         batch = records[index : index + ENRICHMENT_BATCH_SIZE]
         try:
             batch_enrichment = _enrich_batch(batch)
-        except FatalEnrichmentError:
-            # 인증/결제/권한/BadRequest 등 재시도 불가 — 전체 job 중단.
-            raise
+        except FatalEnrichmentError as exc:
+            if fail_on_fatal:
+                # 인증/결제/권한/BadRequest 등 재시도 불가 — 전체 job 중단.
+                raise
+            remaining = records[index:]
+            logger.error(
+                "Fatal enrichment error preserved as failed records class=%s count=%d detail=%s",
+                type(exc).__name__, len(remaining), str(exc),
+            )
+            enriched_items.extend(_fallback_enrichment(record, exc) for record in remaining)
+            break
         except Exception as exc:
             record_ids = [_record_id(r) for r in batch]
             logger.warning(

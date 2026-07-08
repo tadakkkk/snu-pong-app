@@ -20,6 +20,9 @@ INCLUDE_DEPT = os.environ.get("INCLUDE_DEPARTMENTS", "false").lower() == "true"
 MAX_PER_DEPT = int(os.environ.get("MAX_PER_DEPT", "3"))
 RETRY_FAILED_ENRICHMENT = os.environ.get("RETRY_FAILED_ENRICHMENT", "false").lower() == "true"
 MAX_RETRY_FAILED = int(os.environ.get("MAX_RETRY_FAILED", "50"))
+ALLOW_FATAL_ENRICHMENT_FALLBACK = (
+    os.environ.get("ALLOW_FATAL_ENRICHMENT_FALLBACK", "true").lower() == "true"
+)
 OUT_JSON = os.environ.get(
     "OUT_JSON",
     os.path.join(os.path.dirname(__file__), "..", "data", "enriched-items.json"),
@@ -236,7 +239,11 @@ async def main():
     if records_to_enrich:
         print(f"정제 중... 신규 {new_count}개 / 재처리 {len(retry_ids)}개")
         try:
-            enriched = await asyncio.to_thread(enrich_records, records_to_enrich)
+            enriched = await asyncio.to_thread(
+                enrich_records,
+                records_to_enrich,
+                fail_on_fatal=not ALLOW_FATAL_ENRICHMENT_FALLBACK,
+            )
         except FatalEnrichmentError as e:
             print(f"FATAL ENRICHMENT ERROR: {e}. DB 저장/export/커밋 없이 종료(코드 1).")
             sys.exit(1)
@@ -250,8 +257,16 @@ async def main():
         await _store_enriched_records(enriched)
         print("DB 저장 완료")
 
-        new_ids = [_rec_id(r) for r in new_records]
-        _, retag_failed_batches = await asyncio.to_thread(retag_new_items, new_ids)
+        new_ids = {_rec_id(r) for r in new_records}
+        retag_ids = [
+            _rec_id(record)
+            for record in enriched
+            if _rec_id(record) in new_ids and record.get("enrichment_status") != "failed"
+        ]
+        if retag_ids:
+            _, retag_failed_batches = await asyncio.to_thread(retag_new_items, retag_ids)
+        else:
+            print("재태깅 스킵: 정제 성공한 신규 항목 없음")
     else:
         print("신규 항목 없음 - 정제 스킵")
 
@@ -267,7 +282,7 @@ async def main():
         f"retried={len(retry_ids)}",
         f"enriched={enriched_ok}",
         f"enrichment_failed={enrichment_failed}",
-        f"intentionally_unvalued={sum(count for status, count in valuation_counts.items() if status not in {'estimated', 'not_a_benefit'})}",
+        f"intentionally_unvalued={sum(count for status, count in valuation_counts.items() if status not in {'estimated', 'not_a_benefit', 'unknown'})}",
         f"not_benefit={valuation_counts['not_a_benefit']}",
         f"retag_failed_batches={retag_failed_batches}",
         f"expired={expired}",
