@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 
+// static export(output: "export")에서 메타데이터 라우트를 정적 파일로 생성.
+export const dynamic = "force-static";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "서울대 등록금 뽕뽑기",

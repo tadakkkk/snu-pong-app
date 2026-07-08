@@ -39,6 +39,15 @@ yarn-error.log*
 # vercel
 .vercel
 
+# capacitor (ios) — 생성/설치 산출물. Xcode 프로젝트 소스는 커밋하되 빌드 산출물은 제외.
+/ios/App/Pods/
+/ios/App/App/public/
+/ios/App/build/
+/ios/DerivedData/
+/ios/capacitor-cordova-ios-plugins/
+/ios/App/Podfile.lock
+/ios/App/App/capacitor.config.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
