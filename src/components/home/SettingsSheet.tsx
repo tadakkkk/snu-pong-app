@@ -8,6 +8,7 @@ import { useUserStore } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { usePongStore } from "@/store/pong";
 import { createClient } from "@/lib/supabase/client";
+import { loginWithGoogle } from "@/lib/auth-gate";
 import { pushToCloud } from "@/lib/supabase/sync";
 import { formatWon } from "@/lib/format-currency";
 import type { User } from "@supabase/supabase-js";
@@ -36,13 +37,6 @@ export default function SettingsSheet({ onClose }: Props) {
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setAuthUser(data.user));
   }, []);
-
-  async function handleGoogleLogin() {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    });
-  }
 
   async function handleLogout() {
     await pushToCloud();
@@ -145,7 +139,7 @@ export default function SettingsSheet({ onClose }: Props) {
               </div>
             ) : (
               <button
-                onClick={handleGoogleLogin}
+                onClick={loginWithGoogle}
                 className="w-full flex items-center justify-center gap-2 py-1"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24">

@@ -19,6 +19,7 @@ import { pushToCloud } from "@/lib/supabase/sync";
 import { useUserStore, type PersonalizationInputMethod } from "@/store/user";
 import { useSemesterStore } from "@/store/semester";
 import { createClient } from "@/lib/supabase/client";
+import { loginWithGoogle } from "@/lib/auth-gate";
 import { formatWon, formatWonCompact } from "@/lib/format-currency";
 
 // 0 로그인 · 1 단과대 · 2 계열 · 3 학년 · 4 등록금 · 5 맞춤추천 동의 · 6 맞춤 질문 · 7 결과
@@ -30,15 +31,6 @@ function formatKRW(n: number) {
 
 // ─── Step 0: 스플래시 ──────────────────────────────────────────────
 function StepWelcome({ onNext }: { onNext: () => void }) {
-  const supabase = createClient();
-
-  async function handleGoogleLogin() {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    });
-  }
-
   return (
     <div className="flex-1 flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-center px-7">
@@ -54,7 +46,7 @@ function StepWelcome({ onNext }: { onNext: () => void }) {
       </div>
       <div className="px-5 pb-8 flex flex-col gap-3">
         <button
-          onClick={handleGoogleLogin}
+          onClick={loginWithGoogle}
           className="w-full py-4 rounded-2xl bg-surface-sub border border-hairline flex items-center justify-center gap-2.5 active:opacity-70"
         >
           <svg width="18" height="18" viewBox="0 0 24 24">

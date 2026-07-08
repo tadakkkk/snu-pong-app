@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import SupabaseSync from "@/components/SupabaseSync";
 import AnalyticsInit from "@/components/AnalyticsInit";
+import NativeAuthListener from "@/components/NativeAuthListener";
 
 export const metadata: Metadata = {
   title: "서울대 등록금 뽕뽑기",
@@ -47,6 +48,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <SupabaseSync />
         <AnalyticsInit />
+        <NativeAuthListener />
         {children}
       </body>
     </html>
