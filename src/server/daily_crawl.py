@@ -3,8 +3,6 @@ import os, sys, asyncio, json
 from collections import Counter
 
 logging.basicConfig(level=logging.INFO)
-import psycopg
-from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 import anthropic
 import db as _db
@@ -51,10 +49,7 @@ async def crawl_all():
     return records
 
 def export_json():
-    from psycopg.rows import dict_row
-    import psycopg
-    url = os.environ["DATABASE_URL"]
-    with psycopg.connect(url, row_factory=dict_row) as conn:
+    with _db.connect() as conn:
         rows = conn.execute("""
             SELECT id, name, category, source_url, provider,
                    estimated_value, estimated_value_min, estimated_value_max,
@@ -146,9 +141,8 @@ def _retag_batch(client, tag_pool, batch):
 def retag_new_items(new_ids):
     if not new_ids:
         return 0, 0
-    url = os.environ["DATABASE_URL"]
     client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-    with psycopg.connect(url, row_factory=dict_row) as conn:
+    with _db.connect() as conn:
         tag_pool = _build_tag_pool(conn)
         rows = conn.execute(
             "SELECT id, name, tags FROM benefit_items WHERE id = ANY(%s) AND is_benefit = true",

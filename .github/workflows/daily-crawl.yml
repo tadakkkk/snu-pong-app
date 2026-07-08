@@ -44,6 +44,9 @@ jobs:
           MAX_PER_DEPT: '3'
           RETRY_FAILED_ENRICHMENT: 'true'
           MAX_RETRY_FAILED: '200'
+          DB_CONNECT_RETRIES: '8'
+          DB_CONNECT_RETRY_DELAY_SECONDS: '10'
+          DB_CONNECT_TIMEOUT_SECONDS: '20'
         working-directory: src/server
         run: python daily_crawl.py
 

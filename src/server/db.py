@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import time
+import logging
 from typing import Any
 
 import psycopg
@@ -9,7 +11,12 @@ from psycopg.types.json import Jsonb
 
 from tag_pool import TAG_POOL
 
+logger = logging.getLogger(__name__)
+
 _DATABASE_URL_ENV = "DATABASE_URL"
+_DB_CONNECT_RETRIES_ENV = "DB_CONNECT_RETRIES"
+_DB_CONNECT_RETRY_DELAY_SECONDS_ENV = "DB_CONNECT_RETRY_DELAY_SECONDS"
+_DB_CONNECT_TIMEOUT_SECONDS_ENV = "DB_CONNECT_TIMEOUT_SECONDS"
 _VALID_TAGS = frozenset(TAG_POOL)
 
 _TITLE_TAG_RULES = [
@@ -72,11 +79,51 @@ def _tags_from_title(title: str, category: str | None) -> list[str]:
     return found
 
 
-def _connect() -> psycopg.Connection[dict[str, Any]]:
+def _connect_retry_count() -> int:
+    return max(1, int(os.environ.get(_DB_CONNECT_RETRIES_ENV, "6")))
+
+
+def _connect_retry_delay_seconds() -> float:
+    return max(0.0, float(os.environ.get(_DB_CONNECT_RETRY_DELAY_SECONDS_ENV, "5")))
+
+
+def _connect_timeout_seconds() -> int:
+    return max(1, int(os.environ.get(_DB_CONNECT_TIMEOUT_SECONDS_ENV, "15")))
+
+
+def _connect_once() -> psycopg.Connection[dict[str, Any]]:
     url = os.environ.get(_DATABASE_URL_ENV)
     if not url:
         raise RuntimeError(f"{_DATABASE_URL_ENV} environment variable is not set")
-    return psycopg.connect(url, row_factory=dict_row)
+    return psycopg.connect(
+        url,
+        row_factory=dict_row,
+        connect_timeout=_connect_timeout_seconds(),
+    )
+
+
+def _connect() -> psycopg.Connection[dict[str, Any]]:
+    attempts = _connect_retry_count()
+    base_delay = _connect_retry_delay_seconds()
+    for attempt in range(1, attempts + 1):
+        try:
+            return _connect_once()
+        except psycopg.OperationalError:
+            if attempt == attempts:
+                raise
+            delay = min(base_delay * attempt, 60.0)
+            logger.warning(
+                "DB connect failed - retrying in %s seconds (%s/%s)",
+                f"{delay:g}",
+                attempt,
+                attempts,
+            )
+            time.sleep(delay)
+    raise RuntimeError("unreachable")
+
+
+def connect() -> psycopg.Connection[dict[str, Any]]:
+    return _connect()
 
 
 def init_db() -> None:
