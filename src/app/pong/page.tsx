@@ -25,6 +25,7 @@ import { useSemesterStore } from "@/store/semester";
 import { useUserStore } from "@/store/user";
 import { useSearch } from "@/hooks/useSearch";
 import { logEvent } from "@/lib/analytics";
+import { openExternalUrl } from "@/lib/open-external";
 import { formatWonCompact } from "@/lib/format-currency";
 
 const CATEGORIES = Object.entries(CATEGORY_META) as [
@@ -570,6 +571,10 @@ export default function PongPage() {
                       href={college.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        void openExternalUrl(college.url);
+                      }}
                       className="py-3 flex items-center justify-between gap-3 active:opacity-70"
                     >
                       <div className="flex-1 min-w-0">

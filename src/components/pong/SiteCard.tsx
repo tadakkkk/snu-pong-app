@@ -1,4 +1,7 @@
+"use client";
+
 import { type Site, SITE_CATEGORY_LABELS } from "@/data/sites";
+import { openExternalUrl } from "@/lib/open-external";
 
 interface SiteCardProps {
   site: Site;
@@ -11,6 +14,10 @@ export default function SiteCard({ site, noticeCount }: SiteCardProps) {
       href={site.url}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={(e) => {
+        e.preventDefault();
+        void openExternalUrl(site.url);
+      }}
       className="py-3 flex items-start justify-between gap-3 active:opacity-70"
     >
       <div className="flex-1 min-w-0">

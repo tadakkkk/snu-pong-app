@@ -14,6 +14,7 @@ import { useSemesterStore } from "@/store/semester";
 import { useAuthGate } from "@/lib/auth-gate";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
 import { formatWon } from "@/lib/format-currency";
+import { openExternalUrl } from "@/lib/open-external";
 
 function formatDeadline(item: { deadline_date?: string | null; deadline_label?: string | null }): string {
   if (item.deadline_date && /^\d{4}-\d{2}-\d{2}$/.test(item.deadline_date)) {
@@ -214,6 +215,10 @@ export default function PongDetailClient() {
               href={site.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => {
+                e.preventDefault();
+                void openExternalUrl(site.url);
+              }}
               className="block bg-surface-sub rounded-xl px-4 py-[14px] active:opacity-70"
             >
               <div className="flex items-center justify-between mb-1.5">
@@ -235,6 +240,10 @@ export default function PongDetailClient() {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => {
+                e.preventDefault();
+                void openExternalUrl(item.url);
+              }}
               className="block bg-surface-sub rounded-xl px-4 py-[14px] active:opacity-70"
             >
               <div className="flex items-center justify-between">
@@ -261,6 +270,10 @@ export default function PongDetailClient() {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  void openExternalUrl(item.url);
+                }}
                 className="block mt-2.5 text-[13px] text-blue"
               >
                 홈페이지로 이동 →
@@ -314,6 +327,10 @@ export default function PongDetailClient() {
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={(e) => {
+              e.preventDefault();
+              void openExternalUrl(item.url);
+            }}
             className="block w-full text-center py-4 rounded-2xl bg-surface-sub text-[16px] font-medium text-blue active:opacity-70"
           >
             공지 원문 보기 ↗
