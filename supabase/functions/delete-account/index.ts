@@ -20,12 +20,12 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.47.10";
 import { create, getNumericDate } from "https://deno.land/x/djwt@v3.0.2/mod.ts";
 
 // ── CORS ────────────────────────────────────────────────────────────────────
+// [0]을 기본 fallback으로 쓰므로 네이티브 스킴을 맨 앞에 둔다.
 const ALLOWED_ORIGINS = [
   "capacitor://localhost",
   "ionic://localhost",
   "http://localhost",
   "http://localhost:3000",
-  // TODO: 웹 배포 도메인으로 교체/추가 (예: "https://snu-pong.vercel.app")
   "https://snu-pong-app.vercel.app",
 ];
 
