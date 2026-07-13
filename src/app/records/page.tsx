@@ -111,7 +111,7 @@ export default function RecordsPage() {
       )}
 
       <div className="flex-1 overflow-y-auto">
-        {/* ── 까마고치 (큰 캐릭터 + 기분 + 총액 + 진행바) ── */}
+        {/* ── 내가 뽑은 뽕 (큰 캐릭터 + 기분 + 총액 + 진행바) ── */}
         <div data-tour="magpie" className="px-6 pb-5 pt-2">
           <div className="flex flex-col items-center">
             <MagpieByProgress percent={percent} size={110} />

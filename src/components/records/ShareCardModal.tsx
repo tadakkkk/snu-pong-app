@@ -44,8 +44,12 @@ export default function ShareCardModal({
           <p className="text-[15px] text-white/70 mb-6">{semesterLabel}</p>
 
           {/* 까치 + 금액 */}
+          {/* 물까치 머리색(#191F28)이 카드 배경(bg-ink)과 같아 묻히므로,
+              밝은 원형 배경 위에 올려 어떤 배경에서도 또렷하게 보이도록 한다. */}
           <div className="flex items-center gap-5 mb-6">
-            <MagpieByProgress percent={percent} size={64} />
+            <div className="shrink-0 w-[84px] h-[84px] rounded-full bg-white flex items-center justify-center">
+              <MagpieByProgress percent={percent} size={60} />
+            </div>
             <div>
               <p className="text-[34px] font-medium text-white leading-tight">
                 +{formatWon(total)}

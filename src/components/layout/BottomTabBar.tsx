@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const tabs = [
   { href: "/home", label: "오늘의 뽕운세" },
   { href: "/pong", label: "등록금 뽕뽑기" },
-  { href: "/records", label: "까마고치" },
+  { href: "/records", label: "내가 뽑은 뽕" },
 ];
 
 export default function BottomTabBar() {
