@@ -5,10 +5,12 @@ import MobileFrame from "@/components/ui/MobileFrame";
 import StatusBar from "@/components/ui/StatusBar";
 import MagpieIdle from "@/components/magpie/MagpieIdle";
 import { APP_VERSION } from "@/lib/app-meta";
+import { openExternalUrl } from "@/lib/open-external";
 
-// TODO: 실제 URL 확정 후 채우기. 값이 있으면 클릭 가능한 링크로, 없으면 비활성 행으로 표시된다.
-const PRIVACY_POLICY_URL = ""; // 개인정보처리방침
-const SUPPORT_URL = ""; // 고객지원
+const PRIVACY_POLICY_URL =
+  "https://tadakkkk.github.io/snu-pong-app/snupong-privacy.html"; // 개인정보처리방침
+const SUPPORT_URL =
+  "https://tadakkkk.github.io/snu-pong-app/snupong-support.html"; // 고객지원
 
 const TEAM = ["이주현", "김나은", "김다현"];
 
@@ -22,25 +24,22 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 function LinkRow({ label, url }: { label: string; url: string }) {
-  if (url) {
-    return (
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-between px-4 py-3.5 active:bg-surface-muted"
-      >
-        <span className="text-[14px] text-ink">{label}</span>
-        <span className="text-ink-3 text-[13px]">↗</span>
-      </a>
-    );
-  }
-  // URL 미확정: 자리만 잡아두고 비활성 표시 (죽은 링크로 나가지 않게)
+  // href를 유지해 웹의 우클릭·새 탭 열기를 보존하면서, 클릭 시엔 플랫폼에 맞게
+  // (네이티브=인앱 브라우저, 웹=새 탭) openExternalUrl로 처리한다.
   return (
-    <div className="flex items-center justify-between px-4 py-3.5">
-      <span className="text-[14px] text-ink-3">{label}</span>
-      <span className="text-ink-3 text-[11px]">준비 중</span>
-    </div>
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={(e) => {
+        e.preventDefault();
+        void openExternalUrl(url);
+      }}
+      className="flex items-center justify-between px-4 py-3.5 active:bg-surface-muted"
+    >
+      <span className="text-[14px] text-ink">{label}</span>
+      <span className="text-ink-3 text-[13px]">↗</span>
+    </a>
   );
 }
 
