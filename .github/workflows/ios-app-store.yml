@@ -36,6 +36,37 @@ jobs:
           echo "ARCHIVE_PATH=$RUNNER_TEMP/SNU-Pong.xcarchive" >> "$GITHUB_ENV"
           echo "EXPORT_PATH=$RUNNER_TEMP/app-store-export" >> "$GITHUB_ENV"
 
+      - name: Select Xcode 26
+        run: |
+          set -euo pipefail
+
+          selected_xcode=""
+          for xcode in \
+            /Applications/Xcode_26.5.app \
+            /Applications/Xcode_26.4.1.app \
+            /Applications/Xcode_26.4.app \
+            /Applications/Xcode_26.3.app \
+            /Applications/Xcode_26.2.app \
+            /Applications/Xcode_26.1.1.app \
+            /Applications/Xcode_26.0.1.app \
+            /Applications/Xcode_26.app
+          do
+            if [ -d "$xcode" ]; then
+              selected_xcode="$xcode"
+              break
+            fi
+          done
+
+          if [ -z "$selected_xcode" ]; then
+            echo "::error::Xcode 26 is not installed on this runner."
+            ls -1 /Applications | grep '^Xcode' || true
+            exit 1
+          fi
+
+          sudo xcode-select -s "$selected_xcode/Contents/Developer"
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
