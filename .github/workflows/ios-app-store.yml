@@ -20,8 +20,6 @@ env:
   BUNDLE_ID: com.snupong.app
   XCODE_PROJECT: ios/App/App.xcodeproj
   XCODE_SCHEME: App
-  ARCHIVE_PATH: ${{ runner.temp }}/SNU-Pong.xcarchive
-  EXPORT_PATH: ${{ runner.temp }}/app-store-export
 
 jobs:
   build-and-upload:
@@ -32,6 +30,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set build paths
+        run: |
+          echo "ARCHIVE_PATH=$RUNNER_TEMP/SNU-Pong.xcarchive" >> "$GITHUB_ENV"
+          echo "EXPORT_PATH=$RUNNER_TEMP/app-store-export" >> "$GITHUB_ENV"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
