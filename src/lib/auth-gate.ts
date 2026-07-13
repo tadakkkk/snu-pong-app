@@ -30,22 +30,25 @@ export function useAuthGate() {
   return { user, loading, isAuthed: !!user };
 }
 
-// 구글 로그인 진입점(웹/네이티브 공용). 호출 위치는 이 함수 하나로 통일한다.
-export async function loginWithGoogle() {
+type OAuthProvider = "google" | "apple";
+
+// 소셜 로그인 진입점(웹/네이티브 공용). provider만 다르고 흐름은 동일하므로 공통화한다.
+async function loginWithOAuth(provider: OAuthProvider) {
   const supabase = createClient();
 
   if (Capacitor.isNativePlatform()) {
     // 네이티브: 서버 리다이렉트를 막고(auth URL만 수신) 인앱 브라우저로 연다.
     // 리다이렉트는 커스텀 스킴 딥링크로 돌아오고, appUrlOpen 리스너가 code를 교환한다.
+    // (provider 무관 — 딥링크 수신부는 code만 교환하므로 Google/Apple 공통)
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider,
       options: {
         redirectTo: NATIVE_AUTH_REDIRECT,
         skipBrowserRedirect: true,
       },
     });
     if (error) {
-      console.error("[auth] signInWithOAuth(native) 실패:", error.message);
+      console.error(`[auth] signInWithOAuth(native, ${provider}) 실패:`, error.message);
       return;
     }
     if (data?.url) {
@@ -58,7 +61,15 @@ export async function loginWithGoogle() {
 
   // 웹: 기존 동작 유지 (브라우저 리다이렉트 → /auth/callback 페이지에서 교환).
   await supabase.auth.signInWithOAuth({
-    provider: "google",
+    provider,
     options: { redirectTo: `${window.location.origin}/auth/callback` },
   });
+}
+
+export function loginWithGoogle() {
+  return loginWithOAuth("google");
+}
+
+export function loginWithApple() {
+  return loginWithOAuth("apple");
 }

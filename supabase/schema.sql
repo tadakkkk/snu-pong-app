@@ -113,3 +113,43 @@ create policy "user_data_delete_own"
 -- 4. 그 외 테이블(크롤/혜택 데이터 등)은 런타임에 Supabase 로 조회하지 않는다.
 --    앱은 src/data/*.json(빌드 타임 번들)만 읽으므로 이 스키마에 불필요.
 -- ============================================================================
+
+
+-- ============================================================================
+-- reports 테이블 — "개발자에게 제보하기" (App Store 심사 대응)
+-- ============================================================================
+-- 사용처: src/app/report/page.tsx (insert)
+-- ⚠️ 비로그인(anon) 사용자도 제보할 수 있어야 한다 (심사관이 로그인 없이 사용).
+--    따라서 INSERT 는 anon+authenticated 모두 허용, SELECT 는 아무도 불가
+--    (관리자는 Supabase 대시보드/Service Role 로만 조회).
+create table if not exists public.reports (
+  id          uuid primary key default gen_random_uuid(),
+  user_id     uuid references auth.users (id) on delete set null,  -- 비로그인이면 null
+  category    text,          -- 버그 / 정보오류 / 기능제안 / 기타
+  content     text not null,
+  contact     text,          -- 답장 원하면 이메일 (선택)
+  app_version text,
+  created_at  timestamptz not null default now(),
+
+  -- 스팸/빈 제보 방지: 내용 길이 1~2000자
+  constraint reports_content_len check (char_length(content) between 1 and 2000)
+);
+
+alter table public.reports enable row level security;
+
+-- INSERT: 로그인 여부 무관 누구나 허용.
+drop policy if exists "reports_insert_anyone" on public.reports;
+create policy "reports_insert_anyone"
+  on public.reports for insert
+  to anon, authenticated
+  with check (true);
+
+-- SELECT/UPDATE/DELETE 정책은 두지 않는다 → RLS 활성 상태에서 정책 없음 =
+-- anon/authenticated 는 조회·수정·삭제 전부 불가(본인 것도 불가). 관리자는
+-- Service Role 키(대시보드)로만 접근. 이것이 의도된 동작이다.
+
+-- ⚠️ 확인 필요(reports):
+-- 5. category 값은 앱 UI에 고정("버그/정보오류/기능제안/기타")돼 있으나 DB 제약은
+--    두지 않았다(추후 카테고리 추가 유연성). 필요하면 check 제약 추가 가능.
+-- 6. 관리자 조회 UI가 필요하면 별도 admin 정책/뷰를 추가로 설계해야 한다.
+-- ============================================================================
