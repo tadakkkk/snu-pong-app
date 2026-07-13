@@ -6,11 +6,16 @@
     "convert-data": "tsx src/data/tools/convert-crawled-data.ts",
     "validate-personalization-tags": "tsx src/data/tools/validate-personalization-tags.ts",
     "dev": "npm run convert-data && next dev",
-    "build": "next build",
+    "build": "npm run convert-data && next build",
     "start": "next start"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.42.5",
+    "@capacitor/app": "^8.1.0",
+    "@capacitor/browser": "^8.0.3",
+    "@capacitor/cli": "^8.4.1",
+    "@capacitor/core": "^8.4.1",
+    "@capacitor/ios": "^8.4.1",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.2",
     "next": "^16.2.6",
