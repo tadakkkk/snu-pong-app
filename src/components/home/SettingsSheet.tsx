@@ -10,6 +10,7 @@ import { usePongStore } from "@/store/pong";
 import { createClient } from "@/lib/supabase/client";
 import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { pushToCloud } from "@/lib/supabase/sync";
+import { deleteAccount } from "@/lib/account";
 import { formatWon } from "@/lib/format-currency";
 import type { User } from "@supabase/supabase-js";
 import PersonalizationQuestions from "@/components/onboarding/PersonalizationQuestions";
@@ -48,6 +49,31 @@ export default function SettingsSheet({ onClose }: Props) {
     String(activeSemester?.scholarship ?? 0)
   );
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+
+  // 계정 삭제: 2단계 확인 (버튼 → 확인 문구 "삭제" 입력 → 실행)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  async function handleDeleteAccount() {
+    if (deleteConfirmText.trim() !== "삭제" || deleting) return;
+    setDeleting(true);
+    setDeleteError(null);
+
+    const { ok, error } = await deleteAccount();
+    if (!ok) {
+      setDeleteError(error ?? "삭제에 실패했어요. 잠시 후 다시 시도해 주세요.");
+      setDeleting(false);
+      return;
+    }
+
+    // 서버 계정/데이터 삭제 완료 → 로컬 상태 전부 초기화 후 온보딩으로.
+    user.reset();
+    useSemesterStore.setState({ semesters: [], activeSemesterId: null });
+    usePongStore.setState({ records: [] });
+    router.replace("/onboarding");
+  }
 
   // 관심사 편집
   const [editingInterests, setEditingInterests] = useState(false);
@@ -333,6 +359,62 @@ export default function SettingsSheet({ onClose }: Props) {
                 className="w-full py-3 text-[13px] text-red text-center"
               >
                 데이터 초기화
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* 계정 삭제 (로그인 상태에서만 노출, 2단계 확인) */}
+        {!editingInterests && authUser && (
+          <div className="px-5 mt-1">
+            {showDeleteConfirm ? (
+              <div className="bg-red-light rounded-xl px-4 py-4">
+                <p className="text-[13px] font-medium text-ink mb-1">
+                  계정을 정말 삭제할까요?
+                </p>
+                <p className="text-[12px] text-ink-3 mb-3 leading-relaxed">
+                  계정과 클라우드에 저장된 모든 데이터(프로필·학기·뽕뽑기 기록)가
+                  영구 삭제되며 되돌릴 수 없어요. 계속하려면 아래에{" "}
+                  <span className="font-medium text-ink">삭제</span>를 입력해 주세요.
+                </p>
+                <input
+                  type="text"
+                  value={deleteConfirmText}
+                  onChange={(e) => setDeleteConfirmText(e.target.value)}
+                  placeholder="삭제"
+                  autoFocus
+                  className="w-full text-[14px] text-ink bg-surface rounded-[10px] px-3 py-2.5 outline-none border border-hairline mb-2 placeholder:text-ink-3"
+                />
+                {deleteError && (
+                  <p className="text-[12px] text-red mb-2">{deleteError}</p>
+                )}
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      setShowDeleteConfirm(false);
+                      setDeleteConfirmText("");
+                      setDeleteError(null);
+                    }}
+                    disabled={deleting}
+                    className="flex-1 py-2.5 rounded-[10px] text-[13px] border border-hairline text-ink-3 disabled:opacity-50"
+                  >
+                    취소
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    disabled={deleteConfirmText.trim() !== "삭제" || deleting}
+                    className="flex-1 py-2.5 rounded-[10px] text-[13px] font-medium bg-red text-white disabled:opacity-40"
+                  >
+                    {deleting ? "삭제 중…" : "영구 삭제"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowDeleteConfirm(true)}
+                className="w-full py-3 text-[13px] text-red/80 text-center"
+              >
+                계정 삭제
               </button>
             )}
           </div>
