@@ -3,6 +3,7 @@ import "./globals.css";
 import SupabaseSync from "@/components/SupabaseSync";
 import AnalyticsInit from "@/components/AnalyticsInit";
 import NativeAuthListener from "@/components/NativeAuthListener";
+import NativeStatusBar from "@/components/NativeStatusBar";
 
 export const metadata: Metadata = {
   title: "서울대 등록금 뽕뽑기",
@@ -51,6 +52,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <SupabaseSync />
         <AnalyticsInit />
+        <NativeStatusBar />
         <NativeAuthListener />
         {children}
       </body>
