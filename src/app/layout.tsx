@@ -36,6 +36,9 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   themeColor: "#191F28",
+  // iOS 네이티브(Capacitor WKWebView)에서 웹뷰를 화면 전체(노치/상태바 포함)로 확장.
+  // 이게 있어야 CSS env(safe-area-inset-*) 값이 실제 인셋으로 채워진다.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

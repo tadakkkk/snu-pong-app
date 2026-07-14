@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Capacitor } from "@capacitor/core";
 import { createClient } from "@/lib/supabase/client";
@@ -10,6 +10,8 @@ import { createClient } from "@/lib/supabase/client";
 // 이 리스너는 아무 것도 하지 않는다.
 export default function NativeAuthListener() {
   const router = useRouter();
+  // 디버깅용(심사 반려 대응): 딥링크 복귀 후 code 교환 실패를 화면에 노출.
+  const [authError, setAuthError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
@@ -32,12 +34,22 @@ export default function NativeAuthListener() {
           // 이미 닫혔거나 미지원이면 무시
         }
 
+        // OAuth 제공자가 에러를 딥링크로 되돌려준 경우(사용자 취소/설정 오류 등)
+        const errDesc = new URL(url).searchParams.get("error_description");
+        if (errDesc) {
+          console.warn("[native-auth] OAuth 콜백 에러:", errDesc);
+          setAuthError(`로그인 실패: ${errDesc}`);
+          return;
+        }
+
         const code = new URL(url).searchParams.get("code");
         if (code) {
           const supabase = createClient();
           const { error } = await supabase.auth.exchangeCodeForSession(code);
           if (error) {
             console.warn("[native-auth] exchangeCodeForSession 실패:", error.message);
+            setAuthError(`세션 교환 실패: ${error.message}`);
+            return;
           }
         }
 
@@ -59,5 +71,16 @@ export default function NativeAuthListener() {
     };
   }, [router]);
 
-  return null;
+  if (!authError) return null;
+
+  // 상단 상태바 아래 고정 배너로 에러를 노출(디버깅용). 원인 파악 후 제거할 것.
+  return (
+    <div
+      onClick={() => setAuthError(null)}
+      className="fixed inset-x-0 top-0 z-[100] bg-red text-white text-[12px] leading-relaxed px-4 break-words"
+      style={{ paddingTop: "max(12px, env(safe-area-inset-top))", paddingBottom: "12px" }}
+    >
+      {authError} (탭하면 닫기)
+    </div>
+  );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { loginWithGoogle, loginWithApple } from "@/lib/auth-gate";
 
 // Apple / Google 로그인 버튼.
@@ -26,10 +27,19 @@ function GoogleGlyph() {
   );
 }
 
-export function AppleLoginButton({ label = "Apple로 로그인" }: { label?: string }) {
+export function AppleLoginButton({
+  label = "Apple로 로그인",
+  onError,
+}: {
+  label?: string;
+  onError?: (msg: string) => void;
+}) {
   return (
     <button
-      onClick={loginWithApple}
+      onClick={async () => {
+        const err = await loginWithApple();
+        if (err) onError?.(err);
+      }}
       className="w-full py-3.5 rounded-2xl bg-black flex items-center justify-center gap-2.5 active:opacity-70"
     >
       <AppleGlyph />
@@ -38,10 +48,19 @@ export function AppleLoginButton({ label = "Apple로 로그인" }: { label?: str
   );
 }
 
-export function GoogleLoginButton({ label = "Google로 로그인" }: { label?: string }) {
+export function GoogleLoginButton({
+  label = "Google로 로그인",
+  onError,
+}: {
+  label?: string;
+  onError?: (msg: string) => void;
+}) {
   return (
     <button
-      onClick={loginWithGoogle}
+      onClick={async () => {
+        const err = await loginWithGoogle();
+        if (err) onError?.(err);
+      }}
       className="w-full py-3.5 rounded-2xl bg-surface-sub border border-hairline flex items-center justify-center gap-2.5 active:opacity-70"
     >
       <GoogleGlyph />
@@ -56,10 +75,19 @@ export function SocialLoginButtons({
 }: {
   labels?: { apple?: string; google?: string };
 }) {
+  // 디버깅용(심사 반려 대응): 로그인 실패 시 화면에 에러 메시지를 노출한다.
+  // 원인 파악이 끝나면 이 에러 배너는 제거하거나 사용자 친화적 문구로 교체할 것.
+  const [error, setError] = useState<string | null>(null);
+
   return (
     <div className="flex flex-col gap-2">
-      <AppleLoginButton label={labels?.apple} />
-      <GoogleLoginButton label={labels?.google} />
+      <AppleLoginButton label={labels?.apple} onError={setError} />
+      <GoogleLoginButton label={labels?.google} onError={setError} />
+      {error && (
+        <p className="text-[12px] text-red leading-relaxed break-words mt-1">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
