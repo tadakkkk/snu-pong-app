@@ -100,8 +100,8 @@ export default function AboutPage() {
         {/* 비공식 서비스 표기 */}
         <Section title="알려드려요">
           <p className="text-[13px] text-ink leading-relaxed">
-            샤뽕은 서울대학교 학생들이 만든 비공식 서비스입니다. 서울대학교와
-            공식적인 관련이 없습니다.
+            샤뽕은 서울대학교 학생들이 만든 비공식 서비스예요. 서울대학교와
+            공식적인 관련이 없어요.
           </p>
         </Section>
 

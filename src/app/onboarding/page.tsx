@@ -406,11 +406,11 @@ function StepPersonalizationConsent({
         <div className="bg-surface-sub rounded-xl px-5 py-5 mb-5">
           <p className="text-[14px] text-ink leading-relaxed">
             서울대에는 학생이 쓸 수 있는 장학, 프로그램, 상담, 교육, 행사 정보가 많지만
-            흩어져 있어서 놓치기 쉽습니다.
+            흩어져 있어서 놓치기 쉬워요.
           </p>
           <p className="text-[14px] text-ink leading-relaxed mt-3">
             관심 분야를 알려주면 지금 나에게 더 맞는 혜택부터 보여줄게요.
-            개인화는 언제든 끄거나 다시 설정할 수 있습니다.
+            개인화는 언제든 끄거나 다시 설정할 수 있어요.
           </p>
         </div>
         <div className="flex flex-col gap-2">
@@ -612,7 +612,7 @@ export default function OnboardingPage() {
       interestTagVector,
       personalizationAnswers: answers,
       personalizationSummary: enabled
-        ? `온보딩 질문으로 관심 태그 ${Object.keys(interestTagVector).length}개를 만들었습니다.`
+        ? `온보딩 질문으로 관심 태그 ${Object.keys(interestTagVector).length}개를 만들었어요.`
         : null,
       personalizationUpdatedAt: enabled ? updatedAt : null,
       onboardingDone: true,
