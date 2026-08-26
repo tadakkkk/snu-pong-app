@@ -6,20 +6,18 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export function createClient() {
-  // 네이티브(Capacitor 웹뷰): code_verifier와 세션을 localStorage에 저장한다.
+  // 네이티브(Capacitor 웹뷰)는 implicit flow를 사용한다.
   //
-  // 배경: @supabase/ssr의 createBrowserClient는 code_verifier/세션을 "쿠키"에 저장한다.
-  // 네이티브 OAuth는 Browser.open()으로 인앱 브라우저(ASWebAuthenticationSession)를 띄웠다가
-  // 커스텀 스킴 딥링크로 웹뷰에 복귀하는데, 이 왕복에서 웹뷰 쿠키가 유실되어
-  // 복귀 후 exchangeCodeForSession 시 "PKCE code verifier not found in storage"가 발생한다.
-  // localStorage는 Capacitor 웹뷰에서 왕복/앱 재시작에도 유지되므로 code_verifier가 살아남는다.
+  // iOS의 ASWebAuthenticationSession → 커스텀 스킴 복귀 과정에서는 PKCE verifier가
+  // 웹뷰 storage에서 간헐적으로 사라져 code 교환이 실패했다. implicit flow는 세션 토큰을
+  // 딥링크 fragment로 바로 돌려주므로 verifier storage에 의존하지 않는다.
   //
   // 주의: 이 분기는 런타임 네이티브에서만 진입한다. 정적 export 프리렌더(Node)에서는
   // isNativePlatform()이 false라 아래 웹 경로를 타므로 window 접근이 없다(빌드 안전).
   if (Capacitor.isNativePlatform()) {
     return createSupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: {
-        flowType: "pkce",
+        flowType: "implicit",
         detectSessionInUrl: false,
         persistSession: true,
         autoRefreshToken: true,
