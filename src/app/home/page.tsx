@@ -11,15 +11,12 @@ import SemesterModal from "@/components/home/SemesterModal";
 import AddSemesterModal from "@/components/home/AddSemesterModal";
 import SettingsSheet from "@/components/home/SettingsSheet";
 import FortuneCard from "@/components/home/FortuneCard";
-import NotificationBell from "@/components/notifications/NotificationBell";
-import NotificationPanel from "@/components/notifications/NotificationPanel";
 import { useUserStore } from "@/store/user";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
-import { items, getRecentNewItems, CATEGORY_META, type PongItem } from "@/data/items";
+import { items, CATEGORY_META, type PongItem } from "@/data/items";
 import { rankByInterest, type TimeCommitment } from "@/lib/personalization/rankByInterest";
 import { buildBehaviorSignal } from "@/lib/personalization/buildBehaviorVector";
-import { getUnreadCount } from "@/lib/notifications";
 import { useAuthGate } from "@/lib/auth-gate";
 import { logEvent } from "@/lib/analytics";
 import LoginRequiredModal from "@/components/auth/LoginRequiredModal";
@@ -49,8 +46,6 @@ export default function HomePage() {
   const [showAddSemester, setShowAddSemester] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
-  const [frozenSeenAt, setFrozenSeenAt] = useState<string | null>(null);
 
   const { isAuthed, loading: authLoading } = useAuthGate();
   const user = useUserStore();
@@ -205,19 +200,6 @@ export default function HomePage() {
     return cards;
   }, [ranked, urgent, deadlineSensitivity, refreshSeed]);
 
-  // ── 알림센터 ──
-  const recentNewCount = useMemo(() => getRecentNewItems(2).length, []);
-  const unreadCount = getUnreadCount(user.notificationsSeenAt);
-
-  function openNotifications() {
-    setFrozenSeenAt(user.notificationsSeenAt);
-    setNotifOpen(true);
-    logEvent("notifications_open", { unread: unreadCount });
-    if (unreadCount > 0) {
-      user.setProfile({ notificationsSeenAt: new Date().toISOString() });
-    }
-  }
-
   return (
     <MobileFrame>
       <StatusBar />
@@ -235,7 +217,6 @@ export default function HomePage() {
           </button>
         </div>
         <div className="flex items-center gap-3.5">
-          <NotificationBell count={unreadCount} onClick={openNotifications} />
           <button
             onClick={() => setShowSettings(true)}
             className="text-[22px] text-ink active:opacity-60"
@@ -260,32 +241,6 @@ export default function HomePage() {
               <p className="text-[11px] text-[#8A5A00]/80 leading-snug">
                 새로고침하면 데이터가 사라져. 로그인하면 안전하게 저장돼 →
               </p>
-            </button>
-          </div>
-        )}
-
-        {/* ── 새로 들어온 혜택 배너 → 알림센터 ── */}
-        {recentNewCount > 0 && (
-          <div data-tour="notif" className="px-5 pt-4">
-            <button
-              onClick={openNotifications}
-              className="flex items-center gap-3 w-full bg-[#F2F4F6] rounded-2xl px-4 py-3.5 active:bg-[#E8EBED] transition-colors"
-            >
-              <div className="relative w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0 text-[18px]">
-                🐦
-                {unreadCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-red border-2 border-white" />
-                )}
-              </div>
-              <div className="flex-1 min-w-0 text-left">
-                <p className="text-[15px] font-semibold text-ink leading-tight">
-                  물까치가 {recentNewCount}개 물어왔어
-                </p>
-                <p className="text-[12px] text-ink-3 mt-0.5">
-                  새로 들어온 혜택 보러 가기
-                </p>
-              </div>
-              <span className="text-ink-3 text-[18px] shrink-0">›</span>
             </button>
           </div>
         )}
@@ -356,11 +311,6 @@ export default function HomePage() {
         storageKey="tour:home"
         steps={[
           {
-            selector: '[data-tour="notif"]',
-            title: "새로 들어온 혜택",
-            desc: "물까치가 새로 물어온 혜택을 여기서 알려드려요. 눌러서 알림을 확인해보세요.",
-          },
-          {
             selector: '[data-tour="fortune"]',
             title: "오늘의 뽕운세",
             desc: "마감 임박과 관심사 맞춤 추천을 카드로 골라뒀어요. 탭하면 뒤집혀서 오늘의 추천 혜택이 나와요.",
@@ -380,12 +330,6 @@ export default function HomePage() {
             desc: "혜택 가치는 AI가 매긴 어림값이라 실제 가치와 다를 수 있어요. 숫자가 작아도 모두 다 소중한 기회예요.\n\n아직 베타 버전이라 엉뚱한 값이나 태그가 보일 수 있어요. 개발자에게만 살짝 알려주세요.",
           },
         ]}
-      />
-
-      <NotificationPanel
-        open={notifOpen}
-        onClose={() => setNotifOpen(false)}
-        frozenSeenAt={frozenSeenAt}
       />
 
       {showSemesterModal && (

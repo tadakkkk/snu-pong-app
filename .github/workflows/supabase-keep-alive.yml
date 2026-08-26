@@ -1,0 +1,32 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # 월·수·금 10:15 KST (UTC 01:15): 무료 프로젝트의 DB 활동을 유지한다.
+    - cron: "15 1 * * 1,3,5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Send a lightweight database request
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$SUPABASE_URL" || { echo "NEXT_PUBLIC_SUPABASE_URL secret is missing"; exit 1; }
+          test -n "$SUPABASE_ANON_KEY" || { echo "NEXT_PUBLIC_SUPABASE_ANON_KEY secret is missing"; exit 1; }
+          curl --fail --silent --show-error \
+            --get "$SUPABASE_URL/rest/v1/user_data" \
+            --data-urlencode "select=user_id" \
+            --data-urlencode "limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Accept: application/json" \
+            -o /dev/null

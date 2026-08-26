@@ -33,8 +33,6 @@ export default function AddSemesterModal({
   const newId = makeSemesterId(year, term);
   const alreadyExists = existingIds.includes(newId);
 
-  const yearOptions = [currentYear - 1, currentYear, currentYear + 1];
-
   function handleAdd() {
     if (alreadyExists) return;
     onAdd({
@@ -61,21 +59,16 @@ export default function AddSemesterModal({
         {/* 연도 */}
         <div className="mb-5">
           <p className="text-[12px] text-ink-3 mb-2">연도</p>
-          <div className="flex gap-2">
-            {yearOptions.map((y) => (
-              <button
-                key={y}
-                onClick={() => setYear(y)}
-                className={`flex-1 py-3 rounded-[10px] text-[14px] border transition-colors ${
-                  year === y
-                    ? "bg-ink text-white border-ink font-medium"
-                    : "text-ink-3 border-hairline"
-                }`}
-              >
-                {y}
-              </button>
-            ))}
-          </div>
+          <input
+            type="number"
+            min={currentYear}
+            step={1}
+            value={year}
+            onChange={(e) => setYear(Math.max(currentYear, Number(e.target.value) || currentYear))}
+            className="w-full border border-hairline rounded-[10px] px-4 py-3 text-[16px] text-ink outline-none bg-surface"
+            aria-label="학기 연도"
+          />
+          <p className="text-[11px] text-ink-3 mt-1.5">{currentYear}년 이후 학기를 자유롭게 추가할 수 있어요.</p>
         </div>
 
         {/* 학기 */}

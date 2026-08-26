@@ -40,7 +40,8 @@ export default function SettingsSheet({ onClose }: Props) {
   }, []);
 
   async function handleLogout() {
-    await pushToCloud();
+    // 로그아웃을 클라우드 동기화에 묶어두면 Supabase가 일시 중지됐거나
+    // 네트워크가 느릴 때 버튼이 눌리지 않는 것처럼 보인다. 세션을 우선 끝낸다.
     await supabase.auth.signOut();
     setAuthUser(null);
   }
