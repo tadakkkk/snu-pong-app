@@ -32,10 +32,25 @@ export default function NativeAuthListener() {
     let active = true;
     logNativeAuthDebug("A. listener effect start");
 
+    const logVisibility = () => logNativeAuthDebug(`lifecycle: document.visibilityState=${document.visibilityState}`);
+    const logPageHide = () => logNativeAuthDebug("lifecycle: pagehide fired (webview may be closing/reloading)");
+    const logPageShow = () => logNativeAuthDebug("lifecycle: pageshow fired");
+    document.addEventListener("visibilitychange", logVisibility);
+    window.addEventListener("pagehide", logPageHide);
+    window.addEventListener("pageshow", logPageShow);
+
     (async () => {
       // 네이티브 플러그인은 클라이언트에서만 로드 (정적 export 프리렌더 시 평가 방지)
       const { App } = await import("@capacitor/app");
       const { Browser } = await import("@capacitor/browser");
+
+      const lifecycleHandle = await App.addListener("appStateChange", ({ isActive }) => {
+        logNativeAuthDebug(`lifecycle: appStateChange isActive=${isActive}`);
+      });
+      const supabase = createClient();
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+        logNativeAuthDebug(`auth state: event=${event}; session=${session ? "yes" : "no"}`);
+      });
 
       const handle = await App.addListener("appUrlOpen", async ({ url }) => {
         logNativeAuthDebug(`4. appUrlOpen fired: ${url}`);
@@ -71,9 +86,18 @@ export default function NativeAuthListener() {
           return;
         }
 
-        const supabase = createClient();
         logNativeAuthDebug("6. exchangeCodeForSession start");
+        const exchangeStartedAt = Date.now();
+        const slowAfterThreeSeconds = window.setTimeout(() => {
+          logNativeAuthDebug("6c. exchange still pending after 3s");
+        }, 3_000);
+        const slowAfterTenSeconds = window.setTimeout(() => {
+          logNativeAuthDebug("6c. exchange still pending after 10s");
+        }, 10_000);
         const { error } = await supabase.auth.exchangeCodeForSession(code);
+        window.clearTimeout(slowAfterThreeSeconds);
+        window.clearTimeout(slowAfterTenSeconds);
+        logNativeAuthDebug(`6. exchangeCodeForSession settled after ${Date.now() - exchangeStartedAt}ms`);
         if (error) {
           console.warn("[native-auth] exchangeCodeForSession 실패:", error.message);
           logNativeAuthDebug(`6. exchangeCodeForSession failed: ${error.message}`);
@@ -88,11 +112,17 @@ export default function NativeAuthListener() {
 
       if (active) {
         logNativeAuthDebug("A. appUrlOpen listener registered");
-        remove = () => handle.remove();
+        remove = () => {
+          handle.remove();
+          lifecycleHandle.remove();
+          subscription.unsubscribe();
+        };
       } else {
         // 언마운트가 리스너 등록보다 먼저 끝난 경우 즉시 정리
         logNativeAuthDebug("A. listener registration completed after cleanup; removing immediately");
         handle.remove();
+        lifecycleHandle.remove();
+        subscription.unsubscribe();
       }
     })();
 
@@ -100,6 +130,9 @@ export default function NativeAuthListener() {
       active = false;
       logNativeAuthDebug("A. listener cleanup start");
       remove?.();
+      document.removeEventListener("visibilitychange", logVisibility);
+      window.removeEventListener("pagehide", logPageHide);
+      window.removeEventListener("pageshow", logPageShow);
     };
   }, [router]);
 

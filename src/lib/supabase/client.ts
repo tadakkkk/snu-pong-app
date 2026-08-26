@@ -1,9 +1,26 @@
 import { createBrowserClient } from "@supabase/ssr";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { Capacitor } from "@capacitor/core";
+import { logNativeAuthDebug } from "@/lib/native-auth-debug";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+const nativeDebugFetch: typeof fetch = async (input, init) => {
+  const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+  const isPkceExchange = url.includes("/auth/v1/token") && url.includes("grant_type=pkce");
+  if (isPkceExchange) logNativeAuthDebug("6a. PKCE network request started");
+  try {
+    const response = await fetch(input, init);
+    if (isPkceExchange) logNativeAuthDebug(`6b. PKCE network response received: HTTP ${response.status}`);
+    return response;
+  } catch (error) {
+    if (isPkceExchange) {
+      logNativeAuthDebug(`6b. PKCE network request threw: ${error instanceof Error ? error.message : String(error)}`);
+    }
+    throw error;
+  }
+};
 
 export function createClient() {
   // 네이티브(Capacitor 웹뷰)는 PKCE verifier와 세션을 localStorage에 저장한다.
@@ -22,6 +39,7 @@ export function createClient() {
         autoRefreshToken: true,
         storage: window.localStorage,
       },
+      global: { fetch: nativeDebugFetch },
     });
   }
 
