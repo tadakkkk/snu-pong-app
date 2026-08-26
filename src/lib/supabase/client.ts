@@ -6,18 +6,17 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export function createClient() {
-  // 네이티브(Capacitor 웹뷰)는 implicit flow를 사용한다.
+  // 네이티브(Capacitor 웹뷰)는 PKCE verifier와 세션을 localStorage에 저장한다.
   //
-  // iOS의 ASWebAuthenticationSession → 커스텀 스킴 복귀 과정에서는 PKCE verifier가
-  // 웹뷰 storage에서 간헐적으로 사라져 code 교환이 실패했다. implicit flow는 세션 토큰을
-  // 딥링크 fragment로 바로 돌려주므로 verifier storage에 의존하지 않는다.
+  // iOS의 ASWebAuthenticationSession → 커스텀 스킴 복귀 과정의 verifier 유실 문제를
+  // 실기기 로그로 진단하기 위해, PKCE flow를 명시한다.
   //
   // 주의: 이 분기는 런타임 네이티브에서만 진입한다. 정적 export 프리렌더(Node)에서는
   // isNativePlatform()이 false라 아래 웹 경로를 타므로 window 접근이 없다(빌드 안전).
   if (Capacitor.isNativePlatform()) {
     return createSupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: {
-        flowType: "implicit",
+        flowType: "pkce",
         detectSessionInUrl: false,
         persistSession: true,
         autoRefreshToken: true,

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Capacitor } from "@capacitor/core";
 import { createClient } from "@/lib/supabase/client";
+import { getPkceVerifierStorageStatus, logNativeAuthDebug } from "@/lib/native-auth-debug";
 import type { User } from "@supabase/supabase-js";
 
 // 네이티브(iOS/Android) OAuth 리다이렉트용 커스텀 스킴.
@@ -36,12 +37,15 @@ type OAuthProvider = "google" | "apple";
 // 실패 시 사용자에게 보여줄 에러 메시지를 반환한다(성공/리다이렉트 시작 시 null).
 async function loginWithOAuth(provider: OAuthProvider): Promise<string | null> {
   try {
+    logNativeAuthDebug(`1. loginWithOAuth entered: provider=${provider}`);
     const supabase = createClient();
 
     if (Capacitor.isNativePlatform()) {
+      logNativeAuthDebug(`1. native platform=yes; verifier before start=${getPkceVerifierStorageStatus()}`);
       // 네이티브: 서버 리다이렉트를 막고(auth URL만 수신) 인앱 브라우저로 연다.
       // 리다이렉트는 커스텀 스킴 딥링크로 돌아오고, appUrlOpen 리스너가 code를 교환한다.
       // (provider 무관 — 딥링크 수신부는 code만 교환하므로 Google/Apple 공통)
+      logNativeAuthDebug("2. signInWithOAuth start");
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
@@ -50,30 +54,40 @@ async function loginWithOAuth(provider: OAuthProvider): Promise<string | null> {
         },
       });
       if (error) {
+        logNativeAuthDebug(`2. signInWithOAuth failed: ${error.message}`);
         console.error(`[auth] signInWithOAuth(native, ${provider}) 실패:`, error.message);
         return `로그인 시작 실패 (${provider}): ${error.message}`;
       }
       if (!data?.url) {
+        logNativeAuthDebug("2. signInWithOAuth returned URL=no");
         return `로그인 URL을 받지 못했어 (${provider}). Supabase 설정을 확인해줘.`;
       }
+      logNativeAuthDebug(`2. signInWithOAuth returned URL=yes: ${data.url}`);
+      logNativeAuthDebug(`2. verifier saved after return=${getPkceVerifierStorageStatus()}`);
       // ASWebAuthenticationSession 계열 인앱 브라우저(Safari 외부로 튀지 않음).
       const { Browser } = await import("@capacitor/browser");
+      logNativeAuthDebug("3. Browser.open start");
       await Browser.open({ url: data.url });
+      logNativeAuthDebug("3. Browser.open resolved");
       return null;
     }
 
     // 웹: 기존 동작 유지 (브라우저 리다이렉트 → /auth/callback 페이지에서 교환).
+    logNativeAuthDebug("1. native platform=no; using web OAuth flow");
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
     if (error) {
+      logNativeAuthDebug(`2. web signInWithOAuth failed: ${error.message}`);
       console.error(`[auth] signInWithOAuth(web, ${provider}) 실패:`, error.message);
       return `로그인 시작 실패 (${provider}): ${error.message}`;
     }
+    logNativeAuthDebug("2. web signInWithOAuth started redirect");
     return null;
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    logNativeAuthDebug(`loginWithOAuth exception: ${msg}`);
     console.error(`[auth] loginWithOAuth(${provider}) 예외:`, msg);
     return `로그인 중 오류 (${provider}): ${msg}`;
   }
