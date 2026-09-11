@@ -70,7 +70,7 @@ function ItemRow({
   const isCrawledUnestimated =
     item.is_crawled && item.value_status === "needs_estimation";
   return (
-    <Link href={`/pong/${item.id}`}>
+    <Link href={`/pong/item?id=${item.id}`}>
       <div className="py-2.5 flex justify-between items-center">
         <span
           className={`text-[13px] flex-1 min-w-0 ${ponged ? "text-ink-3 line-through" : "text-ink"}`}
@@ -453,7 +453,7 @@ export default function PongPage() {
                     가치 높은 항목
                   </p>
                   {popularItems.map((item, idx) => (
-                    <Link key={item.id} href={`/pong/${item.id}`}>
+                    <Link key={item.id} href={`/pong/item?id=${item.id}`}>
                       <div className="py-2 flex justify-between items-center">
                         <span className="text-[13px] text-ink">
                           <span className="text-ink-3 mr-2">{idx + 1}</span>

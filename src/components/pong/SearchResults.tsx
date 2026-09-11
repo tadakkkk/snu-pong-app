@@ -44,7 +44,7 @@ export default function SearchResults({
           {items.map((item) => {
             const ponged = pongedIds.has(item.id);
             return (
-              <Link key={item.id} href={`/pong/${item.id}`}>
+              <Link key={item.id} href={`/pong/item?id=${item.id}`}>
                 <div className="py-2.5 flex justify-between items-center border-b border-hairline last:border-0">
                   <span
                     className={`text-[13px] ${ponged ? "text-ink-3 line-through" : "text-ink"}`}

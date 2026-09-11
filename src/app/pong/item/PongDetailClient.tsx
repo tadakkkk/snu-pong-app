@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { logEvent } from "@/lib/analytics";
 import MobileFrame from "@/components/ui/MobileFrame";
 import StatusBar from "@/components/ui/StatusBar";
@@ -31,7 +31,11 @@ function formatDeadline(item: { deadline_date?: string | null; deadline_label?: 
 }
 
 export default function PongDetailClient() {
-  const { id } = useParams<{ id: string }>();
+  // id는 경로 세그먼트가 아니라 쿼리스트링(?id=)에서 읽는다. 정적 export에서는
+  // 아이템별 경로를 미리 만들 수 없기 때문이다(빌드 후 생긴 항목도 열려야 함).
+  // 값이 없으면 getItem이 undefined를 반환해 아래 "마감된 혜택" 화면으로 떨어진다.
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id") ?? "";
   const router = useRouter();
   const item = getItem(id);
   const site = item?.site_id ? getSite(item.site_id) : undefined;

@@ -92,7 +92,7 @@ export default function FortuneCard({ label, labelColor, cover, item, dday, pers
 
         {/* 뒷면 (추천 혜택) */}
         <button
-          onClick={() => router.push(`/pong/${item.id}`)}
+          onClick={() => router.push(`/pong/item?id=${item.id}`)}
           className="absolute inset-0 rounded-2xl bg-surface-sub border border-hairline p-3.5 flex flex-col text-left active:opacity-80"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >

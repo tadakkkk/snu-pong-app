@@ -50,7 +50,7 @@ export default function NotificationPanel({ open, onClose, frozenSeenAt }: Props
                 return (
                   <Link
                     key={item.id}
-                    href={`/pong/${item.id}`}
+                    href={`/pong/item?id=${item.id}`}
                     onClick={() => {
                       logEvent("notification_item_click", { item_id: item.id });
                       onClose();

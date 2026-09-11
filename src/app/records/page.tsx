@@ -201,7 +201,7 @@ export default function RecordsPage() {
                   // 아직 목록에 있는 항목만 상세로 연결. 마감돼 내려간 항목은
                   // 상세가 없으므로 링크를 걸지 않아 "항목을 찾을 수 없어요" 데드엔드를 막는다.
                   return stillListed ? (
-                    <Link key={record.id} href={`/pong/${record.itemId}`}>
+                    <Link key={record.id} href={`/pong/item?id=${record.itemId}`}>
                       {card}
                     </Link>
                   ) : (
