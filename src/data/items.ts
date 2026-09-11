@@ -1489,17 +1489,30 @@ function _isExpired(deadlineDate?: string | null): boolean {
   return deadlineDate < _todayISO();
 }
 
-const _crawledConverted = (_sourceData as _CrawledRawItem[])
-  .filter((raw) => raw.is_benefit !== false)
-  .filter((raw) => !_isExpired(raw.deadline_date))
-  .map(_crawledToPongItem)
-  .filter((c) => !_verifiedUrls.has(c.url));
+/**
+ * 크롤 원본 배열을 앱이 소비하는 PongItem 목록으로 변환한다.
+ *
+ * 수기 검증 항목(_verifiedItems)이 항상 앞에 오고, 크롤 항목은
+ * 비혜택·만료·중복(url) 제거 후 review_priority가 high인 것부터 뒤에 붙는다.
+ *
+ * 순수 함수 — 인자와 호출 시점의 날짜(_isExpired)에만 의존하고 모듈 상태를
+ * 변경하지 않는다. 번들된 시드든 런타임에 받아온 데이터든 같은 함수로 처리한다.
+ */
+export function buildItems(raw: readonly unknown[]): PongItem[] {
+  const converted = (raw as _CrawledRawItem[])
+    .filter((r) => r.is_benefit !== false)
+    .filter((r) => !_isExpired(r.deadline_date))
+    .map(_crawledToPongItem)
+    .filter((c) => !_verifiedUrls.has(c.url));
 
-export const items: PongItem[] = [
-  ..._verifiedItems,
-  ..._crawledConverted.filter((c) => c.review_priority === "high"),
-  ..._crawledConverted.filter((c) => c.review_priority !== "high"),
-];
+  return [
+    ..._verifiedItems,
+    ...converted.filter((c) => c.review_priority === "high"),
+    ...converted.filter((c) => c.review_priority !== "high"),
+  ];
+}
+
+export const items: PongItem[] = buildItems(_sourceData);
 
 export const totalClaimableValue = items.reduce(
   (sum, item) => sum + item.value,
