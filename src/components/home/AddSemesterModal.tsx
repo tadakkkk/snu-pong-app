@@ -1,11 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import PrimaryButton from "@/components/ui/PrimaryButton";
+import WheelPicker, {
+  WheelPickerGroup,
+  type WheelOption,
+} from "@/components/ui/WheelPicker";
 import { getTuition } from "@/data/colleges";
 import { makeSemesterId } from "@/lib/semester";
 import { formatWon } from "@/lib/format-currency";
 import type { Semester } from "@/store/semester";
+
+/** 서비스 시작 연도. 이보다 앞선 학기는 고를 수 없다. */
+const MIN_YEAR = 2026;
+
+const ITEM_HEIGHT = 36;
+const VISIBLE_COUNT = 5;
+
+const TERM_OPTIONS: WheelOption<1 | 2>[] = [
+  { value: 1, label: "1학기" },
+  { value: 2, label: "2학기" },
+];
 
 interface Props {
   collegeId: string | null;
@@ -22,8 +37,19 @@ export default function AddSemesterModal({
   onAdd,
   onClose,
 }: Props) {
-  const currentYear = new Date().getFullYear();
-  const [year, setYear] = useState(currentYear);
+  const yearOptions = useMemo<WheelOption<number>[]>(() => {
+    const end = Math.max(MIN_YEAR, new Date().getFullYear() + 1);
+    return Array.from({ length: end - MIN_YEAR + 1 }, (_, i) => ({
+      value: MIN_YEAR + i,
+      label: `${MIN_YEAR + i}년`,
+    }));
+  }, []);
+
+  const [year, setYear] = useState(() => {
+    const current = new Date().getFullYear();
+    const last = yearOptions[yearOptions.length - 1].value;
+    return Math.min(Math.max(current, MIN_YEAR), last);
+  });
   const [term, setTerm] = useState<1 | 2>(1);
   const [scholarship, setScholarship] = useState(0);
 
@@ -51,44 +77,40 @@ export default function AddSemesterModal({
     <div className="absolute inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-ink/40" onClick={onClose} />
 
-      <div className="relative bg-surface rounded-t-2xl px-5 pb-8 shadow-xl">
+      <div className="relative bg-surface rounded-t-2xl px-5 pb-8 shadow-xl max-h-[90%] overflow-y-auto overscroll-contain">
         <div className="pt-5 pb-4">
           <p className="text-[17px] font-medium text-ink">새 학기 추가</p>
         </div>
 
-        {/* 연도 */}
+        {/* 연도 · 학기 */}
         <div className="mb-5">
-          <p className="text-[12px] text-ink-3 mb-2">연도</p>
-          <input
-            type="number"
-            min={currentYear}
-            step={1}
-            value={year}
-            onChange={(e) => setYear(Math.max(currentYear, Number(e.target.value) || currentYear))}
-            className="w-full border border-hairline rounded-[10px] px-4 py-3 text-[16px] text-ink outline-none bg-surface"
-            aria-label="학기 연도"
-          />
-          <p className="text-[11px] text-ink-3 mt-1.5">{currentYear}년 이후 학기를 자유롭게 추가할 수 있어요.</p>
-        </div>
-
-        {/* 학기 */}
-        <div className="mb-5">
-          <p className="text-[12px] text-ink-3 mb-2">학기</p>
-          <div className="flex gap-2">
-            {([1, 2] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTerm(t)}
-                className={`flex-1 py-3 rounded-[10px] text-[14px] border transition-colors ${
-                  term === t
-                    ? "bg-ink text-white border-ink font-medium"
-                    : "text-ink-3 border-hairline"
-                }`}
-              >
-                {t}학기
-              </button>
-            ))}
+          <p className="text-[12px] text-ink-3 mb-2">연도 · 학기</p>
+          <div className="border border-hairline rounded-[14px] overflow-hidden">
+            <WheelPickerGroup
+              itemHeight={ITEM_HEIGHT}
+              visibleCount={VISIBLE_COUNT}
+            >
+              <WheelPicker
+                options={yearOptions}
+                value={year}
+                onChange={setYear}
+                itemHeight={ITEM_HEIGHT}
+                visibleCount={VISIBLE_COUNT}
+                ariaLabel="학기 연도"
+              />
+              <WheelPicker
+                options={TERM_OPTIONS}
+                value={term}
+                onChange={setTerm}
+                itemHeight={ITEM_HEIGHT}
+                visibleCount={VISIBLE_COUNT}
+                ariaLabel="학기"
+              />
+            </WheelPickerGroup>
           </div>
+          <p className="text-[11px] text-ink-3 mt-1.5">
+            위아래로 굴려서 학기를 골라요.
+          </p>
         </div>
 
         {/* 장학금 */}
