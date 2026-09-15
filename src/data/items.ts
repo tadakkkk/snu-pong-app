@@ -3,17 +3,12 @@
 //
 // 여기서 enriched-items.json을 직접 require하면 안 된다 — 번들러는 정적으로 보이는
 // require 대상을 전부 묶기 때문에, 폴백으로 걸어두기만 해도 2MB가 다시 들어온다.
+// 폴백을 두지 않는 것이 의도적이다. 예전처럼 try/catch로 crawled-items.json을
+// 받치면, prepare-data를 건너뛴 빌드가 실패하는 대신 34건짜리 샘플 데이터로
+// 조용히 성공해 버린다(확인: 시드 없이 next build → 성공, 항목 730→106).
+// 시드가 없으면 번들러가 모듈을 못 찾고 빌드가 즉시 깨지는 편이 낫다.
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const _sourceData: unknown[] = (() => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require("./seed-items.json");
-  } catch {
-    // 시드 생성 전에 빌드가 돌아간 경우의 최후 안전망(샘플 SQL 기반, 수십 KB).
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require("./crawled-items.json");
-  }
-})();
+const _sourceData: unknown[] = require("./seed-items.json");
 
 export type Category =
   | "learning"
