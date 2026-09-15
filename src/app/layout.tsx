@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import SupabaseSync from "@/components/SupabaseSync";
 import AnalyticsInit from "@/components/AnalyticsInit";
+import ItemsHydrator from "@/components/ItemsHydrator";
 import NativeAuthListener from "@/components/NativeAuthListener";
 import NativeStatusBar from "@/components/NativeStatusBar";
 
@@ -52,6 +53,7 @@ export default function RootLayout({
       <body className="min-h-full">
         <SupabaseSync />
         <AnalyticsInit />
+        <ItemsHydrator />
         <NativeStatusBar />
         <NativeAuthListener />
         {children}
