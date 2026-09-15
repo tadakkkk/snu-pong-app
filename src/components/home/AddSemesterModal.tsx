@@ -11,8 +11,12 @@ import { makeSemesterId } from "@/lib/semester";
 import { formatWon } from "@/lib/format-currency";
 import type { Semester } from "@/store/semester";
 
-/** 서비스 시작 연도. 이보다 앞선 학기는 고를 수 없다. */
-const MIN_YEAR = 2026;
+// 연도 목록 범위. 절대 연도를 박지 않고 실행 시점의 현재 연도 기준 상대값으로 잡아서,
+// 해가 바뀌어도 코드 수정 없이 목록이 따라 움직이게 한다.
+/** 작년 학기도 뒤늦게 기록할 수 있게 한 칸 아래까지 연다. */
+const YEARS_BEFORE = 1;
+/** 졸업 학기까지 미리 만들어 둘 수 있게 위로 여섯 칸 연다. */
+const YEARS_AFTER = 6;
 
 const ITEM_HEIGHT = 36;
 const VISIBLE_COUNT = 5;
@@ -38,18 +42,15 @@ export default function AddSemesterModal({
   onClose,
 }: Props) {
   const yearOptions = useMemo<WheelOption<number>[]>(() => {
-    const end = Math.max(MIN_YEAR, new Date().getFullYear() + 1);
-    return Array.from({ length: end - MIN_YEAR + 1 }, (_, i) => ({
-      value: MIN_YEAR + i,
-      label: `${MIN_YEAR + i}년`,
+    const first = new Date().getFullYear() - YEARS_BEFORE;
+    return Array.from({ length: YEARS_BEFORE + YEARS_AFTER + 1 }, (_, i) => ({
+      value: first + i,
+      label: `${first + i}년`,
     }));
   }, []);
 
-  const [year, setYear] = useState(() => {
-    const current = new Date().getFullYear();
-    const last = yearOptions[yearOptions.length - 1].value;
-    return Math.min(Math.max(current, MIN_YEAR), last);
-  });
+  // 기본값은 항상 올해. 범위가 올해를 기준으로 잡히므로 별도 보정이 필요 없다.
+  const [year, setYear] = useState(() => new Date().getFullYear());
   const [term, setTerm] = useState<1 | 2>(1);
   const [scholarship, setScholarship] = useState(0);
 
