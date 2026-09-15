@@ -10,7 +10,7 @@ import ProgressBar from "@/components/ui/ProgressBar";
 import ShareCardModal from "@/components/records/ShareCardModal";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
-import { getItem } from "@/data/items";
+import { useItemLookup } from "@/store/items";
 import { formatWon } from "@/lib/format-currency";
 
 type SortMode = "value" | "date";
@@ -25,6 +25,7 @@ function getMood(percent: number): string {
 }
 
 export default function RecordsPage() {
+  const getItem = useItemLookup();
   const { semesters, activeSemesterId } = useSemesterStore();
   const { getRecordsBySemester, getTotalBySemester } = usePongStore();
   const allRecords = usePongStore((s) => s.records);

@@ -2,7 +2,7 @@
 
 import MagpieByProgress from "@/components/magpie/MagpieByProgress";
 import type { PongRecord } from "@/store/pong";
-import { getItem } from "@/data/items";
+import { useItemLookup } from "@/store/items";
 import { formatWon, formatWonCompact } from "@/lib/format-currency";
 
 interface Props {
@@ -26,6 +26,7 @@ export default function ShareCardModal({
   onShareText,
   copied,
 }: Props) {
+  const getItem = useItemLookup();
   const topRecords = [...records]
     .sort((a, b) => b.value - a.value)
     .slice(0, 5);

@@ -1,7 +1,10 @@
-import { items } from "@/data/items";
+import { useItems } from "@/store/items";
 import { sites, SITE_CATEGORY_LABELS } from "@/data/sites";
 
 export function useSearch(query: string) {
+  // 훅 규칙상 조기 반환보다 먼저 호출해야 한다.
+  const items = useItems();
+
   if (!query.trim()) {
     return { items: [], sites: [], isSearching: false };
   }

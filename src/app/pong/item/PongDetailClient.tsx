@@ -7,7 +7,7 @@ import MobileFrame from "@/components/ui/MobileFrame";
 import StatusBar from "@/components/ui/StatusBar";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import MagpieIdle from "@/components/magpie/MagpieIdle";
-import { getItem } from "@/data/items";
+import { useItem } from "@/store/items";
 import { getSite } from "@/data/sites";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
@@ -37,7 +37,7 @@ export default function PongDetailClient() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") ?? "";
   const router = useRouter();
-  const item = getItem(id);
+  const item = useItem(id);
   const site = item?.site_id ? getSite(item.site_id) : undefined;
 
   const { addRecord, removeRecord, hasRecordForItem, getTotalBySemester, getRecordsBySemester } = usePongStore();

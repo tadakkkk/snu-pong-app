@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { getRecentNewItems } from "@/data/items";
+import { useRecentNewItems } from "@/store/items";
 import { isUnread } from "@/lib/notifications";
 import { logEvent } from "@/lib/analytics";
 
@@ -21,8 +21,9 @@ function getDday(dateStr: string): number {
 }
 
 export default function NotificationPanel({ open, onClose, frozenSeenAt }: Props) {
+  // 훅은 조기 반환보다 먼저 호출해야 한다.
+  const recent = useRecentNewItems(7);
   if (!open) return null;
-  const recent = getRecentNewItems(7);
 
   return (
     <div className="absolute inset-0 z-50">

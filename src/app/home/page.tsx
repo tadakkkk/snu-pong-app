@@ -14,7 +14,8 @@ import FortuneCard from "@/components/home/FortuneCard";
 import { useUserStore } from "@/store/user";
 import { usePongStore } from "@/store/pong";
 import { useSemesterStore } from "@/store/semester";
-import { items, CATEGORY_META, type PongItem } from "@/data/items";
+import { CATEGORY_META, type PongItem } from "@/data/items";
+import { useItems } from "@/store/items";
 import { rankByInterest, type TimeCommitment } from "@/lib/personalization/rankByInterest";
 import { buildBehaviorSignal } from "@/lib/personalization/buildBehaviorVector";
 import { useAuthGate } from "@/lib/auth-gate";
@@ -70,6 +71,7 @@ export default function HomePage() {
     }
   }, [hydrated, authLoading, isAuthed, user.onboardingDone, router]);
 
+  const items = useItems();
   const { semesters, activeSemesterId, setActive, addSemester, removeSemester } =
     useSemesterStore();
   const { hasRecordForItem, getTotalBySemester } = usePongStore();
@@ -87,7 +89,7 @@ export default function HomePage() {
         (i) => !activeSemesterId || !hasRecordForItem(activeSemesterId, i.id)
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [activeSemesterId, items.length]
+    [activeSemesterId, items]
   );
 
   const remainingCount = unponged.length;
@@ -108,7 +110,7 @@ export default function HomePage() {
   // ── 행동 신호 (뽑은 기록 기반, 뽑을수록 고도화) ──
   const behavior = useMemo(
     () => buildBehaviorSignal(pongRecords, items),
-    [pongRecords]
+    [pongRecords, items]
   );
 
   // ── 개인화 추천 (관심사 벡터 + 카테고리 + 행동 + 시간적합 합산, 만료 제외) ──

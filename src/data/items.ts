@@ -1512,42 +1512,68 @@ export function buildItems(raw: readonly unknown[]): PongItem[] {
   ];
 }
 
-export const items: PongItem[] = buildItems(_sourceData);
+/**
+ * 앱에 번들된 시드 원본. 런타임 데이터가 아직 없을 때의 출발점이며,
+ * 빌드 타임(generateStaticParams)처럼 스토어를 쓸 수 없는 곳에서도 쓴다.
+ */
+export const seedRawItems: readonly unknown[] = _sourceData;
 
-export const totalClaimableValue = items.reduce(
-  (sum, item) => sum + item.value,
-  0
-);
+/**
+ * 시드로 만든 목록. 서버 컴포넌트/빌드 타임 전용이다.
+ * 화면에서는 이걸 직접 쓰지 말고 @/store/items의 useItems()를 써야
+ * 나중에 런타임 데이터로 교체될 때 함께 갱신된다.
+ */
+export const seedItems: PongItem[] = buildItems(seedRawItems);
 
-export function getItemsByCategory(category: Category): PongItem[] {
-  return items.filter((i) => i.category === category);
+// ── 아래는 전부 목록을 인자로 받는 순수 선택자다. ────────────────────────────
+// 예전에는 모듈 상수 `items`를 직접 읽었는데, 그러면 모듈 평가 시점의 목록에
+// 영원히 묶여서 런타임에 데이터가 바뀌어도 결과가 따라오지 않는다.
+
+export function selectTotalClaimableValue(list: readonly PongItem[]): number {
+  return list.reduce((sum, item) => sum + item.value, 0);
 }
 
-export function getItem(id: string): PongItem | undefined {
-  return items.find((i) => i.id === id);
+export function selectItemsByCategory(
+  list: readonly PongItem[],
+  category: Category
+): PongItem[] {
+  return list.filter((i) => i.category === category);
 }
 
-export function getTodayNewCount(): number {
+export function selectItem(
+  list: readonly PongItem[],
+  id: string
+): PongItem | undefined {
+  return list.find((i) => i.id === id);
+}
+
+export function selectTodayNewCount(list: readonly PongItem[]): number {
   const kstToday = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
-  return items.filter((i) => i.first_seen && i.first_seen.slice(0, 10) === kstToday).length;
+  return list.filter((i) => i.first_seen && i.first_seen.slice(0, 10) === kstToday).length;
 }
 
 /**
  * 최근 N일 내에 새로 추가된 혜택을 first_seen 최신순으로 반환한다 (알림센터용).
  * first_seen 포맷이 섞여 있어(타임존 유무) 날짜 prefix(YYYY-MM-DD)로 비교한다.
  */
-export function getRecentNewItems(days = 7): PongItem[] {
+export function selectRecentNewItems(
+  list: readonly PongItem[],
+  days = 7
+): PongItem[] {
   const cutoff = new Date(Date.now() + 9 * 60 * 60 * 1000 - days * 86_400_000)
     .toISOString()
     .slice(0, 10);
-  return items
+  return list
     .filter((i) => i.first_seen && i.first_seen.slice(0, 10) >= cutoff)
     .sort((a, b) => (b.first_seen ?? "").localeCompare(a.first_seen ?? ""));
 }
 
-export function getTagsForCategory(category: Category): { tag: string; count: number }[] {
+export function selectTagsForCategory(
+  list: readonly PongItem[],
+  category: Category
+): { tag: string; count: number }[] {
   const counter = new Map<string, number>();
-  for (const item of items) {
+  for (const item of list) {
     if (item.category !== category) continue;
     for (const t of item.tags ?? []) {
       counter.set(t, (counter.get(t) ?? 0) + 1);

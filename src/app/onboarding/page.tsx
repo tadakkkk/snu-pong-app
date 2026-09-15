@@ -8,7 +8,8 @@ import StatusBar from "@/components/ui/StatusBar";
 import MagpieWithCoin from "@/components/magpie/MagpieWithCoin";
 import MagpieHappy from "@/components/magpie/MagpieHappy";
 import { colleges, type College, type Track } from "@/data/colleges";
-import { items, CATEGORY_META, type Category } from "@/data/items";
+import { CATEGORY_META, type Category } from "@/data/items";
+import { useItems } from "@/store/items";
 import {
   personalizationQuestions,
   type PersonalizationAnswers,
@@ -447,6 +448,7 @@ function StepResult({
   netBurden: number;
   onStart: () => void;
 }) {
+  const items = useItems();
   const matchingItems = (
     interests.length > 0
       ? items.filter((i) => !i.is_crawled && (interests as string[]).includes(i.category))

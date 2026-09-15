@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import MobileFrame from "@/components/ui/MobileFrame";
 import StatusBar from "@/components/ui/StatusBar";
@@ -10,7 +10,8 @@ import SearchBar from "@/components/pong/SearchBar";
 import { type ToggleMode } from "@/components/pong/ItemSiteToggle";
 import SiteCard from "@/components/pong/SiteCard";
 import SearchResults from "@/components/pong/SearchResults";
-import { items, CATEGORY_META, type Category, getTagsForCategory, filterByTags } from "@/data/items";
+import { CATEGORY_META, type Category, type PongItem, filterByTags } from "@/data/items";
+import { useItems, useTagsForCategory } from "@/store/items";
 import TagFilterSheet from "@/components/pong/TagFilterSheet";
 import {
   sites,
@@ -37,9 +38,6 @@ const SITE_CATEGORIES = [
   ...new Set(sites.map((s) => s.category)),
 ] as SiteCategory[];
 
-const _verifiedOnly = items.filter((i) => !i.is_crawled);
-const popularItems = [..._verifiedOnly].sort((a, b) => b.value - a.value).slice(0, 5);
-
 function getDday(dateStr: string): number {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -47,14 +45,6 @@ function getDday(dateStr: string): number {
   d.setHours(0, 0, 0, 0);
   return Math.round((d.getTime() - today.getTime()) / 86400000);
 }
-
-const urgentItems = items
-  .filter((i) => i.deadline_date && getDday(i.deadline_date) >= 0 && getDday(i.deadline_date) <= 14)
-  .sort((a, b) => getDday(a.deadline_date!) - getDday(b.deadline_date!));
-
-const _snucCrawledCount = items.filter(
-  (i) => i.is_crawled && i.provider === "서울대학교 학부대학"
-).length;
 
 const frequentSiteObjects = FREQUENT_SITE_IDS.map((id) =>
   sites.find((s) => s.id === id)
@@ -64,7 +54,7 @@ function ItemRow({
   item,
   ponged,
 }: {
-  item: (typeof items)[0];
+  item: PongItem;
   ponged: boolean;
 }) {
   const isCrawledUnestimated =
@@ -193,11 +183,44 @@ export default function PongPage() {
   }, [debouncedSearch]);
 
   const { activeSemesterId } = useSemesterStore();
+  const items = useItems();
   const { hasRecordForItem } = usePongStore();
   const user = useUserStore();
 
   const isPonged = (id: string) =>
     activeSemesterId ? hasRecordForItem(activeSemesterId, id) : false;
+
+  // 아래 셋은 예전에 모듈 스코프 상수였다. 그러면 모듈 평가 시점의 목록에 묶여서
+  // 런타임에 데이터가 바뀌어도 갱신되지 않으므로, 목록을 의존성으로 두고 계산한다.
+  const popularItems = useMemo(
+    () =>
+      items
+        .filter((i) => !i.is_crawled)
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 5),
+    [items]
+  );
+
+  const urgentItems = useMemo(
+    () =>
+      items
+        .filter(
+          (i) =>
+            i.deadline_date &&
+            getDday(i.deadline_date) >= 0 &&
+            getDday(i.deadline_date) <= 14
+        )
+        .sort((a, b) => getDday(a.deadline_date!) - getDday(b.deadline_date!)),
+    [items]
+  );
+
+  const snucCrawledCount = useMemo(
+    () =>
+      items.filter(
+        (i) => i.is_crawled && i.provider === "서울대학교 학부대학"
+      ).length,
+    [items]
+  );
 
   const pongedIds = new Set(
     items.filter((i) => isPonged(i.id)).map((i) => i.id)
@@ -226,7 +249,7 @@ export default function PongPage() {
     return b.value - a.value;
   });
 
-  const categoryTags = activeCategory ? getTagsForCategory(activeCategory) : [];
+  const categoryTags = useTagsForCategory(activeCategory);
   const tagFilteredItems = filterByTags(sortedCategoryItems, selectedTags);
 
   const filteredSites = activeSiteCategory && activeSiteCategory !== "colleges"
@@ -612,7 +635,7 @@ export default function PongPage() {
                   >
                     <SiteCard
                         site={site}
-                        noticeCount={site.id === "snuc_undergrad" ? _snucCrawledCount : undefined}
+                        noticeCount={site.id === "snuc_undergrad" ? snucCrawledCount : undefined}
                       />
                   </div>
                 ))}
@@ -630,7 +653,7 @@ export default function PongPage() {
                   >
                     <SiteCard
                       site={site}
-                      noticeCount={site.id === "snuc_undergrad" ? _snucCrawledCount : undefined}
+                      noticeCount={site.id === "snuc_undergrad" ? snucCrawledCount : undefined}
                     />
                   </div>
                 ))}
