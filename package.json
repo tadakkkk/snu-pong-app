@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "convert-data": "tsx src/data/tools/convert-crawled-data.ts",
+    "build-benefits-data": "tsx src/data/tools/build-benefits-data.ts",
+    "prepare-data": "npm run convert-data && npm run build-benefits-data",
     "validate-personalization-tags": "tsx src/data/tools/validate-personalization-tags.ts",
-    "dev": "npm run convert-data && next dev",
-    "build": "npm run convert-data && next build",
+    "dev": "npm run prepare-data && next dev",
+    "build": "npm run prepare-data && next build",
     "start": "next start"
   },
   "dependencies": {

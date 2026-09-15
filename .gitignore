@@ -52,6 +52,11 @@ yarn-error.log*
 /ios/App/Podfile.lock
 /ios/App/App/capacitor.config.json
 
+# 빌드 시 생성되는 혜택 데이터 (원본은 src/data/enriched-items.json — Daily Crawl이 커밋)
+# pnpm prepare-data가 만든다. 커밋하면 크롤 결과와 어긋난 사본이 돌아다니게 된다.
+/public/data/benefits.json
+/src/data/seed-items.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
